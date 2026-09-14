@@ -1,0 +1,867 @@
+{
+  "$comment": "Curated corpus of documented AI use in US political advertising. Every record must carry >=2 independent reputable sources. Deception scores are NOT stored here - they are computed from the `rubric` block by src/scoring.js so the score is always auditable against the rubric.",
+  "updated": "2026-09-14",
+  "records": [
+    {
+      "id": "nrsc-schumer-shutdown-2025",
+      "headline": "NRSC ad puts a real Schumer quote into an AI-generated video of him",
+      "date": "2025-10-16",
+      "cycle": "2026",
+      "race": "National party messaging, government shutdown",
+      "state": "US",
+      "level": "federal",
+      "sponsor": {
+        "name": "National Republican Senatorial Committee",
+        "type": "party committee",
+        "xHandle": "NRSC",
+        "party": "R",
+        "sortName": "National Republican Senatorial Committee"
+      },
+      "depicted": [
+        {
+          "name": "Chuck Schumer",
+          "role": "Senate Minority Leader (D-NY)",
+          "xHandle": "SenSchumer",
+          "party": "D",
+          "sortName": "Schumer"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "The 30-second spot shows a harshly lit Schumer in the Senate halls repeating \"Every day gets better for us,\" implying he welcomed the government shutdown. The line is a genuine Schumer quote given to Punchbowl News, but no such footage exists - the video of him delivering it was generated with AI.",
+      "whatIsReal": "The quoted sentence was actually said by Schumer to Punchbowl News.",
+      "whatIsFabricated": "The video itself. Schumer was never filmed saying the line in the setting shown.",
+      "disclosure": {
+        "present": true,
+        "wording": "AI generated",
+        "placement": "small watermark, lower-right corner",
+        "platformLabel": "YouTube applied an \"Altered or synthetic content\" label: \"Sound or visuals were significantly edited or digitally generated.\""
+      },
+      "channels": [
+        "social",
+        "youtube",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 1,
+        "fabricationNote": "Verbatim real words; only the delivery is synthetic.",
+        "realism": 2,
+        "realismNote": "Photoreal footage a viewer could take as genuine B-roll.",
+        "disclosure": 2,
+        "disclosureNote": "On-ad label present but small and easy to miss while scrolling; platform label partly mitigates."
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "A GOP attack ad deepfakes Chuck Schumer with AI",
+          "url": "https://www.npr.org/2025/10/17/nx-s1-5578279/ai-schumer-gop-attack-ad"
+        },
+        {
+          "outlet": "NOTUS",
+          "title": "The NRSC Is Using a Schumer Deepfake to Knock Democrats on Shutdown",
+          "url": "https://www.notus.org/campaigns/nrsc-schumer-deepfake"
+        },
+        {
+          "outlet": "AI Incident Database",
+          "title": "Incident 1231",
+          "url": "https://incidentdatabase.ai/cite/1231/"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "nrsc-talarico-2026",
+      "headline": "NRSC deepfakes James Talarico delivering a minute-long speech he never gave",
+      "date": "2026-03-13",
+      "cycle": "2026",
+      "race": "US Senate - Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "National Republican Senatorial Committee",
+        "type": "party committee",
+        "xHandle": "NRSC",
+        "party": "R",
+        "sortName": "National Republican Senatorial Committee"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state Rep., Democratic US Senate nominee",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A photoreal AI-generated Talarico speaks directly to camera for more than a minute, reciting social-media posts he wrote years ago - including remarks on biological sex, God and Christianity - recombined and, per reporting, sometimes stripped of their original context. Talarico never filmed the video.",
+      "whatIsReal": "The underlying sentences trace back to posts Talarico actually wrote.",
+      "whatIsFabricated": "The speech itself. Written posts from different times were converted into a single continuous on-camera address that never happened, with context removed.",
+      "disclosure": {
+        "present": true,
+        "wording": "AI generated",
+        "placement": "small, easy-to-miss font in the lower-right corner",
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Scored as a fabricated performance, not merely recontextualized words: written posts were turned into a spoken address that never occurred.",
+        "realism": 2,
+        "realismNote": "Described by reporters as real-looking; sustained photoreal talking-head footage.",
+        "disclosure": 2,
+        "disclosureNote": "Label present but in small font in a corner."
+      },
+      "sources": [
+        {
+          "outlet": "CNN",
+          "title": "Republicans release AI deepfake of James Talarico as phony videos proliferate in midterm races",
+          "url": "https://www.cnn.com/2026/03/13/politics/james-talarico-ai-deepfake-republicans-midterms"
+        },
+        {
+          "outlet": "Washington Examiner",
+          "title": "Senate GOP uses James Talarico's words against him with AI attack ad",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/4488947/senate-gop-james-talarico-deepfake-ad/"
+        },
+        {
+          "outlet": "Austin American-Statesman",
+          "title": "Deepfakes are the latest weapon in Texas' Senate race",
+          "url": "https://www.statesman.com/news/columns/article/texas-senate-race-deepfake-ai-campaign-ads-22427839.php"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "shortsleeve-healey-voice-2026",
+      "headline": "Shortsleeve campaign clones Gov. Maura Healey's voice to make her confess to a record she never described",
+      "date": "2026-01-30",
+      "cycle": "2026",
+      "race": "Governor - Massachusetts (R primary)",
+      "state": "MA",
+      "level": "state",
+      "sponsor": {
+        "name": "Brian Shortsleeve for Governor",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Shortsleeve"
+      },
+      "depicted": [
+        {
+          "name": "Maura Healey",
+          "role": "Governor of Massachusetts (D)",
+          "xHandle": "MassGovernor",
+          "party": "D",
+          "sortName": "Healey"
+        }
+      ],
+      "techniques": [
+        "voice-clone",
+        "synthetic-audio"
+      ],
+      "howAiUsed": "A mock radio spot posted to Instagram uses an AI clone of Healey's voice saying: \"I'm Governor Maura Healey and I'm proud to announce my reelection campaign today... We have one of the highest electricity rates in the nation thanks to me for slapping on excessive fees to fund my climate agenda.\" The caption framed it as \"what one of her radio ads might sound like - if she was honest.\"",
+      "whatIsReal": "Nothing in the audio. The policy criticisms are the campaign's own characterization of Healey's record.",
+      "whatIsFabricated": "Every word attributed to Healey. She never said any of it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Wholly invented words placed in a real official's cloned voice - the most direct form of putting words in someone's mouth.",
+        "realism": 1,
+        "realismNote": "Reporters described the clone as fairly obviously artificial, but synthetic audio has no visual tells and travels well when re-shared.",
+        "disclosure": 3,
+        "disclosureNote": "No AI disclosure on the artifact. The caption's framing is a partial mitigator and the campaign called it parody only after criticism; the audio carries no label if clipped and re-shared."
+      },
+      "sources": [
+        {
+          "outlet": "WBUR",
+          "title": "Republican candidate for Mass. governor uses AI-assisted ad in unregulated landscape",
+          "url": "https://www.wbur.org/news/2026/02/03/brian-shortsleeves-massachusetts-ai-assisted-ad-unregulated-state"
+        },
+        {
+          "outlet": "New England Public Media",
+          "title": "AI campaign ad tests limits of 'deepfakes' in Massachusetts elections",
+          "url": "https://www.nepm.org/regional-news/2026-02-04/ai-campaign-ad-tests-limits-of-deepfakes-in-massachusetts-elections"
+        },
+        {
+          "outlet": "Axios Boston",
+          "title": "AI-generated attack ads are already slopping up Mass. races",
+          "url": "https://www.axios.com/local/boston/2026/03/23/ai-political-ads-massachusetts-campaigns-shortsleeve-lombardo-healey"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "lombardo-darris-oconnor-2026",
+      "headline": "Lombardo posts an AI-fabricated newspaper page showing his challenger hand-in-hand with Mamdani",
+      "date": "2026-03-20",
+      "cycle": "2026",
+      "race": "Massachusetts House - Billerica seat",
+      "state": "MA",
+      "level": "local",
+      "sponsor": {
+        "name": "Marc Lombardo campaign",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Lombardo"
+      },
+      "depicted": [
+        {
+          "name": "Daniel Darris-O'Connor",
+          "role": "Challenger for the Billerica House seat",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Darris-O'Connor"
+        },
+        {
+          "name": "Zohran Mamdani",
+          "role": "Mayor of New York City",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Mamdani"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "fabricated-document"
+      ],
+      "howAiUsed": "A Facebook post presents an AI-generated image styled as an old-fashioned newspaper article, showing challenger Daniel Darris-O'Connor joining hands with New York City Mayor Zohran Mamdani - at what Axios described as \"the sort of physically impossible angle AI image generators are known for\" - to tie the challenger to Mamdani's democratic-socialist politics.",
+      "whatIsReal": "The policy association the ad argues for is the sponsor's own claim.",
+      "whatIsFabricated": "The photograph and the newspaper page. The depicted meeting never happened and the publication does not exist.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Depicts an association and an event that never occurred, and imitates a news artifact - but attributes no spoken words.",
+        "realism": 0,
+        "realismNote": "Obvious generation artifacts and a stylized period-newspaper frame; unlikely to be mistaken for a real photograph on inspection.",
+        "disclosure": 3,
+        "disclosureNote": "No AI disclosure of any kind."
+      },
+      "sources": [
+        {
+          "outlet": "Axios Boston",
+          "title": "AI political ads hit Massachusetts campaigns as Shortsleeve, Lombardo use synthetic content",
+          "url": "https://www.axios.com/local/boston/2026/03/23/ai-political-ads-massachusetts-campaigns-shortsleeve-lombardo-healey"
+        },
+        {
+          "outlet": "Boston.com",
+          "title": "AI attack ads are hitting Massachusetts political campaigns",
+          "url": "https://www.boston.com/news/local-news/2026/03/23/ai-ads-massachusetts-politics/"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "paxton-cornyn-crockett-dancing-2026",
+      "headline": "Paxton's first ad shows an AI Cornyn dancing with Jasmine Crockett",
+      "date": "2026-02-18",
+      "cycle": "2026",
+      "race": "US Senate - Texas (R primary)",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Ken Paxton for Senate",
+        "type": "candidate committee",
+        "xHandle": "KenPaxtonTX",
+        "party": "R",
+        "sortName": "Paxton"
+      },
+      "depicted": [
+        {
+          "name": "John Cornyn",
+          "role": "US Senator (R-TX)",
+          "xHandle": "JohnCornyn",
+          "party": "R",
+          "sortName": "Cornyn"
+        },
+        {
+          "name": "Jasmine Crockett",
+          "role": "US Representative (D-TX)",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Crockett"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "face-swap"
+      ],
+      "howAiUsed": "Paxton's opening primary ad uses AI-generated video of Sen. John Cornyn dancing with Rep. Jasmine Crockett while a narrator says: \"Publicly, they're opponents. Privately, they're perfectly in step.\"",
+      "whatIsReal": "The voting-record argument the narrator makes is the campaign's own characterization.",
+      "whatIsFabricated": "The dancing footage. Cornyn and Crockett were never filmed together this way.",
+      "disclosure": {
+        "present": true,
+        "wording": "satire that does not represent real events",
+        "placement": "small font at the end of the ad",
+        "platformLabel": null
+      },
+      "channels": [
+        "digital",
+        "social",
+        "broadcast"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Shows two real officials doing something they never did; no words are put in their mouths.",
+        "realism": 1,
+        "realismNote": "Video-realistic but the scenario reads as visual metaphor rather than documentary footage.",
+        "disclosure": 2,
+        "disclosureNote": "Explicitly says it is not a real event - stronger wording than a bare 'AI generated' tag - but set in small type at the end."
+      },
+      "sources": [
+        {
+          "outlet": "KXAN",
+          "title": "AI-generated video of Crockett and Cornyn dancing takes center stage in Paxton's 1st campaign ad",
+          "url": "https://www.kxan.com/news/texas-politics/ai-generated-video-of-crockett-cornyn-dancing-takes-center-stage-in-paxtons-1st-campaign-ad/"
+        },
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Chronicle",
+          "title": "AI-generated campaign ads are taking over the Texas Senate race",
+          "url": "https://www.chron.com/culture/article/cornyn-paxton-texas-senate-ai-22082110.php"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "cornyn-paxton-convertible-2026",
+      "headline": "Cornyn answers with an AI video of Paxton driving with \"Mistress #1\" and \"Mistress #2\"",
+      "date": "2026-02-19",
+      "cycle": "2026",
+      "race": "US Senate - Texas (R primary)",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "John Cornyn campaign",
+        "type": "candidate committee",
+        "xHandle": "JohnCornyn",
+        "party": "R",
+        "sortName": "Cornyn"
+      },
+      "depicted": [
+        {
+          "name": "Ken Paxton",
+          "role": "Texas Attorney General",
+          "xHandle": "KenPaxtonTX",
+          "party": "R",
+          "sortName": "Paxton"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "Released in response to Paxton's dancing ad, Cornyn's spot uses AI-generated video of Paxton driving a convertible with two women captioned \"Mistress #1\" and \"Mistress #2,\" invoking infidelity allegations that have followed Paxton through the race.",
+      "whatIsReal": "The infidelity allegations referenced are a matter of prior public reporting.",
+      "whatIsFabricated": "The scene. No such footage of Paxton exists.",
+      "disclosure": {
+        "present": null,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "digital",
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Depicts a real official in a staged scene that never occurred.",
+        "realism": 1,
+        "realismNote": "Realistic rendering, but the captioned-passenger device signals construction.",
+        "disclosure": 3,
+        "disclosureNote": "PROVISIONAL: a campaign-level satire disclosure was reported, but later reporting found a separate Cornyn AI ad carrying no disclosure at all, so it cannot be assumed here. Scored as absent."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Public Media",
+          "title": "AI enters the race: How Texas primary candidates are using it in 2026 ads",
+          "url": "https://www.houstonpublicmedia.org/articles/technology/2026/02/19/543844/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Texas Public Radio",
+          "title": "Ken Paxton put out an AI-generated attack ad. He's not the only one",
+          "url": "https://www.tpr.org/government-politics/2026-09-11/ken-paxton-put-out-an-ai-generated-attack-ad-hes-not-the-only-one"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "needs-verification",
+      "reviewNote": "The satire end card is reported at campaign level and is attributed elsewhere to the Paxton spot; a different Cornyn AI ad carried none. Confirm this spot's end card before treating the disclosure sub-score as settled."
+    },
+    {
+      "id": "wall-orr-putin-xi-2026",
+      "headline": "Texas House candidate's satire video clones her opponent's voice alongside deepfaked Putin and Xi",
+      "date": "2026-02-10",
+      "cycle": "2026",
+      "race": "Texas House - Itasca-area seat (R primary)",
+      "state": "TX",
+      "level": "state",
+      "sponsor": {
+        "name": "Kat Wall campaign",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Wall"
+      },
+      "depicted": [
+        {
+          "name": "Angelia Orr",
+          "role": "Texas state Rep. (R-Itasca)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Orr"
+        },
+        {
+          "name": "Vladimir Putin",
+          "role": "President of Russia",
+          "xHandle": null,
+          "party": "—",
+          "sortName": "Putin"
+        },
+        {
+          "name": "Xi Jinping",
+          "role": "President of China",
+          "xHandle": null,
+          "party": "—",
+          "sortName": "Xi"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone",
+        "face-swap"
+      ],
+      "howAiUsed": "A satirical YouTube video attacking Rep. Angelia Orr's voting record uses AI deepfakes of Vladimir Putin and Xi Jinping together with synthetic voice clones and manipulated visuals of Orr, framing her as an ally of foreign adversaries.",
+      "whatIsReal": "The voting-record claims are the sponsor's characterization of Orr's public votes.",
+      "whatIsFabricated": "The depictions of all three figures, including audio attributed to Orr.",
+      "disclosure": {
+        "present": null,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "youtube",
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Audio attributed to a real opponent that she never spoke.",
+        "realism": 0,
+        "realismNote": "Broad satire - the Putin/Xi framing signals fiction immediately.",
+        "disclosure": 3,
+        "disclosureNote": "PROVISIONAL: no disclosure confirmed in available reporting. Scored as absent pending verification, which is the harshest reading."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Public Media",
+          "title": "AI enters the race: How Texas primary candidates are using it in 2026 ads",
+          "url": "https://www.houstonpublicmedia.org/articles/technology/2026/02/19/543844/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "needs-verification",
+      "reviewNote": "Disclosure status unconfirmed; the disclosure sub-score is the worst-case assumption and may be lowering this record's rating unfairly. Verify before citing this score."
+    },
+    {
+      "id": "crockett-baby-video-2025",
+      "headline": "Crockett posts an AI video casting herself as a baby confronting \"Baby Trump\"",
+      "date": "2025-12-11",
+      "cycle": "2026",
+      "race": "Self-posted campaign content - Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Rep. Jasmine Crockett",
+        "type": "candidate / officeholder",
+        "xHandle": null,
+        "party": "D",
+        "sortName": "Crockett"
+      },
+      "depicted": [
+        {
+          "name": "Jasmine Crockett",
+          "role": "US Representative (D-TX) - depicts herself",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Crockett"
+        },
+        {
+          "name": "Donald Trump",
+          "role": "President",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Trump"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "Crockett posted an AI-generated video to her Facebook page portraying herself as a baby accusing a \"Baby Trump\" character of rigging Texas elections.",
+      "whatIsReal": "The election-rigging accusation is Crockett's own stated position.",
+      "whatIsFabricated": "The entire scene, rendered as caricature.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 1,
+        "fabricationNote": "The sponsor depicts herself, with consent; the opposing figure appears as an infant caricature rather than a realistic likeness. Included as a low-end reference point for what routine, non-deceptive AI use looks like.",
+        "realism": 0,
+        "realismNote": "Cartoon caricature; no viewer would read it as footage.",
+        "disclosure": 3,
+        "disclosureNote": "No label, though the format is self-evidently synthetic."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Public Media",
+          "title": "AI enters the race: How Texas primary candidates are using it in 2026 ads",
+          "url": "https://www.houstonpublicmedia.org/articles/technology/2026/02/19/543844/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "collins-ossoff-farmers-2025",
+      "headline": "Mike Collins' campaign deepfakes Jon Ossoff mocking farmers and backing the shutdown",
+      "date": "2025-11-18",
+      "cycle": "2026",
+      "race": "US Senate - Georgia",
+      "state": "GA",
+      "level": "federal",
+      "sponsor": {
+        "name": "Mike Collins for Senate",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Collins"
+      },
+      "depicted": [
+        {
+          "name": "Jon Ossoff",
+          "role": "US Senator (D-GA)",
+          "xHandle": "SenOssoff",
+          "party": "D",
+          "sortName": "Ossoff"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone",
+        "synthetic-audio"
+      ],
+      "howAiUsed": "Rep. Mike Collins' Senate campaign released a deepfake video of Sen. Jon Ossoff, with computer-generated audio in Ossoff's voice, showing him defending the government shutdown and mocking farmers — including a line about having \"only seen a farm on Instagram.\"",
+      "whatIsReal": "Nothing in the video. The policy position attributed to Ossoff is the sponsor's characterization.",
+      "whatIsFabricated": "Ossoff's image, his voice, and every word attributed to him. He never said any of it.",
+      "disclosure": {
+        "present": true,
+        "wording": "the video is AI-generated",
+        "placement": "small on-screen disclaimer",
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Invented words in a real senator's cloned voice and likeness.",
+        "realism": 2,
+        "realismNote": "Photoreal video with synthetic audio matched to the real person.",
+        "disclosure": 2,
+        "disclosureNote": "A disclaimer is present — the campaign said it was included specifically to stay within Georgia and federal law — but it is small and on-screen only."
+      },
+      "sources": [
+        {
+          "outlet": "CBS Atlanta",
+          "title": "Georgia Rep. Mike Collins' campaign uses AI-generated deepfake of Senator Jon Ossoff",
+          "url": "https://www.cbsnews.com/atlanta/news/georgia-rep-mike-collins-campaign-uses-ai-generated-deepfake-of-senator-jon-ossoff-in-tight-senate-showdown/"
+        },
+        {
+          "outlet": "Atlanta Journal-Constitution",
+          "title": "Ossoff pledges not to use deepfake campaign videos, while Collins digs in",
+          "url": "https://www.ajc.com/politics/2025/11/ossoff-pledges-not-to-use-deepfake-campaign-videos-while-collins-digs-in/"
+        },
+        {
+          "outlet": "WRDW",
+          "title": "AI campaign ad in hotly contested Ga. Senate race raises ethical issues",
+          "url": "https://www.wrdw.com/2025/11/19/ai-campaign-ad-hotly-contested-ga-senate-race-raises-ethical-issues/"
+        },
+        {
+          "outlet": "AI Incident Database",
+          "title": "Incident 1264",
+          "url": "https://incidentdatabase.ai/cite/1264/"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "lockwood-bynum-oregon-2026",
+      "headline": "Oregon opens a disclosure-law investigation into unlabeled AI videos of Rep. Janelle Bynum",
+      "date": "2026-07-09",
+      "cycle": "2026",
+      "race": "US House - Oregon 5th (R primary)",
+      "state": "OR",
+      "level": "federal",
+      "sponsor": {
+        "name": "Jonathan Lockwood",
+        "type": "candidate",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Lockwood"
+      },
+      "depicted": [
+        {
+          "name": "Janelle Bynum",
+          "role": "US Representative (D-OR)",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Bynum"
+        },
+        {
+          "name": "Tina Kotek",
+          "role": "Governor of Oregon (D)",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Kotek"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "During his unsuccessful primary run, Jonathan Lockwood posted a series of AI videos depicting Rep. Janelle Bynum — in one, handing the keys to a girls' locker room to a drag queen and saying \"Don't let me down\"; in another, Bynum and Gov. Tina Kotek menacing terrified children in an apparent Satanic ritual. None carried an AI label.",
+      "whatIsReal": "Nothing in the videos.",
+      "whatIsFabricated": "Every depicted scene, action and line of dialogue.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Invented both words and acts for two real officials.",
+        "realism": 0,
+        "realismNote": "Reported as over-the-top and absurd; Lockwood's own defense to state officials is that no one could mistake them for real.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label — the omission is the basis of the state investigation, which carries fines up to $10,000."
+      },
+      "sources": [
+        {
+          "outlet": "OPB",
+          "title": "Over-the-top AI campaign ads will test Oregon disclosure law",
+          "url": "https://www.opb.org/article/2026/07/09/artificial-intelligence-ai-generated-political-advertisements-oregon/"
+        },
+        {
+          "outlet": "Jefferson Public Radio",
+          "title": "Over-the-top AI campaign ads will test Oregon disclosure law",
+          "url": "https://www.ijpr.org/politics-government/2026-07-09/over-the-top-ai-campaign-ads-will-test-oregon-disclosure-law"
+        },
+        {
+          "outlet": "Axios Portland",
+          "title": "AI deepfakes test Oregon campaign ad law",
+          "url": "https://www.axios.com/local/portland/2026/08/12/oregon-ai-deepfake-election-law"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated",
+      "legalNote": "Under investigation by the Oregon Secretary of State for violating the state's 2024 AI disclosure statute. Lockwood denies violating any Oregon law. No finding has been made."
+    },
+    {
+      "id": "nrsc-platner-reddit-2026",
+      "headline": "NRSC ad stages an AI Graham Platner giving a shirtless \"dramatic reading\" of his old Reddit posts",
+      "date": "2026-04-14",
+      "cycle": "2026",
+      "race": "US Senate - Maine",
+      "state": "ME",
+      "level": "federal",
+      "sponsor": {
+        "name": "National Republican Senatorial Committee",
+        "type": "party committee",
+        "xHandle": "NRSC",
+        "party": "R",
+        "sortName": "National Republican Senatorial Committee"
+      },
+      "depicted": [
+        {
+          "name": "Graham Platner",
+          "role": "Democratic US Senate candidate, Maine",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Platner"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "voice-clone",
+        "synthetic-audio"
+      ],
+      "howAiUsed": "The NRSC ad, titled as a \"dramatic reading of Graham Platner's Reddit comments,\" uses an AI-generated image and an AI voice of a shirtless Platner reciting Reddit posts he wrote 10 to 15 years ago.",
+      "whatIsReal": "The Reddit posts are Platner's own; he has acknowledged writing them and said he regrets them.",
+      "whatIsFabricated": "The reading itself, his voice, and the shirtless depiction. Platner never performed any of it.",
+      "disclosure": {
+        "present": null,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 2,
+        "fabricationNote": "The words are genuinely his; the ad's own title frames it as a staged reading rather than real footage. The invented shirtless staging pushes past a plain re-voicing.",
+        "realism": 1,
+        "realismNote": "A synthetic still and voice rather than photoreal motion footage.",
+        "disclosure": 3,
+        "disclosureNote": "PROVISIONAL: no on-ad label confirmed in available reporting. Scored as absent, the harshest reading; the ad's title does signal construction."
+      },
+      "sources": [
+        {
+          "outlet": "Bangor Daily News",
+          "title": "Republican ad uses an AI deepfake of Graham Platner",
+          "url": "https://www.bangordailynews.com/2026/04/16/politics/elections/maine-senate-election-republican-ai-deepfake-ad-graham-platner/"
+        },
+        {
+          "outlet": "WGME",
+          "title": "Political ad uses deepfake image and voice of Senate candidate Graham Platner",
+          "url": "https://wgme.com/news/local/graham-platner-says-hes-not-surprised-by-ai-attack-ad-from-republicans-us-senate-democrats-artificial-intelligence-reddit-maine"
+        },
+        {
+          "outlet": "RealClearPolitics",
+          "title": "NRSC Ad: Dramatic Reading of Democrat Graham Platner's Reddit Comments",
+          "url": "https://www.realclearpolitics.com/video/2026/04/14/nrsc_ad_this_is_a_dramatic_reading_of_graham_platners_reddit_comments.html"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "needs-verification",
+      "reviewNote": "No on-ad AI label is confirmed in available reporting, so the disclosure sub-score is a worst-case assumption and may be grading this record unfairly. Verify the ad's end card before citing this score."
+    },
+    {
+      "id": "cornyn-hunt-show-dog-2026",
+      "headline": "Cornyn posts an undisclosed AI video casting Rep. Wesley Hunt as a show dog",
+      "date": "2026-01-21",
+      "cycle": "2026",
+      "race": "US Senate - Texas (R primary)",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "John Cornyn campaign",
+        "type": "candidate committee",
+        "xHandle": "JohnCornyn",
+        "party": "R",
+        "sortName": "Cornyn"
+      },
+      "depicted": [
+        {
+          "name": "Wesley Hunt",
+          "role": "US Representative (R-TX)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Hunt"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "Sen. John Cornyn posted an AI-generated video depicting primary rival Rep. Wesley Hunt as a \"show dog.\" Reporters noted it was markedly more sophisticated than earlier AI ads in the race and carried no disclosure; AI-detection tools returned a 99% probability the video was machine-generated, with tells including blurred background signage, an oddly folded US flag and unnatural movement.",
+      "whatIsReal": "The rivalry and the criticism are real; the footage is not.",
+      "whatIsFabricated": "The entire scene and Hunt's depiction in it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Places a real congressman in a staged scene that never happened; no words are attributed to him.",
+        "realism": 1,
+        "realismNote": "Polished enough to fool a scroll, but the premise is caricature and detection tools find clear artifacts.",
+        "disclosure": 3,
+        "disclosureNote": "No disclosure of any kind, in contrast to the labeled satire card used on other ads in the same race."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Public Media",
+          "title": "AI enters the race: How Texas primary candidates are using it in 2026 ads",
+          "url": "https://www.houstonpublicmedia.org/articles/technology/2026/02/19/543844/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "News From The States",
+          "title": "AI enters the race: How Texas primary candidates are using it in 2026 ads",
+          "url": "https://www.newsfromthestates.com/article/ai-enters-race-how-texas-primary-candidates-are-using-it-2026-ads"
+        }
+      ],
+      "embed": null,
+      "reviewStatus": "corroborated"
+    }
+  ]
+}
