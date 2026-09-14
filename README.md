@@ -25,8 +25,8 @@ Records sort by **candidate A–Z** (the person the ad *portrays*, not the spons
 `primarySubject()` picks it, skipping non-US figures used as props), by **state**, by
 **sponsor party**, by score, or by date. Filters cover candidate, sponsor party,
 technique, state, disclosure and free text. Party renders as an uncolored outlined
-letter: warm is already the severity ramp, and color-coding party would both collide
-with it and read as partisan framing.
+letter. The severity ramp already owns the blue lightness scale, and color-coding
+party would both collide with it and read as partisan framing.
 
 | Dimension | Range | Question |
 |---|---|---|
@@ -94,12 +94,68 @@ may be grading it unfairly).
    contact. Everything else falls back to an X *search* link on purpose — a wrong
    handle points complaints at an uninvolved person. Verify each one against the
    official account before launch.
-2. **Embeds.** `embed` is `null` on every record. The renderer supports
-   `{"provider":"youtube","id":"..."}` and frames it via `youtube-nocookie.com`, but
-   an unverified ID would put the wrong footage under a named person's name. Confirm
-   each video against the cited reporting, then fill it in.
+2. **Original video.** No record carries confirmed footage yet, so every card
+   currently renders the "original ad not yet located" state. See **Original ad
+   video** below for the data shape and the rule that gates embedding.
 3. **Scores are editorial.** They are assessments against a published rubric, not
    legal findings, and no record here asserts that any ad broke a law.
+
+## Original ad video
+
+Each record may carry a `video` block. `src/video.js` resolves it into exactly one of
+three presentation states, and `build.mjs` refuses to build if a block is incoherent
+(for example `embed_available: true` with no `video_id`), so a broken player cannot
+reach a reader.
+
+```json
+"video": {
+  "original_ad_url": "https://...",   // canonical link to the ad itself
+  "platform": "youtube",              // see PLATFORMS in src/video.js
+  "video_id": "...",                  // when the platform has one
+  "embed_available": true,            // may we frame it in-page?
+  "archive_url": "https://...",       // optional, survives the original going down
+  "verified": true,                   // a human watched it; see below
+  "verificationNote": "..."           // who checked it against which source
+}
+```
+
+| State | When | What the card shows |
+|---|---|---|
+| `embed` | platform is embeddable, `video_id` present, **and** `verified: true` | the player, plus a direct link |
+| `link` | original located but not embeddable, or not yet verified | platform name + **Watch original ad** |
+| `none` | original not located | an explicit "not yet located" notice |
+
+**`verified` is a human act, never an inference.** Parsing an ID out of a URL proves
+the link is well-formed, not that the video on the other end is the advertisement
+rather than a news segment about it. `youTubeIdFromUrl()` exists to parse, and says
+nothing about provenance; `resolveVideo()` will not frame a player until a person has
+recorded that they watched the footage against the cited reporting. A news clip is
+never shown in place of an ad, and links to reporting are labelled as reporting.
+
+## Brand
+
+The wordmark and mascot are the supplied artwork; everything in `public/brand/` and
+the icon set is derived from it by `build`-time-independent crops, not redrawn.
+
+```
+brand/polislop-logo-source.png          the supplied artwork, unmodified
+public/brand/polislop-lockup.png        masthead lockup (900x321)
+public/brand/polislop-lockup-dark.png   reversed: only the wordmark's ink inverts
+public/brand/polislop-mark.png          mascot alone, square
+public/icon-{16,32,192,512}.png         favicons
+public/apple-touch-icon.png             flattened on white (iOS composites alpha)
+public/og-image.png                     1200x630 social card
+```
+
+The dark lockup inverts **only** the wordmark. The mascot's navy sits on its own
+light-blue body, which does not change between themes, so inverting it would erase
+the face. The masthead `<picture>` switches on `prefers-color-scheme`, so exactly one
+file is downloaded.
+
+Type is **Poppins** throughout. Colour is a single blue family, which means severity
+is carried by **lightness**, not hue: the `--sev-1..5` ramp is monotonic in
+luminance, so the scale still reads if the blues themselves are hard to separate.
+Every foreground/background pair in the palette meets WCAG AA.
 
 ## Complaint routing
 
@@ -128,9 +184,12 @@ one.
 ```
 data/ads.json            corpus (rubric inputs + sources; no stored scores)
 src/scoring.js           rubric, roll-up, FCC jurisdiction test
+src/video.js             original-ad resolution + embed policy
 src/page.html            template with the <!--POLISLOP_DATA--> slot
 build.mjs                computes scores, inlines data -> public/index.html
 worker.js                GET /api/ads · GET /api/rubric · POST /api/triage
 ingest/meta-ad-library.mjs   Meta sweep -> review queue
 test/scoring.test.mjs    rubric behavior + corpus integrity
+test/video.test.mjs      embed policy + corpus video-block validation
+public/brand/            logo lockups derived from the supplied artwork
 ```

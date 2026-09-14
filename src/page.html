@@ -1,10 +1,42 @@
-<title>polislop</title>
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>polislop — Political AI slop you should know about.</title>
+<meta name="description" content="A sourced ledger of US political ads that used AI to depict real people — what the AI did, what was real, what was invented, and how honestly it was labeled. Every deception score is computed from a published rubric.">
+<link rel="canonical" href="https://polislop.org/">
+
+<link rel="icon" href="/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/icon-16.png" sizes="16x16" type="image/png">
+<link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#EDF1F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E131A" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="polislop">
+<meta property="og:title" content="polislop — Political AI slop you should know about.">
+<meta property="og:description" content="A sourced ledger of US political ads that used AI to depict real people — what the AI did, what was real, what was invented, and how honestly it was labeled.">
+<meta property="og:url" content="https://polislop.org/">
+<meta property="og:image" content="https://polislop.org/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The polislop logo: a melting blue mascot wearing a Capitol dome, beside the wordmark polislop.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="polislop — Political AI slop you should know about.">
+<meta name="twitter:description" content="A sourced ledger of US political ads that used AI to depict real people, scored against a published rubric.">
+<meta name="twitter:image" content="https://polislop.org/og-image.png">
+<meta name="twitter:image:alt" content="The polislop logo: a melting blue mascot wearing a Capitol dome, beside the wordmark polislop.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap">
 <style>
 :root {
-  /* Neutrals biased cool-slate; warm is reserved entirely for severity. */
+  /* One blue family throughout. Severity is therefore carried by LIGHTNESS, not
+     hue: the ramp below is monotonic, so a reader who cannot separate the blues
+     still reads severity by how dark the block is. Chrome (--accent) sits at a
+     lightness the ramp does not occupy, so a link never reads as a score. */
   --ground: #EDF1F6;
   --surface: #FFFFFF;
   --sunk: #E2E8F0;
@@ -13,19 +45,19 @@
   --muted: #5B6777;
   --rule: #D2DAE4;
   --rule-strong: #B4C0CE;
-  --accent: #1F5C8B;
+  --accent: #1A5FAF;
   --accent-ink: #FFFFFF;
   --accent-wash: #E3ECF4;
 
-  /* Sequential severity ramp: single hue (48deg), monotonic lightness. */
-  --sev-1: #E4B197; --sev-1-ink: #10151C;
-  --sev-2: #D98C63; --sev-2-ink: #10151C;
-  --sev-3: #C86830; --sev-3-ink: #10151C;
-  --sev-4: #AE4900; --sev-4-ink: #FFFFFF;
-  --sev-5: #8A3300; --sev-5-ink: #FFFFFF;
+  /* Sequential severity ramp: single blue hue, monotonic lightness. */
+  --sev-1: #CBDDF3; --sev-1-ink: #10151C;
+  --sev-2: #9BC0E8; --sev-2-ink: #10151C;
+  --sev-3: #5B95D6; --sev-3-ink: #10151C;
+  --sev-4: #2A6CC4; --sev-4-ink: #FFFFFF;
+  --sev-5: #123C74; --sev-5-ink: #FFFFFF;
 
-  --flag: #7A4E00;
-  --flag-wash: #FBF0DC;
+  --flag: #2B4C72;
+  --flag-wash: #E4EBF4;
 
   --shadow: 0 1px 2px rgba(16,21,28,.05), 0 6px 18px -10px rgba(16,21,28,.18);
   --measure: 68ch;
@@ -43,13 +75,13 @@
     --accent: #7FBCEA;
     --accent-ink: #0E131A;
     --accent-wash: #172532;
-    --sev-1: #F4BCA0; --sev-1-ink: #10151C;
-    --sev-2: #F3A075; --sev-2-ink: #10151C;
-    --sev-3: #EC854D; --sev-3-ink: #10151C;
-    --sev-4: #DC702F; --sev-4-ink: #10151C;
-    --sev-5: #C55F1D; --sev-5-ink: #10151C;
-    --flag: #E7B663;
-    --flag-wash: #241C0C;
+    --sev-1: #D8E7FA; --sev-1-ink: #0E131A;
+    --sev-2: #AECDF3; --sev-2-ink: #0E131A;
+    --sev-3: #83AFE9; --sev-3-ink: #0E131A;
+    --sev-4: #5A8FDC; --sev-4-ink: #0E131A;
+    --sev-5: #3A6EC4; --sev-5-ink: #FFFFFF;
+    --flag: #A8C4E4;
+    --flag-wash: #16202E;
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px -10px rgba(0,0,0,.6);
   }
 }
@@ -58,12 +90,12 @@
   --ink: #E7ECF3; --ink-soft: #C3CCD9; --muted: #8D99AA;
   --rule: #27313E; --rule-strong: #3B4757;
   --accent: #7FBCEA; --accent-ink: #0E131A; --accent-wash: #172532;
-  --sev-1: #F4BCA0; --sev-1-ink: #10151C;
-  --sev-2: #F3A075; --sev-2-ink: #10151C;
-  --sev-3: #EC854D; --sev-3-ink: #10151C;
-  --sev-4: #DC702F; --sev-4-ink: #10151C;
-  --sev-5: #C55F1D; --sev-5-ink: #10151C;
-  --flag: #E7B663; --flag-wash: #241C0C;
+  --sev-1: #D8E7FA; --sev-1-ink: #0E131A;
+  --sev-2: #AECDF3; --sev-2-ink: #0E131A;
+  --sev-3: #83AFE9; --sev-3-ink: #0E131A;
+  --sev-4: #5A8FDC; --sev-4-ink: #0E131A;
+  --sev-5: #3A6EC4; --sev-5-ink: #FFFFFF;
+  --flag: #A8C4E4; --flag-wash: #16202E;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px -10px rgba(0,0,0,.6);
 }
 
@@ -72,15 +104,15 @@ body {
   margin: 0;
   background: var(--ground);
   color: var(--ink);
-  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
-h1, h2, h3, .display { font-family: Chivo, "Helvetica Neue", Arial, sans-serif; text-wrap: balance; }
+h1, h2, h3, .display { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; text-wrap: balance; }
 .mono, .meta, .chip, .lvl, label, button, select, input, .badge-label, .stat-n {
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 a { color: var(--accent); text-underline-offset: 2px; }
@@ -89,11 +121,18 @@ a { color: var(--accent); text-underline-offset: 2px; }
 /* ---- masthead ---- */
 .masthead { border-bottom: 2px solid var(--ink); padding-block: 28px 18px; }
 .eyebrow {
-  font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .16em;
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 11px; letter-spacing: .16em;
   text-transform: uppercase; color: var(--muted); margin: 0 0 10px;
 }
 h1 { font-size: clamp(42px, 7.5vw, 76px); font-weight: 900; letter-spacing: -.045em; margin: 0 0 4px; line-height: .94; }
-.tagline { font-family: Chivo, "Helvetica Neue", Arial, sans-serif; font-size: clamp(17px, 2.3vw, 22px);
+/* The masthead lockup. Sized in vw so it holds its proportion from a phone to a
+   wide desktop; the source art is ~2.6x the largest rendered width, so it stays
+   sharp on high-density screens. The dark lockup differs only in the wordmark's
+   ink - the mascot is the supplied artwork untouched in both themes. */
+.brand { margin: 0 0 10px; line-height: 0; }
+.brand picture { display: block; }
+.brand img { display: block; width: clamp(196px, 40vw, 340px); height: auto; }
+.tagline { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: clamp(17px, 2.3vw, 22px);
   font-weight: 700; letter-spacing: -.012em; color: var(--accent); margin: 0 0 16px; }
 .standfirst { font-size: 19px; color: var(--ink-soft); max-width: var(--measure); margin: 0 0 4px; }
 .standfirst b { font-weight: 600; }
@@ -107,12 +146,12 @@ h1 { font-size: clamp(42px, 7.5vw, 76px); font-weight: 900; letter-spacing: -.04
 .dist-k { font-size: 10px; color: var(--muted); letter-spacing: .08em; text-align: center; }
 .stats { display: flex; gap: 26px; flex-wrap: wrap; }
 .stat-n { font-size: 26px; font-weight: 600; display: block; line-height: 1.1; }
-.stat-l { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-family: "IBM Plex Mono", monospace; }
+.stat-l { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 
 /* ---- rubric ---- */
 details.rubric { border-bottom: 1px solid var(--rule); }
 details.rubric > summary {
-  cursor: pointer; padding-block: 16px; font-family: "IBM Plex Mono", monospace;
+  cursor: pointer; padding-block: 16px; font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
   font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
 }
 .rubric-body { padding-bottom: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
@@ -121,12 +160,12 @@ details.rubric > summary {
 ol.lvls { margin: 0; padding-left: 0; list-style: none; counter-reset: lv -1; font-size: 13.5px; }
 ol.lvls li { counter-increment: lv; display: flex; gap: 9px; padding-block: 3px; color: var(--ink-soft); }
 ol.lvls li::before {
-  content: counter(lv); font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  content: counter(lv); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 11px;
   background: var(--sunk); color: var(--muted); border-radius: 3px;
   min-width: 18px; height: 18px; display: grid; place-items: center; flex: none; margin-top: 3px;
 }
 .formula { grid-column: 1 / -1; background: var(--sunk); border-left: 3px solid var(--accent); padding: 14px 16px; font-size: 14px; }
-.formula code { font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+.formula code { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 13px; }
 
 /* ---- console / filters ---- */
 .console {
@@ -141,7 +180,7 @@ input[type="search"], select {
   background: var(--surface); color: var(--ink); border-radius: 3px; min-width: 132px;
 }
 input[type="search"] { min-width: 200px; }
-.count { margin-left: auto; font-size: 12px; color: var(--muted); font-family: "IBM Plex Mono", monospace; align-self: flex-end; padding-bottom: 7px; }
+.count { margin-left: auto; font-size: 12px; color: var(--muted); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; align-self: flex-end; padding-bottom: 7px; }
 
 /* ---- records ---- */
 .records { display: flex; flex-direction: column; gap: 0; }
@@ -155,15 +194,15 @@ input[type="search"] { min-width: 200px; }
 h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spacing: -.014em; margin: 0; line-height: 1.2; }
 
 .badge { flex: none; text-align: center; border-radius: 4px; padding: 9px 13px 8px; border: 1px solid rgba(16,21,28,.16); min-width: 92px; }
-.badge-n { font-family: Chivo, sans-serif; font-size: 34px; font-weight: 900; line-height: .95; display: block; }
+.badge-n { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 34px; font-weight: 900; line-height: .95; display: block; }
 .badge-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; display: block; margin-top: 3px; }
 .badge-scale { font-size: 9px; opacity: .72; letter-spacing: .06em; display: block; }
 
 .prov { margin-top: 14px; background: var(--flag-wash); border-left: 3px solid var(--flag); padding: 10px 13px; font-size: 14px; color: var(--ink-soft); }
-.prov b { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--flag); display: block; margin-bottom: 3px; }
+.prov b { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--flag); display: block; margin-bottom: 3px; }
 
 .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; margin-top: 20px; }
-.panel h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; font-family: "IBM Plex Mono", monospace; }
+.panel h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 .panel p { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
 
 .embed { margin-top: 20px; }
@@ -173,17 +212,30 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
   padding: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
 }
 .embed-missing p { margin: 0; font-size: 14px; color: var(--muted); max-width: 52ch; }
+/* Located-but-unframeable originals. Solid rather than dashed, because unlike
+   the missing state there *is* something to go and watch. */
+.embed-link {
+  border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--sunk);
+  padding: 18px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;
+}
+.embed-link-text { min-width: 0; flex: 1 1 22ch; }
+.embed-link p { margin: 0; font-size: 14px; color: var(--muted); max-width: 52ch; }
+.watch-plat {
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-soft); margin: 0 0 5px !important;
+}
+.btn-watch { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); flex: 0 0 auto; }
 
 .subjects { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; margin: 10px 0 0; font-size: 14px; color: var(--ink-soft); }
 .subjects .grp { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.who-lbl { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.who-lbl { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 /* Party is identity, not severity. It stays an uncolored outlined letter so it
    cannot be confused with the warm severity ramp or read as partisan framing. */
-.party { font-family: "IBM Plex Mono", monospace; font-size: 10px; font-weight: 600; border: 1px solid var(--rule-strong);
+.party { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; font-weight: 600; border: 1px solid var(--rule-strong);
   color: var(--muted); border-radius: 2px; padding: 0 4px; line-height: 1.5; }
 .legal { margin-top: 14px; border-left: 3px solid var(--rule-strong); padding: 2px 0 2px 11px; font-size: 14px; color: var(--muted); }
-.legal b { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); display: block; }
-.embed-note { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.legal b { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); display: block; }
+.embed-note { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .chip {
   font-size: 11px; letter-spacing: .04em; padding: 4px 9px; border-radius: 3px;
@@ -193,28 +245,28 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
 
 /* ---- audit meters ---- */
 .audit { margin-top: 22px; background: var(--sunk); border-radius: 4px; padding: 16px 18px; }
-.audit > h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-family: "IBM Plex Mono", monospace; }
+.audit > h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 .meter { display: grid; grid-template-columns: minmax(104px, 126px) minmax(88px, 150px) 1fr; gap: 8px 14px; align-items: start; padding-block: 7px; border-top: 1px solid var(--rule); }
 .meter:first-of-type { border-top: 0; }
-.meter-name { font-size: 12px; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+.meter-name { font-size: 12px; font-weight: 600; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 .meter-name em { display: block; font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--muted); letter-spacing: .04em; }
 .pips { display: flex; gap: 2px; align-items: center; padding-top: 3px; }
 .pip { height: 9px; flex: 1; border-radius: 1px; background: var(--rule); }
 .pip.on { background: var(--pipcolor); }
 .meter-text { font-size: 13.5px; color: var(--ink-soft); }
 .meter-text em { font-style: normal; color: var(--muted); display: block; font-size: 12.5px; margin-top: 2px; }
-.audit-total { margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--rule-strong); font-size: 12.5px; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.audit-total { margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--rule-strong); font-size: 12.5px; color: var(--muted); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 
 /* ---- act ---- */
 .act { margin-top: 22px; border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; }
-.act > h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin: 0; padding: 10px 16px; background: var(--sunk); border-bottom: 1px solid var(--rule); font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+.act > h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin: 0; padding: 10px 16px; background: var(--sunk); border-bottom: 1px solid var(--rule); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; color: var(--muted); }
 .act-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 13px; }
 .act-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
-.act-row > .act-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; width: 100%; }
+.act-row > .act-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: Poppins, "Helvetica Neue", Arial, sans-serif; width: 100%; }
 .btn {
   display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
   font-size: 12.5px; padding: 7px 12px; border-radius: 3px; border: 1px solid var(--rule-strong);
-  background: var(--surface); color: var(--ink); font-family: "IBM Plex Mono", monospace;
+  background: var(--surface); color: var(--ink); font-family: Poppins, "Helvetica Neue", Arial, sans-serif;
 }
 .btn:hover { border-color: var(--accent); color: var(--accent); }
 .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
@@ -224,7 +276,7 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
 .note.blocked { border-left: 3px solid var(--rule-strong); padding-left: 11px; }
 
 .sources { margin-top: 18px; font-size: 13.5px; }
-.sources h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; font-family: "IBM Plex Mono", monospace; }
+.sources h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
 .sources ol { margin: 0; padding-left: 18px; color: var(--muted); }
 .sources li { padding-block: 1px; }
 
@@ -245,7 +297,12 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
 <div class="wrap">
   <header class="masthead">
     <p class="eyebrow">Synthetic media in US political advertising &middot; 2025&ndash;2026 cycle</p>
-    <h1>polislop</h1>
+    <h1 class="brand">
+      <picture>
+        <source srcset="/brand/polislop-lockup-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="/brand/polislop-lockup.png" alt="polislop" width="900" height="321" fetchpriority="high" decoding="async">
+      </picture>
+    </h1>
     <p class="tagline">Political AI slop you should know about.</p>
     <p class="standfirst">A sourced record of political ads that used AI to depict real people &mdash; <b>what the AI did, what was real, what was invented,</b> and how honestly it was labeled. Every deception score is computed from a published rubric, so you can check the arithmetic and argue with the inputs.</p>
   </header>
@@ -294,7 +351,8 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p>Records enter polislop only with at least two independent, reputable sources, listed under each entry. The deception score is an <b>editorial assessment</b> against the rubric above &mdash; not a legal finding, and not a claim that any ad broke a law. Entries marked <b>provisional</b> have a rubric input that reporting has not yet settled; their scores may move.</p>
     <p>The score grades <em>how an ad depicts real people</em>. It does not grade whether the ad's underlying political claims are true &mdash; that is fact-checking, and a separate job.</p>
     <h3 style="margin-top:22px">On embedded video</h3>
-    <p>The page frames video from YouTube wherever a record carries a confirmed video ID, with a direct link beneath it so the ad is reachable even if the player is blocked. No record carries one yet: confirming that a given video <em>is</em> the ad in question means watching it against the cited reporting, and an unverified ID would put the wrong footage under a named person's name &mdash; the exact error this ledger exists to document. Adding one is a one-line change per record.</p>
+    <p>Each record's video area has three states, and never a fourth. Where the original ad has been located <b>and</b> a human has confirmed the footage is the ad itself, it is framed in the page. Where the original exists but cannot be framed &mdash; a platform that forbids embedding, or footage not yet confirmed &mdash; the card says which platform it is on and links straight to it. Where the original has not been found, the card says so plainly.</p>
+    <p>The ledger will not frame a video on the strength of a plausible-looking link. Confirming that a given video <em>is</em> the ad means watching it against the cited reporting; an unverified ID would put the wrong footage under a named person &mdash; the exact error this ledger exists to document. For the same reason a news segment <em>about</em> an ad is never shown in place of the ad, and links to reporting are labelled as reporting.</p>
 
     <h3 style="margin-top:22px">Jurisdiction</h3>
     <p>FCC jurisdiction covers broadcast, cable, satellite and radio. Ads that ran only on social platforms or web video fall outside it, and the ledger says so per record rather than sending you to the wrong agency.</p>
@@ -378,17 +436,58 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     return out.join("");
   }
 
+  // Why a record shows a link instead of a player. Saying which of these applies
+  // stops a reader assuming the ad itself is missing when it is merely unframeable.
+  const NO_EMBED_REASON = {
+    unverified: "The original has been located, but no player is framed until the footage is confirmed to be the ad itself rather than a report about it.",
+    "not-embeddable": "This platform does not allow the ad to be played inside another site.",
+    "embed-blocked": "Embedding is disabled on the original posting.",
+  };
+
+  // The video area has exactly three states and no fourth: a framed player for
+  // confirmed original footage, a labelled link out when the original exists but
+  // cannot be framed, and an explicit empty state when it has not been found.
+  // A player is never emitted without a URL to put in it, so the card cannot
+  // render a broken iframe.
+  function videoArea(rec) {
+    const v = rec.video || { mode: "none" };
+    const platform = v.platformLabel ? esc(v.platformLabel) : "the original platform";
+
+    if (v.mode === "embed" && v.embedUrl) {
+      return `<iframe src="${esc(v.embedUrl)}" title="Original ad: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+         <p class="embed-note">Original ad on ${platform}.${v.watchUrl
+           ? ` If the player does not load, <a href="${esc(v.watchUrl)}" target="_blank" rel="noopener noreferrer">open it directly</a>.`
+           : ""}</p>`;
+    }
+
+    if (v.mode === "link") {
+      const href = v.watchUrl || v.archiveUrl;
+      const isArchive = !v.watchUrl && v.archiveUrl;
+      const extra = v.watchUrl && v.archiveUrl
+        ? `<p class="embed-note">Archived copy: <a href="${esc(v.archiveUrl)}" target="_blank" rel="noopener noreferrer">web archive</a></p>`
+        : "";
+      return `<div class="embed-link">
+           <div class="embed-link-text">
+             <p class="watch-plat">${isArchive ? "Archived original" : "Original ad"} &middot; ${platform}</p>
+             <p>${esc(NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"])}</p>
+           </div>
+           <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span aria-hidden="true"> &rarr;</span></a>
+         </div>${extra}`;
+    }
+
+    const s = rec.sources[0];
+    return `<div class="embed-missing">
+         <p><b>Original ad not yet located.</b> Nothing is framed here rather than
+            showing footage we cannot confirm is the ad. The link is reporting
+            <em>about</em> the ad &mdash; not the ad itself.</p>
+         <a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Reporting: ${esc(s.outlet)}</a>
+       </div>`;
+  }
+
   function render(rec) {
     const c = rec.computed;
     const sev = `var(--sev-${c.score})`;
-    const embed = rec.embed
-      ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(rec.embed.id)}" title="Ad: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-         <p class="embed-note">If the player does not load, open it directly:
-           <a href="https://www.youtube.com/watch?v=${esc(rec.embed.id)}" target="_blank" rel="noopener noreferrer">youtube.com/watch?v=${esc(rec.embed.id)}</a></p>`
-      : `<div class="embed-missing">
-           <p>No verified embed on file &mdash; see the note on embeds below. A video is framed here only once its ID has been confirmed against the cited reporting; guessing one would put the wrong footage under a named person.</p>
-           <a class="btn" href="${esc(rec.sources[0].url)}" target="_blank" rel="noopener noreferrer">See the ad in ${esc(rec.sources[0].outlet)}</a>
-         </div>`;
+    const embed = videoArea(rec);
 
     const meters = c.breakdown.map((d) => `
       <div class="meter">
