@@ -206,7 +206,21 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
 .panel p { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
 
 .embed { margin-top: 20px; }
-.embed iframe { width: 100%; aspect-ratio: 16/9; max-width: 100%; border: 1px solid var(--rule-strong); border-radius: 4px; display: block; background: #000; }
+/* The frame owns the aspect ratio and the iframe fills it absolutely, so the
+   player keeps 16:9 on every width without the layout jumping while it loads. */
+.embed-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+  border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; }
+.embed-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+@supports not (aspect-ratio: 16 / 9) { .embed-frame { height: 0; padding-bottom: 56.25%; } }
+.prov-line { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); max-width: 62ch; }
+.prov-line em { display: block; margin-top: 3px; font-style: normal; color: var(--muted); opacity: .92; }
+.prov-tag {
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-soft); border: 1px solid var(--rule-strong);
+  border-radius: 2px; padding: 1px 5px; margin-right: 7px; white-space: nowrap;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .embed-missing {
   border: 1px dashed var(--rule-strong); border-radius: 4px; background: var(--sunk);
   padding: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
@@ -351,8 +365,10 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p>Records enter polislop only with at least two independent, reputable sources, listed under each entry. The deception score is an <b>editorial assessment</b> against the rubric above &mdash; not a legal finding, and not a claim that any ad broke a law. Entries marked <b>provisional</b> have a rubric input that reporting has not yet settled; their scores may move.</p>
     <p>The score grades <em>how an ad depicts real people</em>. It does not grade whether the ad's underlying political claims are true &mdash; that is fact-checking, and a separate job.</p>
     <h3 style="margin-top:22px">On embedded video</h3>
-    <p>Each record's video area has three states, and never a fourth. Where the original ad has been located <b>and</b> a human has confirmed the footage is the ad itself, it is framed in the page. Where the original exists but cannot be framed &mdash; a platform that forbids embedding, or footage not yet confirmed &mdash; the card says which platform it is on and links straight to it. Where the original has not been found, the card says so plainly.</p>
-    <p>The ledger will not frame a video on the strength of a plausible-looking link. Confirming that a given video <em>is</em> the ad means watching it against the cited reporting; an unverified ID would put the wrong footage under a named person &mdash; the exact error this ledger exists to document. For the same reason a news segment <em>about</em> an ad is never shown in place of the ad, and links to reporting are labelled as reporting.</p>
+    <p>Each record's video area has three states, and never a fourth. Where the original ad has been located and its provenance established, it is framed in the page. Where the original exists but cannot be framed &mdash; a platform that does not play reliably inside another site, or a link nothing has yet tied to the ad &mdash; the card names the platform and links straight to it. Where the original has not been found, the card says so plainly rather than filling the space.</p>
+    <p>The ledger will not frame a video on the strength of a plausible-looking link. Every located original carries a <b>provenance</b> grade saying how it was established: <b>Official account</b>, published on the sponsor's own campaign or committee account; <b>Archive</b>, captured in a political-ad archive or public ad library; <b>Reporting</b>, where credible coverage identifies that exact posting as the ad; <b>Human-reviewed</b>, where a person watched the footage against the cited reporting. A link that meets none of these is marked <b>Unverified</b> and is never framed.</p>
+    <p>What the grades have in common is that each answers the question a player has to answer &mdash; is the thing on the other end of this link the advertisement? &mdash; from an independent direction. A news segment <em>about</em> an ad is never shown in place of the ad, and links to reporting are always labelled as reporting.</p>
+    <p>Only YouTube is framed in-page. X, Instagram and Facebook all publish embed widgets, but each shows a login wall or an empty box to a logged-out reader often enough that framing them would produce exactly the broken player this page is built to avoid. Ads on those platforms get a direct link instead, and every framed player carries the same link beneath it in case the frame fails.</p>
 
     <h3 style="margin-top:22px">Jurisdiction</h3>
     <p>FCC jurisdiction covers broadcast, cable, satellite and radio. Ads that ran only on social platforms or web video fall outside it, and the ledger says so per record rather than sending you to the wrong agency.</p>
@@ -439,13 +455,22 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
   // Why a record shows a link instead of a player. Saying which of these applies
   // stops a reader assuming the ad itself is missing when it is merely unframeable.
   const NO_EMBED_REASON = {
-    unverified: "The original has been located, but no player is framed until the footage is confirmed to be the ad itself rather than a report about it.",
-    "not-embeddable": "This platform does not allow the ad to be played inside another site.",
+    unverified: "The original has been located, but nothing yet establishes that this posting is the ad itself rather than a report about it, so no player is framed.",
+    "not-embeddable": "This platform does not play reliably inside another site, so the ad opens on the platform instead.",
     "embed-blocked": "Embedding is disabled on the original posting.",
   };
 
+  // How the original was established. Shown on every located record so a reader
+  // can weigh the sourcing of the footage the same way they weigh the sourcing
+  // of the record itself.
+  function provLine(v) {
+    if (!v.provenanceLabel) return "";
+    const note = v.note ? `<em>${esc(v.note)}</em>` : "";
+    return `<p class="prov-line"><span class="prov-tag">${esc(v.provenanceLabel)}</span>${esc(v.provenanceNote || "")}${note}</p>`;
+  }
+
   // The video area has exactly three states and no fourth: a framed player for
-  // confirmed original footage, a labelled link out when the original exists but
+  // an established original, a labelled link out when the original exists but
   // cannot be framed, and an explicit empty state when it has not been found.
   // A player is never emitted without a URL to put in it, so the card cannot
   // render a broken iframe.
@@ -454,25 +479,27 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     const platform = v.platformLabel ? esc(v.platformLabel) : "the original platform";
 
     if (v.mode === "embed" && v.embedUrl) {
-      return `<iframe src="${esc(v.embedUrl)}" title="Original ad: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-         <p class="embed-note">Original ad on ${platform}.${v.watchUrl
-           ? ` If the player does not load, <a href="${esc(v.watchUrl)}" target="_blank" rel="noopener noreferrer">open it directly</a>.`
-           : ""}</p>`;
+      // The fallback link sits directly under the player so a blocked or
+      // failed frame still leaves the reader one click from the ad.
+      return `<div class="embed-frame"><iframe src="${esc(v.embedUrl)}" title="Original ad, embedded from ${platform}: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+         <p class="embed-note">Original ad, playing from ${platform}.${v.watchUrl
+           ? ` If the player does not load, <a href="${esc(v.watchUrl)}" target="_blank" rel="noopener noreferrer">watch the original ad on ${platform}</a>.`
+           : ""}</p>${provLine(v)}`;
     }
 
     if (v.mode === "link") {
       const href = v.watchUrl || v.archiveUrl;
       const isArchive = !v.watchUrl && v.archiveUrl;
       const extra = v.watchUrl && v.archiveUrl
-        ? `<p class="embed-note">Archived copy: <a href="${esc(v.archiveUrl)}" target="_blank" rel="noopener noreferrer">web archive</a></p>`
+        ? `<p class="embed-note">Also archived: <a href="${esc(v.archiveUrl)}" target="_blank" rel="noopener noreferrer">second copy of the ad</a></p>`
         : "";
       return `<div class="embed-link">
            <div class="embed-link-text">
              <p class="watch-plat">${isArchive ? "Archived original" : "Original ad"} &middot; ${platform}</p>
              <p>${esc(NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"])}</p>
            </div>
-           <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span aria-hidden="true"> &rarr;</span></a>
-         </div>${extra}`;
+           <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span class="sr-only"> on ${platform}</span><span aria-hidden="true"> &rarr;</span></a>
+         </div>${extra}${provLine(v)}`;
     }
 
     const s = rec.sources[0];

@@ -83,9 +83,11 @@ Append to `data/ads.json`, then `npm test && npm run build`. Tests enforce:
 
 Set `reviewStatus: "needs-verification"` whenever a rubric input is unsettled. The
 page renders those with a provisional banner and the stated reason. Two records
-carry it now: the Cornyn spot (disclosure reported at campaign level, not confirmed
-on the spot) and the Wall video (disclosure unconfirmed, scored worst-case, which
-may be grading it unfairly).
+carry it now: the Cornyn "Love Shack" spot (disclosure reported at campaign level,
+not confirmed on the spot) and the Platner ad (no on-ad label confirmed in
+reporting). The Wall video previously carried it too; the Texas Tribune has since
+confirmed the spoken parody disclosure, so it is now corroborated and its disclosure
+input moved from 3 to 2 — which moved the computed score from 4 to 3.
 
 ## Three things to check before this goes public
 
@@ -94,9 +96,11 @@ may be grading it unfairly).
    contact. Everything else falls back to an X *search* link on purpose — a wrong
    handle points complaints at an uninvolved person. Verify each one against the
    official account before launch.
-2. **Original video.** No record carries confirmed footage yet, so every card
-   currently renders the "original ad not yet located" state. See **Original ad
-   video** below for the data shape and the rule that gates embedding.
+2. **Original video.** 15 of 17 records now carry a located original: 5 are framed
+   in-page as YouTube players and 10 link out to the sponsor's own post. Two are
+   still unlocated — the Cornyn "show dog" video and the Wall video — and render the
+   explicit "not yet located" state rather than borrowing a reporter's repost. See
+   **Original ad video** below for the data shape and the rule that gates embedding.
 3. **Scores are editorial.** They are assessments against a published rubric, not
    legal findings, and no record here asserts that any ad broke a law.
 
@@ -104,8 +108,8 @@ may be grading it unfairly).
 
 Each record may carry a `video` block. `src/video.js` resolves it into exactly one of
 three presentation states, and `build.mjs` refuses to build if a block is incoherent
-(for example `embed_available: true` with no `video_id`), so a broken player cannot
-reach a reader.
+(for example `embed_available: true` with no `video_id`, or a YouTube `video_id` that
+is not 11 characters), so a broken player cannot reach a reader.
 
 ```json
 "video": {
@@ -114,23 +118,58 @@ reach a reader.
   "video_id": "...",                  // when the platform has one
   "embed_available": true,            // may we frame it in-page?
   "archive_url": "https://...",       // optional, survives the original going down
-  "verified": true,                   // a human watched it; see below
-  "verificationNote": "..."           // who checked it against which source
+  "provenance": "official_source",    // how we know this is the ad; see below
+  "verificationNote": "..."           // what established it, in one sentence
 }
 ```
 
 | State | When | What the card shows |
 |---|---|---|
-| `embed` | platform is embeddable, `video_id` present, **and** `verified: true` | the player, plus a direct link |
-| `link` | original located but not embeddable, or not yet verified | platform name + **Watch original ad** |
+| `embed` | platform is embeddable, `video_id` present, **and** provenance embeds | the player, plus a direct link beneath it |
+| `link` | original located but not embeddable, or provenance too weak | platform name + **Watch original ad** |
 | `none` | original not located | an explicit "not yet located" notice |
 
-**`verified` is a human act, never an inference.** Parsing an ID out of a URL proves
-the link is well-formed, not that the video on the other end is the advertisement
-rather than a news segment about it. `youTubeIdFromUrl()` exists to parse, and says
-nothing about provenance; `resolveVideo()` will not frame a player until a person has
-recorded that they watched the footage against the cited reporting. A news clip is
-never shown in place of an ad, and links to reporting are labelled as reporting.
+### Provenance
+
+Parsing an ID out of a URL proves the link is well-formed, not that the video on the
+other end is the advertisement rather than a news segment about it. So every located
+original records **how** it was established, and only the grades below marked "frames"
+will put a player on the page.
+
+| Grade | Meaning | Frames? |
+|---|---|---|
+| `official_source` | published on the sponsor's own campaign, committee or candidate account | yes |
+| `archive_verified` | captured in a political-ad archive or public ad library | yes |
+| `reporting_corroborated` | credible reporting identifies this exact posting as the ad | yes |
+| `human_verified` | a person watched the footage against the cited reporting | yes |
+| `unverified` | a plausible link nothing has tied to the ad | no |
+
+Provenance, not personal viewing, is the bar. The four strong grades each answer the
+question a player has to answer — *is the thing on the other end of this link the
+advertisement?* — from an independent direction, and that is the same standard of
+evidence the rest of the ledger runs on. A block with no `provenance` is read as
+`unverified`; the legacy `verified: true` flag maps to `human_verified` so old rows
+keep their meaning. `youTubeIdFromUrl()` exists only to parse and says nothing about
+provenance.
+
+A news clip is never shown in place of an ad, and links to reporting are labelled as
+reporting. A corpus test enforces this literally: no `original_ad_url` may point at a
+host that appears in that record's own source list.
+
+### Why only YouTube is framed
+
+X, Instagram and Facebook all publish embed widgets, but each renders a login wall or
+an empty box for a logged-out reader often enough that framing them would reintroduce
+the exact failure this module exists to prevent. Ads on those platforms get a
+prominent **Watch original ad** button instead, and every framed player carries the
+same direct link beneath it in case the frame fails.
+
+Two research notes worth keeping, both learned the hard way:
+
+- Instagram returns HTTP 200 for *any* shortcode when logged out, so a successful
+  fetch proves nothing about whether a post exists. Those rows rest on reporting.
+- The Texas Tribune's own Google Drive copies of several ads are permission-gated
+  (HTTP 401), so they are unusable as reader-facing links despite being cited.
 
 ## Brand
 

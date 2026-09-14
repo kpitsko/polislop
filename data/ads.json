@@ -69,7 +69,15 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "youtube",
+        "video_id": "1-WZIStqImo",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=1-WZIStqImo",
+        "verificationNote": "Posted by the NRSC's own YouTube channel (youtube.com/@NRSC) as \"Every day gets better for us\", 30 seconds - matching the spot's quoted line and running time in NPR's and NOTUS' reporting."
+      }
     },
     {
       "id": "nrsc-talarico-2026",
@@ -138,12 +146,20 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "youtube",
+        "video_id": "qIDhhVah4xE",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=qIDhhVah4xE",
+        "verificationNote": "Posted by the NRSC's own YouTube channel as \"Talarico Tweets\", 1:25 - matching CNN's description of a minute-long address assembled from Talarico's written posts."
+      }
     },
     {
       "id": "shortsleeve-healey-voice-2026",
       "headline": "Shortsleeve campaign clones Gov. Maura Healey's voice to make her confess to a record she never described",
-      "date": "2026-01-30",
+      "date": "2026-01-20",
       "cycle": "2026",
       "race": "Governor - Massachusetts (R primary)",
       "state": "MA",
@@ -203,10 +219,21 @@
           "outlet": "Axios Boston",
           "title": "AI-generated attack ads are already slopping up Mass. races",
           "url": "https://www.axios.com/local/boston/2026/03/23/ai-political-ads-massachusetts-campaigns-shortsleeve-lombardo-healey"
+        },
+        {
+          "outlet": "Boston.com",
+          "title": "AI attack ads are hitting Massachusetts political campaigns",
+          "url": "https://www.boston.com/news/local-news/2026/03/23/ai-ads-massachusetts-politics/"
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "instagram",
+        "original_ad_url": "https://www.instagram.com/reel/DTuzkrajjXW/",
+        "provenance": "reporting_corroborated",
+        "verificationNote": "WBUR names this Instagram reel as the ad, and Boston.com embeds the same reel in its report. Instagram serves an identical shell for any shortcode when logged out, so the posting rests on the reporting rather than on a fetch."
+      }
     },
     {
       "id": "lombardo-darris-oconnor-2026",
@@ -276,12 +303,18 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "facebook",
+        "original_ad_url": "https://www.facebook.com/MarcLombardoForStateRepresentative/posts/pfbid0321cmNUiXAUXEjBgBDuDZZ9nfXeR85gdTbDPQ62FL5wKaj7S7bXkTF672nRBuJyGVl",
+        "provenance": "reporting_corroborated",
+        "verificationNote": "Boston.com embeds this exact post from Lombardo's official campaign page as the ad in question."
+      }
     },
     {
       "id": "paxton-cornyn-crockett-dancing-2026",
       "headline": "Paxton's first ad shows an AI Cornyn dancing with Jasmine Crockett",
-      "date": "2026-02-18",
+      "date": "2026-01-16",
       "cycle": "2026",
       "race": "US Senate - Texas (R primary)",
       "state": "TX",
@@ -353,12 +386,18 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/KenPaxtonTX/status/2012168725630165435",
+        "provenance": "official_source",
+        "verificationNote": "Paxton's own campaign account posted the video on 16 January 2026 over the caption \"NEW AD: John Cornyn has been dancing the night way with liberal lunatics like Jasmine Crockett\" - the wording the Texas Tribune quotes for this ad."
+      }
     },
     {
       "id": "cornyn-paxton-convertible-2026",
       "headline": "Cornyn answers with an AI video of Paxton driving with \"Mistress #1\" and \"Mistress #2\"",
-      "date": "2026-02-19",
+      "date": "2026-03-17",
       "cycle": "2026",
       "race": "US Senate - Texas (R primary)",
       "state": "TX",
@@ -418,11 +457,27 @@
           "outlet": "Texas Public Radio",
           "title": "Ken Paxton put out an AI-generated attack ad. He's not the only one",
           "url": "https://www.tpr.org/government-politics/2026-09-11/ken-paxton-put-out-an-ai-generated-attack-ad-hes-not-the-only-one"
+        },
+        {
+          "outlet": "FOX 7 Austin",
+          "title": "Cornyn campaign targets Paxton with AI-generated 'Love Shack' parody ad",
+          "url": "https://www.fox7austin.com/news/cornyn-campaign-targets-paxton-ai-generated-love-shack-parody-ad"
+        },
+        {
+          "outlet": "Texas Monthly",
+          "title": "John Cornyn Released a Crazy AI Ad of Ken Paxton Grooving to “Love Shack”",
+          "url": "https://www.texasmonthly.com/news-politics/ranking-texas-politics-music-cornyn-ai-love-shack-ad/"
         }
       ],
       "embed": null,
       "reviewStatus": "needs-verification",
-      "reviewNote": "The satire end card is reported at campaign level and is attributed elsewhere to the Paxton spot; a different Cornyn AI ad carried none. Confirm this spot's end card before treating the disclosure sub-score as settled."
+      "reviewNote": "The satire end card is reported at campaign level and is attributed elsewhere to the Paxton spot; a different Cornyn AI ad carried none. Confirm this spot's end card before treating the disclosure sub-score as settled.",
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/CrookedKenTX/status/2033890278063452216",
+        "provenance": "official_source",
+        "verificationNote": "Posted 17 March 2026 by CrookedKenTX, the Cornyn campaign's anti-Paxton account (CrookedKen.com is the call-to-action on the campaign's own YouTube spots), and quote-posted by @TeamCornyn the same day. This is the \"Ken's Love Shack\" ad."
+      }
     },
     {
       "id": "wall-orr-putin-xi-2026",
@@ -471,9 +526,9 @@
       "whatIsReal": "The voting-record claims are the sponsor's characterization of Orr's public votes.",
       "whatIsFabricated": "The depictions of all three figures, including audio attributed to Orr.",
       "disclosure": {
-        "present": null,
-        "wording": null,
-        "placement": null,
+        "present": true,
+        "wording": "This ad is a parody using AI video tools",
+        "placement": "spoken by the narrator at the very end of the video",
         "platformLabel": null
       },
       "channels": [
@@ -485,8 +540,8 @@
         "fabricationNote": "Audio attributed to a real opponent that she never spoke.",
         "realism": 0,
         "realismNote": "Broad satire - the Putin/Xi framing signals fiction immediately.",
-        "disclosure": 3,
-        "disclosureNote": "PROVISIONAL: no disclosure confirmed in available reporting. Scored as absent pending verification, which is the harshest reading."
+        "disclosure": 2,
+        "disclosureNote": "The Texas Tribune confirms the narrator states \"This ad is a parody using AI video tools\" - but only at the very end, spoken rather than on-screen, so it is easily missed and vanishes if the clip is trimmed."
       },
       "sources": [
         {
@@ -501,8 +556,9 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "needs-verification",
-      "reviewNote": "Disclosure status unconfirmed; the disclosure sub-score is the worst-case assumption and may be lowering this record's rating unfairly. Verify before citing this score."
+      "reviewStatus": "corroborated",
+      "reviewNote": "Disclosure status unconfirmed; the disclosure sub-score is the worst-case assumption and may be lowering this record's rating unfairly. Verify before citing this score.",
+      "video": null
     },
     {
       "id": "crockett-baby-video-2025",
@@ -571,12 +627,20 @@
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "youtube",
+        "video_id": "hO_GLQGCUGQ",
+        "embed_available": true,
+        "provenance": "reporting_corroborated",
+        "original_ad_url": "https://www.youtube.com/watch?v=hO_GLQGCUGQ",
+        "verificationNote": "The Texas Tribune links this video, published 11 December 2025 - the same day as Crockett's post - as the content she shared. The hosting channel is Diaper Diplomacy, the parody outfit that made the video, not Crockett's own account; her Facebook post of it has not been located."
+      }
     },
     {
       "id": "collins-ossoff-farmers-2025",
       "headline": "Mike Collins' campaign deepfakes Jon Ossoff mocking farmers and backing the shutdown",
-      "date": "2025-11-18",
+      "date": "2025-11-10",
       "cycle": "2026",
       "race": "US Senate - Georgia",
       "state": "GA",
@@ -643,10 +707,21 @@
           "outlet": "AI Incident Database",
           "title": "Incident 1264",
           "url": "https://incidentdatabase.ai/cite/1264/"
+        },
+        {
+          "outlet": "Lead Stories",
+          "title": "Fact Check: Video Of Senator Jon Ossoff Saying He Voted To Keep Government Shutdown Is NOT Real -- It's AI",
+          "url": "https://www.yahoo.com/news/articles/fact-check-video-senator-jon-002413213.html"
         }
       ],
       "embed": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/TeamOverhaulGA/status/1987933003880767997",
+        "provenance": "official_source",
+        "verificationNote": "Posted by the Collins campaign's own war-room account on 10 November 2025 - the posting Lead Stories fact-checked and the one CBS Atlanta described as appearing \"last week\" on 21 November."
+      }
     },
     {
       "id": "lockwood-bynum-oregon-2026",
@@ -722,7 +797,14 @@
       ],
       "embed": null,
       "reviewStatus": "corroborated",
-      "legalNote": "Under investigation by the Oregon Secretary of State for violating the state's 2024 AI disclosure statute. Lockwood denies violating any Oregon law. No finding has been made."
+      "legalNote": "Under investigation by the Oregon Secretary of State for violating the state's 2024 AI disclosure statute. Lockwood denies violating any Oregon law. No finding has been made.",
+      "video": {
+        "platform": "facebook",
+        "original_ad_url": "https://www.facebook.com/reel/845246751375832",
+        "archive_url": "https://www.facebook.com/reel/2074656396741615",
+        "provenance": "reporting_corroborated",
+        "verificationNote": "OPB links both reels on Lockwood's campaign Facebook account: the primary link is the video showing Kotek and Bynum tormenting children; the second is the Bynum/drag-queen video from the same account."
+      }
     },
     {
       "id": "nrsc-platner-reddit-2026",
@@ -793,7 +875,15 @@
       ],
       "embed": null,
       "reviewStatus": "needs-verification",
-      "reviewNote": "No on-ad AI label is confirmed in available reporting, so the disclosure sub-score is a worst-case assumption and may be grading this record unfairly. Verify the ad's end card before citing this score."
+      "reviewNote": "No on-ad AI label is confirmed in available reporting, so the disclosure sub-score is a worst-case assumption and may be grading this record unfairly. Verify the ad's end card before citing this score.",
+      "video": {
+        "platform": "youtube",
+        "video_id": "bLTY4xXds68",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=bLTY4xXds68",
+        "verificationNote": "Posted by the NRSC's own YouTube channel as \"Graham Platner said WHAT on Reddit?\", 1:01 - the spot RealClearPolitics carried as the NRSC's dramatic reading of Platner's Reddit comments."
+      }
     },
     {
       "id": "cornyn-hunt-show-dog-2026",
@@ -861,6 +951,437 @@
         }
       ],
       "embed": null,
+      "reviewStatus": "corroborated",
+      "video": null
+    },
+    {
+      "id": "loudoun-spanberger-2026",
+      "headline": "Loudoun County GOP splices real Spanberger footage with an AI version of her confessing to a Republican caricature",
+      "date": "2026-02-23",
+      "cycle": "2026",
+      "race": "Governor - Virginia, post-inauguration messaging",
+      "state": "VA",
+      "level": "state",
+      "sponsor": {
+        "name": "Republican Committee for Loudoun County",
+        "type": "party committee",
+        "xHandle": "LoudounGOP",
+        "party": "R",
+        "sortName": "Republican Committee for Loudoun County"
+      },
+      "depicted": [
+        {
+          "name": "Abigail Spanberger",
+          "role": "Governor of Virginia (D)",
+          "xHandle": "GovernorVA",
+          "party": "D",
+          "sortName": "Spanberger"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone",
+        "image-to-video"
+      ],
+      "howAiUsed": "One of three spots the committee released in February. Genuine footage of Spanberger's response to Trump's State of the Union is cut together with AI video - animated from a 2023 New York Times portrait and her official House portrait - in which she appears to boast of \"commie socialist Marxism, free stuff for illegals, gun grabs and erasing gender norms\" before setting fire to a religious painting.",
+      "whatIsReal": "The State of the Union response footage, and the two still photographs the synthetic segments were animated from.",
+      "whatIsFabricated": "Everything the AI Spanberger says and does. She never delivered those lines and never burned a painting.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Invented statements delivered in a real governor's likeness and voice.",
+        "realism": 2,
+        "realismNote": "Animated from real portraits and intercut with genuine footage, which is what makes it pass; the only tell reported is a flagpole appearing mid-shot.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label of any kind. The caption reads only “Thanks @GovernorVA !!!!!”."
+      },
+      "sources": [
+        {
+          "outlet": "Reuters",
+          "title": "AI deepfakes blur reality in 2026 US midterm campaigns",
+          "url": "https://www.usnews.com/news/politics/articles/2026-03-28/ai-deepfakes-blur-reality-in-2026-us-midterm-campaigns"
+        },
+        {
+          "outlet": "Lead Stories",
+          "title": "Fact Check: Republican Committee Published Fake AI Campaign Video Of Democratic Virginia Governor Abigail Spanberger",
+          "url": "https://www.yahoo.com/news/articles/fact-check-republican-committee-published-023615675.html"
+        },
+        {
+          "outlet": "Honolulu Star-Advertiser",
+          "title": "AI deepfakes blur reality in 2026 U.S. midterm campaigns",
+          "url": "https://www.staradvertiser.com/2026/03/28/breaking-news/ai-deepfakes-blur-reality-in-2026-us-midterm-campaigns/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/LoudounGOP/status/2026003915313967309",
+        "provenance": "official_source",
+        "verificationNote": "Posted 23 February 2026 by the committee's own X account, the posting Lead Stories fact-checked."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "nesbitt-whitmer-tractor-2026",
+      "headline": "Michigan candidate's AI spot drives a tractor at a fallen Gov. Whitmer under the words “Justice is coming”",
+      "date": "2026-06-09",
+      "cycle": "2026",
+      "race": "Governor - Michigan (R primary)",
+      "state": "MI",
+      "level": "state",
+      "sponsor": {
+        "name": "Aric Nesbitt campaign",
+        "type": "candidate committee",
+        "xHandle": "aricnesbitt",
+        "party": "R",
+        "sortName": "Nesbitt campaign"
+      },
+      "depicted": [
+        {
+          "name": "Gretchen Whitmer",
+          "role": "Governor of Michigan (D)",
+          "xHandle": "GovWhitmer",
+          "party": "D",
+          "sortName": "Whitmer"
+        },
+        {
+          "name": "Jocelyn Benson",
+          "role": "Michigan Secretary of State (D)",
+          "xHandle": "JocelynBenson",
+          "party": "D",
+          "sortName": "Benson"
+        },
+        {
+          "name": "Dana Nessel",
+          "role": "Michigan Attorney General (D)",
+          "xHandle": "dananessel",
+          "party": "D",
+          "sortName": "Nessel"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "A wholly AI-generated video in which Nesbitt drives a tractor toward a fallen Gretchen Whitmer as “Justice is coming” appears on screen. Other Michigan Democrats appear in the same spot; the disclosure itself is delivered by an AI likeness of Attorney General Dana Nessel.",
+      "whatIsReal": "Nothing in the footage. The policy grievances the spot gestures at are real; the scenes are not.",
+      "whatIsFabricated": "Every depicted person and event, including Whitmer on the ground in front of a tractor.",
+      "disclosure": {
+        "present": true,
+        "wording": "Michigan law requires me to tell you that this video was generated completely by artificial intelligence. It has been manipulated by technical means and depicts speech and conduct that did not occur.",
+        "placement": "spoken by an AI likeness of AG Dana Nessel, plus a small on-screen note carried throughout",
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Real officials are shown in events that never happened; no words are put in Whitmer's mouth.",
+        "realism": 1,
+        "realismNote": "Rendered video, but the tractor-and-villains staging reads as cartoon rather than documentary footage.",
+        "disclosure": 1,
+        "disclosureNote": "Among the clearest labels in the ledger: a full spoken disclosure naming the technique, plus a persistent on-screen note. Written to satisfy Michigan's deepfake statute."
+      },
+      "sources": [
+        {
+          "outlet": "Michigan Advance",
+          "title": "Nesbitt AI campaign video showing Whitmer and other top Dems getting attacked draws criticism",
+          "url": "https://michiganadvance.com/2026/06/10/nesbitt-ai-campaign-video-showing-whitmer-and-other-top-dems-getting-attacked-draws-criticism/"
+        },
+        {
+          "outlet": "Bridge Michigan",
+          "title": "AI campaign ads are here. Is Michigan's new deepfake law ready?",
+          "url": "https://bridgemi.com/michigan-government/ai-campaign-ads-are-here-is-michigans-new-deepfake-law-ready/"
+        },
+        {
+          "outlet": "9&10 News",
+          "title": "New AI campaign video tests Michigan's political ad laws",
+          "url": "https://www.9and10news.com/2026/06/10/new-ai-campaign-video-tests-michigans-political-ad-laws/"
+        },
+        {
+          "outlet": "Deadline Detroit",
+          "title": "Michigan GOP Candidate Aric Nesbitt's Fake A-I Campaign Video Includes Whitmer, Benson, El-Sayed and Mamdani",
+          "url": "https://www.deadlinedetroit.com/articles/34705/michigan_gop_candidate_aric_nesbitt_s_fake_a-i_campaign_video_includes_whitmer_benson_el-sayed_and_mamdani"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/aricnesbitt/status/2064323514111246658",
+        "provenance": "official_source",
+        "verificationNote": "Posted 9 June 2026 by Nesbitt's own X account, the posting Bridge Michigan links as this ad."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "rogers-superhero-2026",
+      "headline": "Mike Rogers' war room leans into an AI-buffed version of the candidate himself",
+      "date": "2026-06-03",
+      "cycle": "2026",
+      "race": "US Senate - Michigan",
+      "state": "MI",
+      "level": "federal",
+      "sponsor": {
+        "name": "Mike Rogers campaign war room",
+        "type": "candidate committee",
+        "xHandle": "RFSWarRoom",
+        "party": "R",
+        "sortName": "Rogers campaign"
+      },
+      "depicted": [
+        {
+          "name": "Mike Rogers",
+          "role": "US Senate candidate (R-MI)",
+          "xHandle": "MikeRogersForMI",
+          "party": "R",
+          "sortName": "Rogers"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "synthetic-video"
+      ],
+      "howAiUsed": "An AI-altered photograph making Rogers look heavily muscled went viral; the campaign's war-room account then posted AI video building on it, showing a synthetic Rogers wrestling, walking city streets and rescuing a cat from a tree. Included as a low-end reference point: the technology is used on the sponsor's own candidate, not against an opponent.",
+      "whatIsReal": "The underlying photograph, taken by a Detroit News photographer at a 2024 Fourth of July parade.",
+      "whatIsFabricated": "Rogers' physique and every scene in the follow-up videos.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 0,
+        "fabricationNote": "The only person depicted is the sponsor's own candidate, with consent.",
+        "realism": 0,
+        "realismNote": "Superhero staging no viewer would take for footage.",
+        "disclosure": 3,
+        "disclosureNote": "No label on the artifact. The caption's “Haters will say it's AI” is a wink rather than a disclosure, and does not travel if the clip is re-shared."
+      },
+      "sources": [
+        {
+          "outlet": "OPB",
+          "title": "Over-the-top AI campaign ads will test Oregon disclosure law",
+          "url": "https://www.opb.org/article/2026/07/09/artificial-intelligence-ai-generated-political-advertisements-oregon/"
+        },
+        {
+          "outlet": "The Detroit News",
+          "title": "Where the AI image of Michigan's Mike Rogers looking buff originated",
+          "url": "https://www.detroitnews.com/story/news/politics/2026/06/03/mike-rogers-ai-buff-image/90383406007/"
+        },
+        {
+          "outlet": "Snopes",
+          "title": "Did Mike Rogers' team post altered photo of him with large muscles?",
+          "url": "https://www.snopes.com/news/2026/06/06/mike-rogers-muscle-photo-ai/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/RFSWarRoom/status/2062234837197488317",
+        "provenance": "official_source",
+        "verificationNote": "Posted 3 June 2026 by the Rogers campaign war-room account, the posting OPB cites for the superhero videos."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "crockett-ai-crowd-2026",
+      "headline": "Crockett's Super Bowl ad closes on an AI-generated crowd of supporters",
+      "date": "2026-02-08",
+      "cycle": "2026",
+      "race": "US Senate - Texas (D primary)",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Jasmine Crockett for Senate",
+        "type": "candidate committee",
+        "xHandle": "JasmineForUS",
+        "party": "D",
+        "sortName": "Crockett campaign"
+      },
+      "depicted": [
+        {
+          "name": "Jasmine Crockett",
+          "role": "US Representative (D-TX), Senate candidate",
+          "xHandle": "JasmineCrockett",
+          "party": "D",
+          "sortName": "Crockett"
+        }
+      ],
+      "techniques": [
+        "generated-image"
+      ],
+      "howAiUsed": "The 32-second spot ends on a wide shot of Crockett apparently surrounded by hundreds of supporters. Reporting and detection tools identify the closing image as AI-generated: faces and body outlines away from Crockett are blurred and undefined while she and her immediate neighbours are sharp.",
+      "whatIsReal": "Crockett, and the policy argument the voiceover makes.",
+      "whatIsFabricated": "The crowd. The ad implies a turnout that was generated rather than photographed.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "youtube",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 0,
+        "fabricationNote": "No real person is shown saying or doing anything they did not; the synthetic element is an anonymous crowd. The rubric grades misattribution to real people, so a fabricated crowd scores at the floor even though it misleads about support - a deliberate limit of what this score measures.",
+        "realism": 2,
+        "realismNote": "A photoreal still presented as documentary footage of a rally; passing for real is the entire point of the shot.",
+        "disclosure": 3,
+        "disclosureNote": "No label. Asked about the AI, the campaign responded but did not address whether it was used."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "How 2026 Texas primary candidates are using AI in ads",
+          "url": "https://www.texastribune.org/2026/02/19/texas-2026-primaries-ai-ads-candidates-crockett-cornyn-paxton/"
+        },
+        {
+          "outlet": "Houston Chronicle",
+          "title": "Crockett, Paxton ads draw social media scrutiny for use of AI",
+          "url": "https://www.houstonchronicle.com/news/houston-texas/trending/article/jasmine-crockett-ai-senate-campaign-ad-21343986.php"
+        },
+        {
+          "outlet": "Chron",
+          "title": "Jasmine Crockett's new ad draws eyes—and AI questions",
+          "url": "https://www.chron.com/politics/article/jasmine-crocklett-super-bowl-ad-21343112.php"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "youtube",
+        "video_id": "3Ce-CvmMiwY",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=3Ce-CvmMiwY",
+        "verificationNote": "Posted 8 February 2026 on Crockett's own campaign channel as “Texans don't back down. We rise.” - the video the Texas Tribune links as this ad."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "pratt-batman-la-2026",
+      "headline": "A supporter's AI spot casts Spencer Pratt as Batman and Mayor Karen Bass as the Joker",
+      "date": "2026-05-05",
+      "cycle": "2026",
+      "race": "Mayor - Los Angeles (nonpartisan primary)",
+      "state": "CA",
+      "level": "local",
+      "sponsor": {
+        "name": "Charles Curran (supporter, unaffiliated with the campaign)",
+        "type": "individual supporter",
+        "xHandle": "charliebcurran",
+        "party": "—",
+        "sortName": "Curran"
+      },
+      "depicted": [
+        {
+          "name": "Karen Bass",
+          "role": "Mayor of Los Angeles (D)",
+          "xHandle": "MayorOfLA",
+          "party": "D",
+          "sortName": "Bass"
+        },
+        {
+          "name": "Gavin Newsom",
+          "role": "Governor of California (D)",
+          "xHandle": "GavinNewsom",
+          "party": "D",
+          "sortName": "Newsom"
+        },
+        {
+          "name": "Kamala Harris",
+          "role": "former Vice President (D)",
+          "xHandle": "KamalaHarris",
+          "party": "D",
+          "sortName": "Harris"
+        },
+        {
+          "name": "Marco Rubio",
+          "role": "US Secretary of State (R)",
+          "xHandle": "marcorubio",
+          "party": "R",
+          "sortName": "Rubio"
+        },
+        {
+          "name": "Spencer Pratt",
+          "role": "Los Angeles mayoral candidate",
+          "xHandle": "spencerpratt",
+          "party": "—",
+          "sortName": "Pratt"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A slickly produced AI video, made by a supporter rather than the campaign, showing a Gotham-like Los Angeles ruled by aristocratic Democrats - Bass in Joker makeup, Newsom eating cake, Harris drinking vodka and declaring “Bass already solved crime” - before Pratt suits up as Batman. It passed five million views on X and drew national coverage.",
+      "whatIsReal": "Nothing in the footage. The candidates and officials depicted are real people.",
+      "whatIsFabricated": "Every scene, and the line given to Kamala Harris.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "A line is written for and delivered by a synthetic Kamala Harris, alongside invented conduct for three other officials.",
+        "realism": 0,
+        "realismNote": "A superhero fantasy set in a comic-book city; nobody reads it as documentary.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label on the artifact, and no sponsor disclaimer - it was posted by a supporter, outside any campaign's disclosure practice."
+      },
+      "sources": [
+        {
+          "outlet": "The Hollywood Reporter",
+          "title": "Spencer Pratt Batman-Inspired AI Campaign Ad Trolling Gavin Newsom Goes Viral",
+          "url": "https://www.hollywoodreporter.com/news/politics-news/spencer-pratt-batman-ai-campaign-video-1236587741/"
+        },
+        {
+          "outlet": "TIME",
+          "title": "These Strange A.I. Videos Boosted Spencer Pratt's Campaign—and May Be the Future of Politics",
+          "url": "https://time.com/article/2026/06/04/-these-strange-a-i-videos-boosted-spencer-pratt-s-campaign-and-may-be-the-future-of-politics-/"
+        },
+        {
+          "outlet": "The Hill",
+          "title": "Spencer Pratt AI video in LA mayor's race goes viral",
+          "url": "https://thehill.com/homenews/campaign/5867936-spencer-pratt-ai-ad-la-mayor-race/"
+        },
+        {
+          "outlet": "OPB",
+          "title": "Over-the-top AI campaign ads will test Oregon disclosure law",
+          "url": "https://www.opb.org/article/2026/07/09/artificial-intelligence-ai-generated-political-advertisements-oregon/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/charliebcurran/status/2051647381981290697",
+        "provenance": "official_source",
+        "archive_url": "https://commons.wikimedia.org/wiki/File:Spencer_Pratt_2026_Ai-generated_Batman_ad.webm",
+        "verificationNote": "Posted 5 May 2026 by Curran, who made the video - here the maker's own account IS the source account, since no campaign sponsored it. OPB links this posting."
+      },
       "reviewStatus": "corroborated"
     }
   ]
