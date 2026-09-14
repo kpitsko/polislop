@@ -18,22 +18,44 @@
 // not embeddable still gets a "watch original" link - the ad stays reachable,
 // it just is not played inside polislop.
 //
-// Only YouTube is marked embeddable, and deliberately so. X, Instagram and
-// Facebook all publish embed widgets, but each of them renders a login wall or
-// an empty box for a logged-out visitor often enough that framing them would
-// reintroduce the one failure this module exists to prevent. Those platforms
-// get a prominent "watch original ad" button instead.
+// `embedKind` says HOW a platform is embedded, because the two that work do it
+// differently: YouTube takes an <iframe> we build ourselves, while X is a
+// <blockquote> that its own widget script upgrades into a player. Both are
+// tested against the real postings in the corpus, not assumed:
+//
+//   youtube  iframe   youtube-nocookie.com/embed/<id>      renders
+//   x        widget   platform.twitter.com/widgets.js      renders, with video
+//   instagram    -    /embed/ replies `x-frame-options: DENY`   refuses framing
+//   facebook     -    plugins/video.php 200s but paints an empty box for /reel/
+//
+// Instagram and Facebook therefore get a prominent "watch original ad" button.
+// Framing them would reintroduce the empty-player failure this module exists to
+// prevent, which is worse for a reader than an honest link out.
 export const PLATFORMS = {
   youtube: {
     label: "YouTube",
     embeddable: true,
+    embedKind: "iframe",
+    idFromUrl: (url) => youTubeIdFromUrl(url),
+    idPattern: /^[A-Za-z0-9_-]{11}$/,
+    idLabel: "11-character YouTube ID",
     embedUrl: (id) => `https://www.youtube-nocookie.com/embed/${id}`,
     watchUrl: (id) => `https://www.youtube.com/watch?v=${id}`,
+  },
+  x: {
+    label: "X",
+    embeddable: true,
+    // The widget script renders the post itself - author, verification badge and
+    // video - so the embed carries its own provenance on its face.
+    embedKind: "x-post",
+    idFromUrl: (url) => xStatusIdFromUrl(url),
+    idPattern: /^\d{15,25}$/,
+    idLabel: "numeric X status ID",
+    watchUrl: (id) => `https://x.com/i/status/${id}`,
   },
   "meta-ad-library": { label: "Meta Ad Library", embeddable: false },
   facebook: { label: "Facebook", embeddable: false },
   instagram: { label: "Instagram", embeddable: false },
-  x: { label: "X", embeddable: false },
   tiktok: { label: "TikTok", embeddable: false },
   "campaign-site": { label: "Campaign website", embeddable: false },
   "party-committee": { label: "Party committee site", embeddable: false },
@@ -116,6 +138,18 @@ export function provenanceEmbeds(provenance) {
 }
 
 /**
+ * What the embed actually points at: an explicit `video_id` when the record
+ * carries one, otherwise the ID parsed out of the canonical URL. Letting an X
+ * row derive its status ID from `original_ad_url` keeps one canonical fact in
+ * the data instead of the same number written twice and free to drift.
+ */
+function embedRef(v) {
+  if (v?.video_id) return v.video_id;
+  const spec = v?.platform ? PLATFORMS[v.platform] : null;
+  return spec?.idFromUrl && v.original_ad_url ? spec.idFromUrl(v.original_ad_url) : null;
+}
+
+/**
  * Structural check on a record's video block. Returns a list of problems -
  * empty means usable. The build runs this so a malformed block fails the build
  * rather than rendering a broken player to readers.
@@ -140,17 +174,24 @@ export function validateVideo(record) {
     if (v[key] != null && !isHttps(v[key])) errs.push(where(`${key} must be an https URL`));
   }
 
-  // A YouTube ID that is not a YouTube ID produces a player that loads and then
-  // shows "video unavailable" - visually identical to a broken embed.
-  if (v.platform === "youtube" && v.video_id != null && !/^[A-Za-z0-9_-]{11}$/.test(v.video_id)) {
-    errs.push(where(`video_id "${v.video_id}" is not an 11-character YouTube ID`));
+  // An ID of the wrong shape produces a player that loads and then reports the
+  // post as unavailable - visually identical to a broken embed.
+  const spec = v.platform ? PLATFORMS[v.platform] : null;
+  const ref = embedRef(v);
+  if (spec?.idPattern && ref != null && !spec.idPattern.test(ref)) {
+    errs.push(where(`"${ref}" is not a ${spec.idLabel}`));
+  }
+  // An embeddable platform whose URL does not yield an ID would silently fall
+  // back to a link, which is a data error rather than an editorial decision.
+  if (spec?.embeddable && v.embed_available !== false && provenanceEmbeds(v.provenance) && !ref) {
+    errs.push(where(`platform "${v.platform}" is embeddable but no ${spec.idLabel} could be resolved`));
   }
 
   // A claim of embeddability that cannot actually be honoured is the failure
-  // mode that produces an empty <iframe>, so it is an error, not a warning.
+  // mode that produces an empty player, so it is an error, not a warning.
   if (v.embed_available === true) {
-    if (!v.video_id) errs.push(where("embed_available is true but no video_id is present"));
-    if (v.platform && PLATFORMS[v.platform] && !PLATFORMS[v.platform].embeddable) {
+    if (!ref) errs.push(where("embed_available is true but no post reference is present"));
+    if (spec && !spec.embeddable) {
       errs.push(where(`embed_available is true but platform "${v.platform}" cannot be embedded`));
     }
     if (!provenanceEmbeds(v.provenance)) {
@@ -183,16 +224,16 @@ export function resolveVideo(record) {
   const platformLabel = spec ? spec.label : null;
   const archiveUrl = v.archive_url ?? null;
   const prov = PROVENANCE[v.provenance] ?? PROVENANCE.unverified;
+  const ref = embedRef(v);
 
   // Prefer the recorded canonical URL; fall back to one derived from the ID so
-  // a YouTube row need not repeat itself.
-  const watchUrl =
-    v.original_ad_url ?? (spec?.watchUrl && v.video_id ? spec.watchUrl(v.video_id) : null);
+  // a row need not repeat itself.
+  const watchUrl = v.original_ad_url ?? (spec?.watchUrl && ref ? spec.watchUrl(ref) : null);
 
   const base = {
     platform,
     platformLabel,
-    videoId: v.video_id ?? null,
+    videoId: ref,
     watchUrl,
     archiveUrl,
     provenance: v.provenance,
@@ -204,12 +245,20 @@ export function resolveVideo(record) {
 
   const embeddable =
     spec?.embeddable === true &&
-    !!v.video_id &&
+    !!ref &&
     provenanceEmbeds(v.provenance) &&
     v.embed_available !== false;
 
   if (embeddable) {
-    return { ...base, mode: "embed", embedUrl: spec.embedUrl(v.video_id) };
+    // `embedUrl` is only meaningful for platforms we frame ourselves. A widget
+    // platform carries its reference instead, and the page decides how to
+    // render it - so nothing can accidentally put an X status ID in an iframe.
+    return {
+      ...base,
+      mode: "embed",
+      embedKind: spec.embedKind,
+      embedUrl: spec.embedUrl ? spec.embedUrl(ref) : null,
+    };
   }
 
   if (watchUrl || archiveUrl) {
@@ -242,5 +291,16 @@ export function youTubeIdFromUrl(url) {
     url.match(/[?&]v=([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/) ||
     url.match(/youtu\.be\/([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/) ||
     url.match(/\/(?:embed|shorts|live)\/([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Parse an X status ID out of a post URL, on either the x.com or the legacy
+ * twitter.com host. Same contract as the YouTube parser: strictly a parser,
+ * silent on whether the post is the ad.
+ */
+export function xStatusIdFromUrl(url) {
+  if (typeof url !== "string") return null;
+  const m = url.match(/^https?:\/\/(?:www\.)?(?:x|twitter)\.com\/[^/]+\/status(?:es)?\/(\d{15,25})(?![\d])/i);
   return m ? m[1] : null;
 }

@@ -212,6 +212,20 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
   border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; }
 .embed-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 @supports not (aspect-ratio: 16 / 9) { .embed-frame { height: 0; padding-bottom: 56.25%; } }
+/* X sizes its own widget, so this only bounds and centres it. The pre-hydration
+   blockquote is styled as a readable quote so the degraded state looks
+   deliberate rather than broken. */
+.embed-x { max-width: 550px; position: relative; }
+/* Off-screen rather than hidden: the widget needs real layout to measure itself,
+   and display:none would keep it at zero height forever. */
+.embed-x-stage { position: absolute; left: -10000px; top: 0; width: 550px; }
+.embed-x-live { width: 100%; }
+.embed-x .twitter-tweet { margin: 0 !important; }
+.embed-x blockquote:not(.twitter-tweet-rendered) {
+  border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--sunk);
+  padding: 16px; font-size: 14px; color: var(--ink-soft);
+}
+.embed-x blockquote:not(.twitter-tweet-rendered) a { color: var(--accent); }
 .prov-line { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); max-width: 62ch; }
 .prov-line em { display: block; margin-top: 3px; font-style: normal; color: var(--muted); opacity: .92; }
 .prov-tag {
@@ -368,7 +382,8 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p>Each record's video area has three states, and never a fourth. Where the original ad has been located and its provenance established, it is framed in the page. Where the original exists but cannot be framed &mdash; a platform that does not play reliably inside another site, or a link nothing has yet tied to the ad &mdash; the card names the platform and links straight to it. Where the original has not been found, the card says so plainly rather than filling the space.</p>
     <p>The ledger will not frame a video on the strength of a plausible-looking link. Every located original carries a <b>provenance</b> grade saying how it was established: <b>Official account</b>, published on the sponsor's own campaign or committee account; <b>Archive</b>, captured in a political-ad archive or public ad library; <b>Reporting</b>, where credible coverage identifies that exact posting as the ad; <b>Human-reviewed</b>, where a person watched the footage against the cited reporting. A link that meets none of these is marked <b>Unverified</b> and is never framed.</p>
     <p>What the grades have in common is that each answers the question a player has to answer &mdash; is the thing on the other end of this link the advertisement? &mdash; from an independent direction. A news segment <em>about</em> an ad is never shown in place of the ad, and links to reporting are always labelled as reporting.</p>
-    <p>Only YouTube is framed in-page. X, Instagram and Facebook all publish embed widgets, but each shows a login wall or an empty box to a logged-out reader often enough that framing them would produce exactly the broken player this page is built to avoid. Ads on those platforms get a direct link instead, and every framed player carries the same link beneath it in case the frame fails.</p>
+    <p>YouTube and X ads play here. A YouTube ad is framed directly. An X post is asked for in the background and shown only once it has actually rendered &mdash; X answers the same request with a working post one minute and an empty shell the next, so until it returns something real the card keeps the <b>Watch original ad</b> button, and if a rendered post later collapses the button comes back. The page would rather hand you a button that works than a rectangle that might.</p>
+    <p>Instagram and Facebook are linked, not framed, and not by preference: Instagram refuses to be embedded at all (it answers with <span class="mono">x-frame-options: DENY</span>), and Facebook's video plugin returns a page that paints nothing for the reel URLs these ads live at. Every framed player also carries a direct link beneath it, so no reader depends on an embed working.</p>
 
     <h3 style="margin-top:22px">Jurisdiction</h3>
     <p>FCC jurisdiction covers broadcast, cable, satellite and radio. Ads that ran only on social platforms or web video fall outside it, and the ledger says so per record rather than sending you to the wrong agency.</p>
@@ -456,9 +471,31 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
   // stops a reader assuming the ad itself is missing when it is merely unframeable.
   const NO_EMBED_REASON = {
     unverified: "The original has been located, but nothing yet establishes that this posting is the ad itself rather than a report about it, so no player is framed.",
+    // Shown while an X post is still trying to render. It states the fallback
+    // truthfully, so a reader who never sees the upgrade is not told a player
+    // is coming that may never arrive.
+    "pending-x": "X does not always return an embeddable copy of a post. If it does, the ad appears here; either way this button opens the original.",
     "not-embeddable": "This platform does not play reliably inside another site, so the ad opens on the platform instead.",
     "embed-blocked": "Embedding is disabled on the original posting.",
   };
+
+  // The located-but-unframed card. Shared by records we never frame and by X
+  // records whose widget failed to render, so a reader always lands on the same
+  // familiar control rather than on an empty rectangle.
+  function watchCard(v, platform, reason) {
+    const href = v.watchUrl || v.archiveUrl;
+    const isArchive = !v.watchUrl && v.archiveUrl;
+    const extra = v.watchUrl && v.archiveUrl
+      ? `<p class="embed-note">Also archived: <a href="${esc(v.archiveUrl)}" target="_blank" rel="noopener noreferrer">second copy of the ad</a></p>`
+      : "";
+    return `<div class="embed-link">
+         <div class="embed-link-text">
+           <p class="watch-plat">${isArchive ? "Archived original" : "Original ad"} &middot; ${platform}</p>
+           <p>${esc(reason)}</p>
+         </div>
+         <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span class="sr-only"> on ${platform}</span><span aria-hidden="true"> &rarr;</span></a>
+       </div>${extra}${provLine(v)}`;
+  }
 
   // How the original was established. Shown on every located record so a reader
   // can weigh the sourcing of the footage the same way they weigh the sourcing
@@ -478,29 +515,39 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     const v = rec.video || { mode: "none" };
     const platform = v.platformLabel ? esc(v.platformLabel) : "the original platform";
 
-    if (v.mode === "embed" && v.embedUrl) {
-      // The fallback link sits directly under the player so a blocked or
-      // failed frame still leaves the reader one click from the ad.
-      return `<div class="embed-frame"><iframe src="${esc(v.embedUrl)}" title="Original ad, embedded from ${platform}: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-         <p class="embed-note">Original ad, playing from ${platform}.${v.watchUrl
-           ? ` If the player does not load, <a href="${esc(v.watchUrl)}" target="_blank" rel="noopener noreferrer">watch the original ad on ${platform}</a>.`
-           : ""}</p>${provLine(v)}`;
+    // The fallback link sits directly under every player, so a blocked or failed
+    // embed still leaves the reader one click from the ad.
+    const under = () =>
+      `<p class="embed-note">Original ad, playing from ${platform}.${v.watchUrl
+        ? ` If the player does not load, <a href="${esc(v.watchUrl)}" target="_blank" rel="noopener noreferrer">watch the original ad on ${platform}</a>.`
+        : ""}</p>${provLine(v)}`;
+
+    if (v.mode === "embed" && v.embedKind === "iframe" && v.embedUrl) {
+      return `<div class="embed-frame"><iframe src="${esc(v.embedUrl)}" title="Original ad, embedded from ${platform}: ${esc(rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>${under()}`;
     }
 
-    if (v.mode === "link") {
-      const href = v.watchUrl || v.archiveUrl;
-      const isArchive = !v.watchUrl && v.archiveUrl;
-      const extra = v.watchUrl && v.archiveUrl
-        ? `<p class="embed-note">Also archived: <a href="${esc(v.archiveUrl)}" target="_blank" rel="noopener noreferrer">second copy of the ad</a></p>`
-        : "";
-      return `<div class="embed-link">
-           <div class="embed-link-text">
-             <p class="watch-plat">${isArchive ? "Archived original" : "Original ad"} &middot; ${platform}</p>
-             <p>${esc(NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"])}</p>
+    // X renders through its own widget script, which upgrades this blockquote
+    // into the post - author, verification badge and video. Until (or unless)
+    // that script runs, the blockquote is still a readable quote with a link to
+    // the ad, so a script that never loads degrades to text rather than to an
+    // empty box.
+    // X is embedded optimistically but never *assumed*. The card a reader can
+    // already use is what renders; the post is built off-screen, and only a
+    // widget that has actually reached a sensible height is promoted into its
+    // place. Nothing here can leave an empty rectangle: if X is throttled,
+    // blocked, or simply slow, the working button is what stays on the page.
+    if (v.mode === "embed" && v.embedKind === "x-post" && v.videoId) {
+      return `<div class="embed-x" data-x-id="${esc(v.videoId)}">
+           <div class="embed-x-stage" aria-hidden="true">
+             <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none" data-lang="en">
+               <a href="${esc(v.watchUrl)}">Original ad posted on X${rec.sponsor ? ` by ${esc(rec.sponsor.name)}` : ""}</a>
+             </blockquote>
            </div>
-           <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span class="sr-only"> on ${platform}</span><span aria-hidden="true"> &rarr;</span></a>
-         </div>${extra}${provLine(v)}`;
+           <div class="embed-x-card">${watchCard(v, platform, NO_EMBED_REASON["pending-x"])}</div>
+         </div>`;
     }
+
+    if (v.mode === "link") return watchCard(v, platform, NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"]);
 
     const s = rec.sources[0];
     return `<div class="embed-missing">
@@ -628,6 +675,92 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
   const out = document.getElementById("records");
   const countEl = document.getElementById("count");
 
+  // X's widget script is fetched only if a rendered record actually needs it,
+  // and only once; every later filter change just re-runs widgets.load() over
+  // the new blockquotes. Nothing is requested from X on a page with no X ads.
+  //
+  // X's widget service is not dependable. Measured against these same postings,
+  // it renders a full player one minute and returns a collapsed 0-4px shell the
+  // next, from byte-identical markup - it appears to throttle. So the embed is
+  // attempted and then AUDITED: any host that has not reached a sane height by
+  // the deadline is replaced with the ordinary "watch original ad" card. The
+  // reader gets the ad in the page when X cooperates and a working button when
+  // it does not, and never the empty rectangle that sits between those.
+  const X_MIN_HEIGHT = 120;   // a real rendered post is 500px+; 0-4px means collapsed
+  const X_WATCH_MS = 12000;   // how long to keep offering X the chance to render
+  let xScript = null;
+
+  // Promote any staged post that has actually rendered. This is the only thing
+  // that ever swaps the card out, so a widget that never renders, renders late,
+  // or renders collapsed simply leaves the working button alone. Returns the
+  // number still waiting, so the caller knows when to stop watching.
+  // The card is hidden, never destroyed, and the decision is re-evaluated every
+  // time this runs. So a post that renders and then collapses - X does reload
+  // widgets - brings its button back rather than leaving a hole in the page.
+  function promoteXPosts() {
+    let pending = 0;
+    out.querySelectorAll(".embed-x").forEach((host) => {
+      const stage = host.querySelector(".embed-x-stage, .embed-x-live");
+      const card = host.querySelector(".embed-x-card");
+      if (!stage || !card) return;
+      const frame = stage.querySelector('iframe[id^="twitter-widget"]');
+      const rendered = !!frame && frame.getBoundingClientRect().height >= X_MIN_HEIGHT;
+      if (!rendered) pending++;
+      if (rendered === (host.dataset.promoted === "1")) return; // already in the right state
+      host.dataset.promoted = rendered ? "1" : "0";
+      card.hidden = rendered;
+      stage.classList.toggle("embed-x-stage", !rendered);
+      stage.classList.toggle("embed-x-live", rendered);
+      if (rendered) stage.removeAttribute("aria-hidden");
+      else stage.setAttribute("aria-hidden", "true");
+    });
+    return pending;
+  }
+
+  // Promotion is driven by layout, not by a clock: a ResizeObserver fires the
+  // moment X's widget takes up space, however long that takes, and keeps
+  // working in a background tab where interval timers are frozen outright.
+  function watchXStage(host) {
+    if (host.dataset.observed === "1" || typeof ResizeObserver === "undefined") return;
+    const stage = host.querySelector(".embed-x-stage");
+    if (!stage) return;
+    host.dataset.observed = "1";
+    const ro = new ResizeObserver(() => { if (promoteXPosts() === 0) ro.disconnect(); });
+    ro.observe(stage);
+  }
+
+  function hydrateXPosts() {
+    if (!out.querySelector(".embed-x")) return;
+    out.querySelectorAll(".embed-x").forEach(watchXStage);
+
+    const load = () => window.twttr?.widgets?.load(out);
+    // Poll instead of trusting a single deadline: a slow render should still be
+    // promoted, and a hidden tab throttles this loop to roughly once a minute -
+    // harmless, because the state it is upgrading from is already usable.
+    let waited = 0;
+    const tick = setInterval(() => {
+      waited += 1000;
+      load();
+      if (promoteXPosts() === 0 || waited >= X_WATCH_MS) clearInterval(tick);
+    }, 1000);
+    // A reader coming back to a throttled tab gets one more attempt right away.
+    document.addEventListener("visibilitychange", function once() {
+      if (document.visibilityState !== "visible") return;
+      document.removeEventListener("visibilitychange", once);
+      load();
+      setTimeout(promoteXPosts, 2500);
+    });
+
+    if (window.twttr && window.twttr.widgets) return void load();
+    if (xScript) return; // already in flight
+    xScript = document.createElement("script");
+    xScript.src = "https://platform.twitter.com/widgets.js";
+    xScript.async = true;
+    xScript.charset = "utf-8";
+    xScript.onload = load;
+    document.body.appendChild(xScript);
+  }
+
   function apply() {
     const q = ctl.q.value.trim().toLowerCase();
     const min = Number(ctl.score.value);
@@ -662,6 +795,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     } else {
       list.forEach((r) => out.append(render(r)));
     }
+    hydrateXPosts();
     const label = ctl.sort.selectedOptions[0].textContent.replace(/&ndash;|â€“/g, "-");
     countEl.textContent = `${list.length} of ${records.length} · by ${label.toLowerCase()} · updated ${updated}`;
   }

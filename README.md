@@ -96,8 +96,8 @@ input moved from 3 to 2 — which moved the computed score from 4 to 3.
    contact. Everything else falls back to an X *search* link on purpose — a wrong
    handle points complaints at an uninvolved person. Verify each one against the
    official account before launch.
-2. **Original video.** 15 of 17 records now carry a located original: 5 are framed
-   in-page as YouTube players and 10 link out to the sponsor's own post. Two are
+2. **Original video.** 15 of 17 records now carry a located original: 12 play in
+   the page (5 YouTube, 7 X) and 3 link out to the sponsor's own post. Two are
    still unlocated — the Cornyn "show dog" video and the Wall video — and render the
    explicit "not yet located" state rather than borrowing a reporter's repost. See
    **Original ad video** below for the data shape and the rule that gates embedding.
@@ -156,13 +156,39 @@ A news clip is never shown in place of an ad, and links to reporting are labelle
 reporting. A corpus test enforces this literally: no `original_ad_url` may point at a
 host that appears in that record's own source list.
 
-### Why only YouTube is framed
+### What is framed, and what is only linked
 
-X, Instagram and Facebook all publish embed widgets, but each renders a login wall or
-an empty box for a logged-out reader often enough that framing them would reintroduce
-the exact failure this module exists to prevent. Ads on those platforms get a
-prominent **Watch original ad** button instead, and every framed player carries the
-same direct link beneath it in case the frame fails.
+| Platform | Framed? | Why |
+|---|---|---|
+| YouTube | yes, `<iframe>` | `youtube-nocookie.com/embed/<id>` renders reliably |
+| X | yes, widget | `platform.twitter.com/widgets.js`, **rendered optimistically, shown on proof** |
+| Instagram | no | `/embed/` answers `x-frame-options: DENY` — it refuses framing outright |
+| Facebook | no | `plugins/video.php` 200s but paints an empty box for `/reel/` URLs |
+
+These were measured against the actual postings in the corpus, not assumed.
+
+**X is the awkward one.** Its widget service answers byte-identical markup with a
+fully rendered post one minute and a collapsed 0–4px shell the next — it appears
+to throttle. A page that simply dropped an X embed in would therefore show a
+blank rectangle where the ad should be, some of the time, for reasons nothing in
+this repo controls.
+
+So the page never renders the embed and repairs it afterwards. It renders the
+ordinary **Watch original ad** card, builds the post off-screen, and promotes it
+only once a `ResizeObserver` reports the widget has reached a sensible height.
+Promotion is reversible: the card is hidden rather than destroyed, and a post
+that renders and then collapses brings its button straight back. The upshot is
+that every failure mode — throttled, blocked, slow, collapsed after render, JS
+disabled — lands on a working button, and the empty rectangle is unreachable.
+
+The staged post is positioned off-screen rather than `display: none`, because a
+`display: none` element can never measure itself and would never be promoted.
+
+`promoteXPosts()` is extracted from the built page and executed against a DOM
+stub in `test/video.test.mjs`. Interval timers, rAF and ResizeObserver are all
+suspended in a backgrounded or headless tab, so that logic cannot be exercised
+by driving a real page — and the decision it makes is the one that must never be
+wrong.
 
 Two research notes worth keeping, both learned the hard way:
 
