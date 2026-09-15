@@ -139,11 +139,34 @@ h1 { font-size: clamp(42px, 7.5vw, 76px); font-weight: 900; letter-spacing: -.04
 
 /* ---- summary strip ---- */
 .summary { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-end; padding-block: 22px; border-bottom: 1px solid var(--rule); }
-.dist { display: flex; gap: 6px; align-items: flex-end; }
-.dist-col { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 52px; }
-.dist-bar { width: 100%; border-radius: 3px 3px 0 0; border: 1px solid rgba(16,21,28,.14); min-height: 4px; }
-.dist-n { font-size: 15px; font-weight: 600; }
-.dist-k { font-size: 10px; color: var(--muted); letter-spacing: .08em; text-align: center; }
+/* The submission form sits where the score distribution used to. It is the one
+   place on the page a reader can act rather than read, so it gets the width. */
+.submit-box { flex: 1 1 420px; max-width: 560px; min-width: 0; }
+.submit-lede { margin: 0 0 12px; font-size: 14px; color: var(--muted); max-width: 58ch; }
+.submit-row { margin-bottom: 10px; }
+.submit-row label {
+  display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.submit-row label .opt { text-transform: none; letter-spacing: 0; font-size: 11px; opacity: .8; }
+.submit-box input[type="url"], .submit-box textarea {
+  width: 100%; font: inherit; font-size: 15px; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--rule-strong); border-radius: 4px;
+  padding: 9px 11px;
+}
+.submit-box textarea { resize: vertical; line-height: 1.5; }
+.submit-box input[type="url"]:disabled, .submit-box textarea:disabled { opacity: .6; }
+.submit-box .invalid { border-color: var(--sev-5); }
+.submit-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px; }
+.submit-msg { margin: 0; font-size: 14px; color: var(--ink-soft); flex: 1 1 18ch; min-width: 0; }
+.submit-msg.err { color: var(--sev-5); }
+:root:not([data-theme="light"]) .submit-msg.err { color: var(--sev-2); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .submit-msg.err { color: var(--sev-5); } }
+/* Off-screen rather than display:none: a bot reading the DOM fills it either
+   way, but a screen reader skips it and nothing shifts the layout. */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.submit-done { font-size: 15px; color: var(--ink-soft); max-width: 58ch; margin: 0; }
+.submit-done b { color: var(--ink); }
 .stats { display: flex; gap: 26px; flex-wrap: wrap; }
 .stat-n { font-size: 26px; font-weight: 600; display: block; line-height: 1.1; }
 .stat-l { font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
@@ -335,11 +358,25 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p class="standfirst">A sourced record of political ads that used AI to depict real people &mdash; <b>what the AI did, what was real, what was invented,</b> and how honestly it was labeled. Every deception score is computed from a published rubric, so you can check the arithmetic and argue with the inputs.</p>
   </header>
 
-  <section class="summary" aria-label="Corpus summary">
-    <div>
-      <p class="stat-l" style="margin-bottom:8px">Records by deception score</p>
-      <div class="dist" id="dist"></div>
-    </div>
+  <section class="summary">
+    <form class="submit-box" id="submit-form" novalidate>
+      <p class="stat-l" style="margin-bottom:8px">Submit an ad for review</p>
+      <p class="submit-lede">Seen a political ad that used AI? Send the link. Every submission is read and held to the same sourcing bar as everything else here.</p>
+      <div class="submit-row">
+        <label for="s-url">Link to the ad</label>
+        <input type="url" id="s-url" name="url" required placeholder="https://&hellip;" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="submit-row">
+        <label for="s-notes">Anything we should know <span class="opt">(optional)</span></label>
+        <textarea id="s-notes" name="notes" rows="3" maxlength="2000" placeholder="Who it depicts, where you saw it, whether it was labelled&hellip;"></textarea>
+      </div>
+      <!-- Bots fill every field they find; people never see this one. -->
+      <div class="hp" aria-hidden="true"><label for="s-website">Website</label><input type="text" id="s-website" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="submit-actions">
+        <button type="submit" class="btn primary" id="s-send">Submit ad</button>
+        <p class="submit-msg" id="s-msg" role="status" aria-live="polite"></p>
+      </div>
+    </form>
     <div class="stats" id="stats"></div>
   </section>
 
@@ -353,10 +390,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <div class="field"><label for="f-score">Min score</label><select id="f-score">
       <option value="0">Any</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5 only</option>
     </select></div>
-    <div class="field"><label for="f-cand">Candidate</label><select id="f-cand"><option value="">Anyone</option></select></div>
-    <div class="field"><label for="f-party">Sponsor party</label><select id="f-party">
-      <option value="">Any</option><option value="R">Republican</option><option value="D">Democratic</option>
-    </select></div>
+    <div class="field"><label for="f-party">Sponsor party</label><select id="f-party"><option value="">Any</option></select></div>
     <div class="field"><label for="f-tech">Technique</label><select id="f-tech"><option value="">Any</option></select></div>
     <div class="field"><label for="f-state">State</label><select id="f-state"><option value="">Any</option></select></div>
     <div class="field"><label for="f-disc">Disclosure</label><select id="f-disc">
@@ -395,7 +429,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
 (function () {
   "use strict";
   const DATA = JSON.parse(document.getElementById("polislop-data").textContent);
-  const { records, dimensions, bands, maxRaw, updated } = DATA;
+  const { records, dimensions, bands, maxRaw, updated, states, parties } = DATA;
 
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -417,16 +451,6 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     : r.rubric.disclosure >= 2 ? "weak" : "clear";
 
   /* ---------- summary ---------- */
-  const dist = [1, 2, 3, 4, 5].map((s) => records.filter((r) => r.computed.score === s).length);
-  const peak = Math.max(1, ...dist);
-  document.getElementById("dist").append(el(dist.map((n, i) => `
-    <div class="dist-col">
-      <span class="dist-n">${n}</span>
-      <div class="dist-bar" style="height:${8 + Math.round((n / peak) * 54)}px;background:var(--sev-${i + 1})"
-           role="img" aria-label="${n} record${n === 1 ? "" : "s"} scored ${i + 1}"></div>
-      <span class="dist-k">${i + 1}<br>${esc(bands[i].label)}</span>
-    </div>`).join("")));
-
   const undisclosed = records.filter((r) => r.disclosure.present === false).length;
   const provisional = records.filter((r) => r.computed.provisional).length;
   document.getElementById("stats").append(el([
@@ -672,21 +696,100 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
       </article>`);
   }
 
+  /* ---------- submission form ---------- */
+  //
+  // Posts to /api/submit, which is where the routing lives. Nothing about the
+  // destination exists on this page: the browser only ever talks to polislop.
+  (function submitForm() {
+    const form = document.getElementById("submit-form");
+    if (!form) return;
+    const urlEl = document.getElementById("s-url");
+    const notesEl = document.getElementById("s-notes");
+    const hpEl = document.getElementById("s-website");
+    const btn = document.getElementById("s-send");
+    const msg = document.getElementById("s-msg");
+    let sending = false;
+
+    const say = (text, isError) => {
+      msg.textContent = text;
+      msg.classList.toggle("err", !!isError);
+    };
+
+    // Checked here only to save the reader a round trip; the Worker validates
+    // again and trusts none of this.
+    function badUrl(value) {
+      if (!value) return "Add a link to the ad.";
+      let u;
+      try { u = new URL(value); } catch { return "That does not look like a link."; }
+      if (u.protocol !== "https:" && u.protocol !== "http:") return "Links must start with http or https.";
+      if (!u.hostname.includes(".")) return "That does not look like a link.";
+      return null;
+    }
+
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      if (sending) return;
+
+      const url = urlEl.value.trim();
+      const problem = badUrl(url);
+      urlEl.classList.toggle("invalid", !!problem);
+      if (problem) { say(problem, true); urlEl.focus(); return; }
+
+      sending = true;
+      btn.disabled = urlEl.disabled = notesEl.disabled = true;
+      say("Sending\u2026", false);
+
+      try {
+        const res = await fetch("/api/submit", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ url, notes: notesEl.value.trim(), website: hpEl.value }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.ok) throw new Error(body.error || "failed");
+
+        // Replace the whole form: there is nothing useful left to do here, and
+        // leaving the fields live invites a second identical submission.
+        form.replaceChildren(el(`
+          <p class="stat-l" style="margin-bottom:8px">Thanks &mdash; submission received</p>
+          <p class="submit-done">Thanks for sending it in. Every submission gets read.
+             <b>If it is approved it will be posted in the next 1&ndash;2 days.</b></p>`));
+        form.querySelector(".submit-done")?.focus?.();
+      } catch {
+        sending = false;
+        btn.disabled = urlEl.disabled = notesEl.disabled = false;
+        say("That did not go through. Please try again in a moment.", true);
+      }
+    });
+
+    urlEl.addEventListener("input", () => {
+      urlEl.classList.remove("invalid");
+      if (msg.classList.contains("err")) say("", false);
+    });
+  })();
+
   /* ---------- filters ---------- */
   const allTech = [...new Set(records.flatMap((r) => r.techniques))].sort();
-  const allStates = [...new Set(records.map((r) => r.state))].sort();
-  // One entry per real person, A-Z by surname, labelled with their party.
-  const allPeople = [...new Map(records.flatMap((r) => r.people).map((p) => [p.name, p])).values()]
-    .sort((a, b) => a.sortName.localeCompare(b.sortName));
+
+  // States and parties come from the published taxonomy, not from the records.
+  // A list built from the corpus can only offer places an ad has already been
+  // logged, which leaves a reader unable to tell "nothing recorded here" apart
+  // from "not covered here". Every state is offered and an empty result is a
+  // real answer; the count beside each says which are populated.
+  const tally = (key) => records.reduce((a, r) => ((a[key(r)] = (a[key(r)] || 0) + 1), a), {});
+  const stateCounts = tally((r) => r.state);
+  const partyCounts = tally((r) => r.sponsor.party);
+  const withCount = (n) => (n ? ` (${n})` : "");
 
   document.getElementById("f-tech").append(el(allTech.map((t) => `<option value="${esc(t)}">${esc(techLabel(t))}</option>`).join("")));
-  document.getElementById("f-state").append(el(allStates.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join("")));
-  document.getElementById("f-cand").append(el(allPeople.map((p) =>
-    `<option value="${esc(p.name)}">${esc(p.sortName)}${p.party && p.party !== "\u2014" ? " (" + esc(p.party) + ")" : ""}</option>`).join("")));
+  document.getElementById("f-state").append(el(states.map((st) =>
+    `<option value="${esc(st.code)}">${esc(st.name)}${withCount(stateCounts[st.code])}</option>`).join("")));
+  document.getElementById("f-party").append(el(parties.map((pt) =>
+    `<option value="${esc(pt.code)}">${esc(pt.name)}${withCount(partyCounts[pt.code])}</option>`).join("")));
 
   const ctl = {
     q: document.getElementById("q"), score: document.getElementById("f-score"),
-    cand: document.getElementById("f-cand"), party: document.getElementById("f-party"),
+    party: document.getElementById("f-party"),
     tech: document.getElementById("f-tech"), state: document.getElementById("f-state"),
     disc: document.getElementById("f-disc"), sort: document.getElementById("f-sort"),
   };
@@ -816,7 +919,6 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     const exact = ctl.score.value === "5";
     let list = records.filter((r) => {
       if (exact ? r.computed.score !== 5 : r.computed.score < min) return false;
-      if (ctl.cand.value && !r.people.some((p) => p.name === ctl.cand.value)) return false;
       if (ctl.party.value && r.sponsor.party !== ctl.party.value) return false;
       if (ctl.tech.value && !r.techniques.includes(ctl.tech.value)) return false;
       if (ctl.state.value && r.state !== ctl.state.value) return false;

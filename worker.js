@@ -3,6 +3,7 @@
 //   GET  /api/ads          published corpus, scores computed server-side
 //   GET  /api/rubric       the scoring rubric, for anyone auditing a score
 //   GET  /api/oembed       Meta embed markup for a public Instagram/Facebook URL
+//   POST /api/submit       reader-submitted ad, forwarded to the review inbox
 //   POST /api/triage       draft rubric sub-scores for a candidate ad
 //
 // /api/triage is a REVIEWER AID, not a publisher. It returns a proposal that a
@@ -154,6 +155,100 @@ async function oembedRoute(request, env, ctx) {
   return res;
 }
 
+/**
+ * Reader submissions.
+ *
+ * The review inbox is a secret (SUBMISSIONS_TO), never a constant in this file.
+ * This repository is public, and a recipient address committed here would be
+ * scraped off GitHub within days. It is also never sent to the browser: the
+ * page posts to polislop and gets back {ok:true}, and no response on any path -
+ * success, validation failure or misconfiguration - names where it went.
+ *
+ * Configure with:
+ *   wrangler secret put SUBMISSIONS_TO      the review inbox
+ *   wrangler secret put SUBMISSIONS_FROM    a verified sender on your domain
+ *   wrangler secret put RESEND_API_KEY      transactional email key
+ */
+const SUBMIT_LIMITS = { url: 2000, notes: 2000, perIpPerHour: 5 };
+
+const submitError = (status) => json({ ok: false, error: "Could not accept that submission." }, status);
+
+// A public form that emails someone is an abuse vector, so submissions are
+// rate-limited per IP. The Cache API is per-colocation rather than global,
+// which makes this a speed bump rather than a wall - enough to stop a naive
+// script without adding a KV round trip to every submission.
+async function overSubmitLimit(ip) {
+  if (!ip) return false;
+  const key = new Request(`https://polislop.org/__submit-rate/${encodeURIComponent(ip)}`);
+  const cache = caches.default;
+  const hit = await cache.match(key);
+  const count = hit ? Number(await hit.text()) || 0 : 0;
+  if (count >= SUBMIT_LIMITS.perIpPerHour) return true;
+  await cache.put(key, new Response(String(count + 1), {
+    headers: { "cache-control": "max-age=3600", "content-type": "text/plain" },
+  }));
+  return false;
+}
+
+async function submit(request, env) {
+  let body;
+  try { body = await request.json(); }
+  catch { return submitError(400); }
+
+  const url = String(body?.url ?? "").trim();
+  const notes = String(body?.notes ?? "").trim();
+  const honeypot = String(body?.website ?? "").trim();
+
+  // A filled honeypot is a bot. It gets the same {ok:true} a person gets, so
+  // the script has nothing to learn and nothing to retry against.
+  if (honeypot) return json({ ok: true });
+
+  if (!url || url.length > SUBMIT_LIMITS.url || notes.length > SUBMIT_LIMITS.notes) return submitError(400);
+  let parsed;
+  try { parsed = new URL(url); } catch { return submitError(400); }
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return submitError(400);
+  if (!parsed.hostname.includes(".")) return submitError(400);
+
+  const ip = request.headers.get("cf-connecting-ip");
+  if (await overSubmitLimit(ip)) return submitError(429);
+
+  if (!env.SUBMISSIONS_TO || !env.SUBMISSIONS_FROM || !env.RESEND_API_KEY) {
+    // Deliberately not "ok": telling a reader their ad was received when it was
+    // not is the one outcome worse than an error.
+    return submitError(503);
+  }
+
+  const cf = request.cf ?? {};
+  const lines = [
+    `Ad URL: ${url}`,
+    "",
+    notes ? `Notes from submitter:\n${notes}` : "Notes from submitter: (none)",
+    "",
+    "---",
+    `Received: ${new Date().toISOString()}`,
+    `Origin: ${[cf.city, cf.region, cf.country].filter(Boolean).join(", ") || "unknown"}`,
+    `User agent: ${request.headers.get("user-agent") ?? "unknown"}`,
+  ];
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        from: env.SUBMISSIONS_FROM,
+        to: [env.SUBMISSIONS_TO],
+        subject: `polislop submission: ${parsed.hostname}`,
+        text: lines.join("\n"),
+      }),
+    });
+    if (!res.ok) return submitError(502);
+  } catch {
+    return submitError(502);
+  }
+
+  return json({ ok: true });
+}
+
 export default {
   async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
@@ -169,8 +264,9 @@ export default {
       return json({ dimensions: DIMENSIONS, bands: BANDS });
     }
     if (request.method === "GET" && pathname === "/api/oembed") return oembedRoute(request, env, ctx);
+    if (request.method === "POST" && pathname === "/api/submit") return submit(request, env);
     if (request.method === "POST" && pathname === "/api/triage") return triage(request, env);
 
-    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "GET /api/oembed", "POST /api/triage"] }, 404);
+    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "GET /api/oembed", "POST /api/submit", "POST /api/triage"] }, 404);
   },
 };

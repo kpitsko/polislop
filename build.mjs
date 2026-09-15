@@ -1,9 +1,10 @@
 // Builds the self-contained page. Scores are computed here from each record's
 // rubric block so the published HTML can never drift from src/scoring.js.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from "node:fs";
-import { scoreRecord, fccApplies, primarySubject, peopleIn, DIMENSIONS, BANDS, MAX_RAW } from "./src/scoring.js";
+import { scoreRecord, fccApplies, primarySubject, DIMENSIONS, BANDS, MAX_RAW } from "./src/scoring.js";
 import { resolveVideo, validateVideo } from "./src/video.js";
 import { sanitizeEmbedHtml } from "./src/oembed.js";
+import { US_STATES, PARTIES, unknownTaxonomy } from "./src/taxonomy.js";
 
 const here = (p) => new URL(p, import.meta.url);
 const corpus = JSON.parse(readFileSync(here("data/ads.json"), "utf8"));
@@ -36,15 +37,23 @@ const records = corpus.records.map((rec) => ({
   computed: scoreRecord(rec),
   fccApplies: fccApplies(rec),
   primary: primarySubject(rec),
-  people: peopleIn(rec),
   // Resolved at build time so the page never re-derives embed policy in the
   // browser - one decision, made once, from the rubric in src/video.js.
   video: resolveVideo(rec, { oembed }),
 }));
 
+// A record whose state or party is not in the published taxonomy would be
+// invisible to the filter that claims to cover it, so this stops the build.
+const taxonomyErrors = unknownTaxonomy(corpus.records);
+if (taxonomyErrors.length) {
+  throw new Error(`records use values missing from src/taxonomy.js:\n  ${taxonomyErrors.join("\n  ")}`);
+}
+
 const payload = {
   updated: corpus.updated,
   records,
+  states: US_STATES,
+  parties: PARTIES,
   dimensions: DIMENSIONS,
   bands: BANDS.map(({ score, label, meaning }) => ({ score, label, meaning })),
   maxRaw: Number(MAX_RAW.toFixed(2)),

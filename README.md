@@ -243,6 +243,49 @@ Two research notes worth keeping, both learned the hard way:
 - The Texas Tribune's own Google Drive copies of several ads are permission-gated
   (HTTP 401), so they are unusable as reader-facing links despite being cited.
 
+## Filters
+
+`src/taxonomy.js` publishes the state and party vocabularies, and `build.mjs`
+refuses to build if a record uses a value missing from either — such a record
+would be unreachable through the control that claims to cover it.
+
+Both lists are deliberately **fixed, not derived from the corpus**. A state list
+built from the records can only offer the handful of states an ad has already
+been logged in, which leaves a reader unable to tell "no ads recorded in my
+state" apart from "this site does not cover my state". Every state, DC and the
+territories are offered; an empty result is a real answer. The count beside each
+option says which are populated. Parties work the same way: a minor-party sponsor
+is exactly the kind of record this ledger wants and does not yet have, so the
+filter must not imply the category is impossible.
+
+There is no candidate filter. Free-text search already covers depicted people,
+and the payload no longer ships a per-record `people` array (`peopleIn()` is
+still exported for API consumers).
+
+## Reader submissions
+
+`POST /api/submit` takes `{url, notes, website}` and forwards it to a review
+inbox. The page posts to polislop and gets back `{ok:true}` — **no response on
+any path names the destination**, and the address is not in this repository.
+
+Configure before it will deliver:
+
+```
+wrangler secret put SUBMISSIONS_TO      # the review inbox
+wrangler secret put SUBMISSIONS_FROM    # a verified sender on your domain
+wrangler secret put RESEND_API_KEY      # transactional email key
+```
+
+Until all three are set the endpoint answers `503` and the form tells the reader
+it did not go through. That is deliberate: telling someone their ad was received
+when it was not is worse than an error, because they will not send it again.
+
+Abuse controls, in the order they run: a honeypot field (a filled one gets the
+same `{ok:true}` a person gets, so a bot learns nothing), URL parsing and scheme
+checks, length caps, then a per-IP hourly cap. The cap uses the Cache API, which
+is per-colocation rather than global — a speed bump against a naive script, not a
+wall, and it costs no KV round trip on the happy path.
+
 ## Brand
 
 The wordmark and mascot are the supplied artwork; everything in `public/brand/` and
