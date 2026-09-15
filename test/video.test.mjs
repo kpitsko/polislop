@@ -455,3 +455,95 @@ test("promote: counts every unrendered host so the watcher knows to keep waiting
   const hosts = [makeHost({ frameHeight: 600 }), makeHost({ frameHeight: 0 }), makeHost({ frameHeight: null })];
   assert.equal(loadPromote()(hosts), 2);
 });
+
+// ------------------------------------------------------------------ coverage
+
+// News coverage of an ad is shown on records where the ad itself is not framed.
+// The ledger's oldest rule still holds underneath it: a report about an ad is
+// not the ad. These tests pin the separation rather than the feature.
+import { resolveCoverage, validateCoverage } from "../src/video.js";
+
+const cov = (coverage, id = "c") => ({ id, coverage });
+const GOOD = {
+  platform: "youtube", video_id: "NMxtzrah4No", outlet: "KMOV St. Louis",
+  title: "AI-generated political ad raises deepfake questions",
+  url: "https://www.youtube.com/watch?v=NMxtzrah4No",
+};
+
+test("coverage: resolves to a player carrying the outlet that made it", () => {
+  const r = resolveCoverage(cov(GOOD));
+  assert.equal(r.embedUrl, "https://www.youtube-nocookie.com/embed/NMxtzrah4No");
+  assert.equal(r.outlet, "KMOV St. Louis");
+  assert.ok(r.watchUrl, "coverage needs a link out as well as a player");
+});
+
+test("coverage: a record without one resolves to nothing", () => {
+  assert.equal(resolveCoverage({ id: "x" }), null);
+  assert.equal(resolveCoverage({ id: "x", coverage: null }), null);
+});
+
+test("coverage: only embeddable platforms produce a player", () => {
+  assert.equal(resolveCoverage(cov({ ...GOOD, platform: "facebook" })), null);
+  assert.equal(resolveCoverage(cov({ ...GOOD, platform: "meta-ad-library" })), null);
+});
+
+test("validate: coverage without an outlet is rejected", () => {
+  // The outlet is how a reader tells a newsroom segment from the ad. Without
+  // it the clip cannot be honestly labelled, so it must not ship.
+  const errs = validateCoverage(cov({ ...GOOD, outlet: undefined }));
+  assert.ok(errs.some((e) => e.includes("no outlet")), errs.join("; "));
+});
+
+test("validate: coverage with a malformed reference is rejected", () => {
+  assert.ok(validateCoverage(cov({ ...GOOD, video_id: "nope", url: undefined }))
+    .some((e) => e.includes("11-character")));
+  assert.ok(validateCoverage(cov({ ...GOOD, platform: "tiktok" }))
+    .some((e) => e.includes("cannot be embedded")));
+  assert.ok(validateCoverage(cov({ ...GOOD, url: "http://insecure.example" }))
+    .some((e) => e.includes("https")));
+});
+
+test("corpus: every coverage block is valid and names its outlet", () => {
+  const errs = corpus.records.flatMap((r) => validateCoverage(r));
+  assert.deepEqual(errs, [], errs.join("\n"));
+  for (const r of corpus.records.filter((x) => x.coverage)) {
+    assert.ok(r.coverage.outlet && r.coverage.title, `${r.id}: coverage must name outlet and title`);
+  }
+});
+
+test("corpus: coverage never sits on a record whose own ad is already framed", () => {
+  // Two players on one card, one of them a news report, is exactly the
+  // confusion this whole separation exists to prevent.
+  for (const r of corpus.records) {
+    if (!r.coverage) continue;
+    assert.notEqual(resolveVideo(r).mode, "embed",
+      `${r.id} frames its own ad and should not also carry a news clip`);
+  }
+});
+
+test("corpus: a coverage clip is never recorded as the ad's own URL", () => {
+  for (const r of corpus.records) {
+    if (!r.coverage || !r.video) continue;
+    const ad = [r.video.original_ad_url, r.video.archive_url].filter(Boolean);
+    assert.ok(!ad.includes(r.coverage.url), `${r.id}: a news clip is standing in as the ad`);
+  }
+});
+
+test("built page: the coverage player is labelled as reporting, three times over", () => {
+  // Heading, byline and the line under the player each say it independently, so
+  // a reader arriving mid-card cannot mistake the report for the advertisement.
+  assert.ok(built.includes("function coverageArea(rec)"), "the coverage renderer is gone");
+  assert.ok(built.includes('<span class="coverage-tag">News report</span>'), "the coverage label is gone");
+  assert.ok(built.includes("&mdash; not the ad itself"), "the heading no longer disclaims");
+  assert.ok(built.includes("reporting on the ad, not the advertisement"),
+    "the line under the coverage player no longer disclaims");
+  assert.ok(built.includes('title="News report about this ad, from ${outlet}'),
+    "the coverage iframe has no accessible name identifying it as reporting");
+});
+
+test("built page: coverage is suppressed wherever the ad itself is framed", () => {
+  assert.ok(built.includes('if (rec.video && rec.video.mode === "embed") return "";'),
+    "coverage must never render alongside a player of the ad");
+  assert.ok(built.includes("${embed}${coverageArea(rec)}"),
+    "coverage must render after the record's own media state, not instead of it");
+});

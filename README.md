@@ -231,6 +231,36 @@ suspended in a backgrounded or headless tab, so that logic cannot be exercised b
 driving a real page — and the decision it makes is the one that must never be
 wrong.
 
+### News coverage of an ad
+
+Where the ad itself is not framed, a record may carry a `coverage` block: a news
+segment **about** the ad, embedded under its own heading.
+
+```json
+"coverage": {
+  "platform": "youtube",
+  "video_id": "...",
+  "outlet": "KMOV St. Louis",
+  "title": "...",
+  "url": "https://www.youtube.com/watch?v=..."
+}
+```
+
+`resolveCoverage()` is deliberately separate from `resolveVideo()`, and a
+coverage clip can never occupy the slot an original would:
+
+- it renders **only** where the record does not frame the ad (tested);
+- it never appears as the record's `original_ad_url` or `archive_url` (tested);
+- the build refuses a block with no `outlet`, because the outlet is how a reader
+  tells a newsroom segment from the advertisement;
+- the record's own status — "original ad not yet located" — stays on the card
+  above it rather than being replaced.
+
+It is labelled as reporting three times over: in the heading, in the outlet
+credit, and in the line beneath the player. The ledger's oldest rule is that a
+report about an ad is not the ad; showing one is not a softening of that rule
+so long as nobody can mistake which they are watching.
+
 ### Security headers
 
 `src/headers` is copied to `public/_headers` at build time. It has to live with

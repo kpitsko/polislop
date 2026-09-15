@@ -2,7 +2,7 @@
 // rubric block so the published HTML can never drift from src/scoring.js.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from "node:fs";
 import { scoreRecord, fccApplies, primarySubject, DIMENSIONS, BANDS, MAX_RAW } from "./src/scoring.js";
-import { resolveVideo, validateVideo } from "./src/video.js";
+import { resolveVideo, validateVideo, resolveCoverage, validateCoverage } from "./src/video.js";
 import { sanitizeEmbedHtml } from "./src/oembed.js";
 import { US_STATES, PARTIES, unknownTaxonomy } from "./src/taxonomy.js";
 
@@ -27,7 +27,7 @@ for (const [url, entry] of Object.entries(oembed)) {
 
 // A malformed video block is the one defect that reaches readers as a broken
 // player, so it stops the build rather than shipping.
-const videoErrors = corpus.records.flatMap((rec) => validateVideo(rec));
+const videoErrors = corpus.records.flatMap((rec) => [...validateVideo(rec), ...validateCoverage(rec)]);
 if (videoErrors.length) {
   throw new Error(`invalid video blocks:\n  ${videoErrors.join("\n  ")}`);
 }
@@ -40,6 +40,9 @@ const records = corpus.records.map((rec) => ({
   // Resolved at build time so the page never re-derives embed policy in the
   // browser - one decision, made once, from the rubric in src/video.js.
   video: resolveVideo(rec, { oembed }),
+  // Reporting about the ad, shown only where no player of the ad itself is
+  // framed. Resolved separately so it can never stand in for an original.
+  coverage: resolveCoverage(rec),
 }));
 
 // A record whose state or party is not in the published taxonomy would be
@@ -78,4 +81,5 @@ const tally = records.reduce((a, r) => ((a[r.computed.score] = (a[r.computed.sco
 const video = records.reduce((a, r) => ((a[r.video.mode] = (a[r.video.mode] || 0) + 1), a), {});
 console.log(`built public/index.html — ${records.length} records, score distribution ${JSON.stringify(tally)}`);
 const kinds = records.reduce((a, r) => (r.video.mode === "embed" ? ((a[r.video.embedKind] = (a[r.video.embedKind] || 0) + 1), a) : a), {});
-console.log(`  video: ${video.embed || 0} embedded (${Object.entries(kinds).map(([k, n]) => `${n} ${k}`).join(", ") || "none"}), ${video.link || 0} linked, ${video.none || 0} original not located`);
+const withCoverage = records.filter((r) => r.coverage && r.video.mode !== "embed").length;
+console.log(`  video: ${video.embed || 0} embedded (${Object.entries(kinds).map(([k, n]) => `${n} ${k}`).join(", ") || "none"}), ${video.link || 0} linked, ${video.none || 0} original not located; ${withCoverage} carry a news clip`);

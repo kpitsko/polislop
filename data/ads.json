@@ -1632,7 +1632,15 @@
       ],
       "embed": null,
       "video": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "coverage": {
+        "platform": "youtube",
+        "video_id": "idS7xEZ6VBs",
+        "outlet": "WESH 2 News",
+        "title": "DeSantis PAC uses AI-generated Trump voice in campaign ad",
+        "url": "https://www.youtube.com/watch?v=idS7xEZ6VBs",
+        "note": "The Orlando NBC affiliate plays the cloned-voice audio while reporting on it."
+      }
     },
     {
       "id": "cuomo-criminals-mamdani-2025",
@@ -2095,7 +2103,15 @@
       ],
       "embed": null,
       "video": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "coverage": {
+        "platform": "youtube",
+        "video_id": "ggRObm5MrMY",
+        "outlet": "The Hill (Rising)",
+        "title": "James Talarico AI-generated ad depicts him in DRESS, SINGING about transgender children",
+        "url": "https://www.youtube.com/watch?v=ggRObm5MrMY",
+        "note": "A commentary segment on The Hill's Rising, which plays the ad before discussing it."
+      }
     },
     {
       "id": "magaky-massie-throuple-2026",
@@ -2483,7 +2499,15 @@
       ],
       "embed": null,
       "video": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "coverage": {
+        "platform": "youtube",
+        "video_id": "mV0sPjkPxRM",
+        "outlet": "12 News Arizona",
+        "title": "Democratic state lawmaker threatening to file a lawsuit over AI-generated image",
+        "url": "https://www.youtube.com/watch?v=mV0sPjkPxRM",
+        "note": "12 News shows the disputed image while reporting on Austin's threatened suit."
+      }
     },
     {
       "id": "burt-jones-jackson-everywhere-2026",
@@ -3125,7 +3149,15 @@
       ],
       "embed": null,
       "video": null,
-      "reviewStatus": "corroborated"
+      "reviewStatus": "corroborated",
+      "coverage": {
+        "platform": "youtube",
+        "video_id": "NMxtzrah4No",
+        "outlet": "KMOV St. Louis",
+        "title": "AI-generated political ad in St. Charles County raises deepfake questions ahead of primary election",
+        "url": "https://www.youtube.com/watch?v=NMxtzrah4No",
+        "note": "KMOV shows portions of the ad while reporting on it."
+      }
     },
     {
       "id": "perry-johnson-golf-course-2026",

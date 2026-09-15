@@ -249,6 +249,17 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
    embed overflows the card on a phone. */
 .embed-stage-live .fb-post span, .embed-stage-live .fb-video span,
 .embed-stage-live .fb-post iframe, .embed-stage-live .fb-video iframe { max-width: 100% !important; }
+/* Coverage is styled to read as a different KIND of thing from the ad: indented
+   behind a rule, under its own label, so the eye does not group it with the
+   player above it. */
+.coverage { margin-top: 16px; border-left: 3px solid var(--rule-strong); padding-left: 13px; }
+.coverage-head { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.coverage-head b { color: var(--ink-soft); font-weight: 600; }
+.coverage-tag {
+  font-family: Poppins, "Helvetica Neue", Arial, sans-serif; font-size: 10px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-soft); border: 1px solid var(--rule-strong);
+  border-radius: 2px; padding: 1px 5px; margin-right: 6px; white-space: nowrap;
+}
 .prov-line { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); max-width: 62ch; }
 .prov-line em { display: block; margin-top: 3px; font-style: normal; color: var(--muted); opacity: .92; }
 .prov-tag {
@@ -419,6 +430,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p>Ads play here from four platforms, each by that platform's own supported route: YouTube in a frame, X through its widget script, and Instagram and Facebook through <b>Meta's oEmbed API</b> &mdash; polislop asks Meta for the public post's embed markup and lets Meta's own script render it. Framing a Meta URL directly does not work, but that is a fact about iframes, not about Meta content: public Instagram and Facebook posts and reels are embeddable, and the ones here are embedded.</p>
     <p>No provider is taken on trust, because none of them is reliable in the same way. X answers identical markup with a working post one minute and an empty shell the next. Meta's <span class="mono">oembed_post</span> and <span class="mono">oembed_video</span> endpoints return success for any URL without checking whether the post exists. So every one of these starts as the <b>Watch original ad</b> button, builds the player out of sight, and swaps the two only once the provider has actually rendered something. If a rendered post later collapses, the button comes back. The page would rather hand you a button that works than a rectangle that might.</p>
     <p>One Meta link genuinely cannot be embedded: an <b>Ad Library</b> permalink is a viewer for an ad rather than a public post, and no oEmbed endpoint serves one. Those are linked, and so is anything Meta declines. A record only says the original was <em>not located</em> when no copy of the ad has been found at all &mdash; never merely because a platform refused to embed it.</p>
+    <p>Where the ad itself is not framed, a record may carry a <b>news report about it</b> instead, played under its own heading and byline. That is the one place this page shows video that is not the advertisement, and it is labelled as such three times over &mdash; in the heading, in the outlet credit, and in the line beneath the player &mdash; because a reader who arrives mid-card must never mistake a newsroom&rsquo;s segment for the ad it is covering. A report never replaces the record&rsquo;s own status: &ldquo;original ad not yet located&rdquo; stays on the card above it, and a record that frames the real ad is never given one.</p>
     <h3 style="margin-top:22px">Jurisdiction</h3>
     <p>FCC jurisdiction covers broadcast, cable, satellite and radio. Ads that ran only on social platforms or web video fall outside it, and the ledger says so per record rather than sending you to the wrong agency.</p>
   </footer>
@@ -591,12 +603,33 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
 
     if (v.mode === "link") return watchCard(v, platform, NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"]);
 
-    const s = rec.sources[0];
     return `<div class="embed-missing">
          <p><b>Original ad not yet located.</b> Nothing is framed here rather than
             showing footage we cannot confirm is the ad. The link is reporting
             <em>about</em> the ad &mdash; not the ad itself.</p>
-         <a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">Reporting: ${esc(s.outlet)}</a>
+         <a class="btn" href="${esc(rec.sources[0].url)}" target="_blank" rel="noopener noreferrer">Reporting: ${esc(rec.sources[0].outlet)}</a>
+       </div>`;
+  }
+
+  // A news segment ABOUT the ad. Rendered only where no player of the ad itself
+  // is framed, and never in place of one.
+  //
+  // The heading, the outlet byline and the sentence under the player all say the
+  // same thing in different words, deliberately: a reader who lands mid-page and
+  // sees a video playing under a record must not be able to mistake a newsroom's
+  // report for the advertisement it is reporting on. The record's own status -
+  // "original not yet located" - stays above it rather than being replaced.
+  function coverageArea(rec) {
+    const cv = rec.coverage;
+    if (!cv || !cv.embedUrl) return "";
+    if (rec.video && rec.video.mode === "embed") return "";
+    const outlet = esc(cv.outlet || "a news outlet");
+    return `<div class="coverage">
+         <p class="coverage-head"><span class="coverage-tag">News report</span> <b>${outlet}</b> &mdash; not the ad itself</p>
+         <div class="embed-frame"><iframe src="${esc(cv.embedUrl)}" title="News report about this ad, from ${outlet}: ${esc(cv.title || rec.headline)}" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+         <p class="embed-note">This is ${outlet}&rsquo;s reporting on the ad, not the advertisement. ${cv.watchUrl
+           ? `<a href="${esc(cv.watchUrl)}" target="_blank" rel="noopener noreferrer">Open the report on ${esc(cv.platformLabel || "YouTube")}</a>.`
+           : ""}</p>
        </div>`;
   }
 
@@ -657,7 +690,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
             <span class="chip disc-none">${esc(rec.state)} &middot; ${esc(rec.level)}</span>
           </div>
 
-          <div class="embed">${embed}</div>
+          <div class="embed">${embed}${coverageArea(rec)}</div>
 
           <div class="panel" style="margin-top:20px">
             <h3>How AI was used</h3>

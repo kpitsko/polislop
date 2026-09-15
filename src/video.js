@@ -314,6 +314,62 @@ export function resolveVideo(record, opts = {}) {
 }
 
 /**
+ * A news segment ABOUT an ad, for records where the ad itself has not been
+ * located or cannot be framed.
+ *
+ * This is deliberately a SEPARATE resolution from resolveVideo(), and it can
+ * never occupy the player slot an original would. The ledger's oldest rule is
+ * that a report about an ad is not the ad; coverage does not soften that rule,
+ * it is displayed under its own heading, named by outlet, and always alongside
+ * the record's actual status - "original not yet located" stays on the card.
+ * The reader is never left to infer which one they are watching.
+ */
+export function resolveCoverage(record) {
+  const cv = record?.coverage;
+  if (!cv) return null;
+  const spec = cv.platform ? PLATFORMS[cv.platform] : null;
+  if (!spec?.embeddable || !spec.embedUrl) return null;
+  const ref = cv.video_id ?? (spec.idFromUrl && cv.url ? spec.idFromUrl(cv.url) : null);
+  if (!ref) return null;
+  return {
+    platform: cv.platform,
+    platformLabel: spec.label,
+    videoId: ref,
+    embedUrl: spec.embedUrl(ref),
+    watchUrl: cv.url ?? spec.watchUrl(ref),
+    outlet: cv.outlet ?? null,
+    title: cv.title ?? null,
+    note: cv.note ?? null,
+  };
+}
+
+/** Structural check on a record's coverage block. Empty means usable. */
+export function validateCoverage(record) {
+  const cv = record?.coverage;
+  const id = record?.id ?? "(unknown record)";
+  if (!cv) return [];
+  const errs = [];
+  const where = (m) => `${id}: coverage ${m}`;
+  const spec = cv.platform ? PLATFORMS[cv.platform] : null;
+
+  if (!cv.platform) errs.push(where("has no platform"));
+  else if (!spec) errs.push(where(`names unknown platform "${cv.platform}"`));
+  else if (!spec.embeddable) errs.push(where(`platform "${cv.platform}" cannot be embedded`));
+
+  // The outlet is not decoration: it is how a reader tells a newsroom segment
+  // from the advertisement, so a coverage block without one is not shippable.
+  if (!cv.outlet) errs.push(where("has no outlet, so the clip could not be labelled as reporting"));
+  if (!cv.title) errs.push(where("has no title"));
+  if (cv.url != null && !isHttps(cv.url)) errs.push(where("url must be an https URL"));
+
+  const ref = cv.video_id ?? (spec?.idFromUrl && cv.url ? spec.idFromUrl(cv.url) : null);
+  if (!ref) errs.push(where("has no resolvable video reference"));
+  else if (spec?.idPattern && !spec.idPattern.test(ref)) errs.push(where(`"${ref}" is not a ${spec.idLabel}`));
+
+  return errs;
+}
+
+/**
  * Parse a YouTube video ID out of a watch/share/embed URL.
  *
  * Strictly a parser. It says nothing about whether the video is the original
