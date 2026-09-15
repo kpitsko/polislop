@@ -153,9 +153,9 @@ test("worker: an unconfigured inbox reports failure rather than a false thanks",
   // Telling a reader their ad was received when it was not is worse than an
   // error, because they will not send it again.
   const body = worker.slice(worker.indexOf("async function submit("));
-  const cfg = body.indexOf("if (!env.SUBMISSIONS_TO");
+  const cfg = body.indexOf("const missing = SUBMIT_SECRETS.filter");
   assert.ok(cfg > -1, "the configuration check is gone");
-  assert.ok(/return submitError\(503\);/.test(body.slice(cfg, cfg + 400)),
+  assert.ok(/return submitError\(503\);/.test(body.slice(cfg, cfg + 800)),
     "an unconfigured Worker must not answer ok");
 });
 
@@ -172,4 +172,36 @@ test("built page: the CSP still allows the form to reach its own API", () => {
     .match(/Content-Security-Policy: ([^\n]+)/)[1];
   const connect = /connect-src([^;]*)/.exec(csp);
   assert.ok(connect && /'self'/.test(connect[1]), "connect-src must allow the same-origin POST");
+});
+
+// ------------------------------------------------- submission diagnostics
+
+test("worker: the health check reports presence only, never a value", () => {
+  // The whole point of this endpoint is to be safe to expose. If it ever
+  // returned the inbox or the key it would be worse than no endpoint at all.
+  const fn = worker.slice(worker.indexOf("function submitHealth("), worker.indexOf("async function submit("));
+  assert.ok(fn.includes("Boolean(env[k])"), "health must coerce to booleans");
+  assert.ok(!/env\[k\]\s*[,}]/.test(fn.replace(/Boolean\(env\[k\]\)/g, "")), "a raw env value is being returned");
+  assert.ok(!/env\.SUBMISSIONS_TO\b(?!\s*\))/.test(fn), "the inbox must not appear in the health payload");
+  for (const k of ["SUBMISSIONS_TO", "SUBMISSIONS_FROM", "RESEND_API_KEY"]) {
+    assert.ok(worker.includes(`"${k}"`), `health should cover ${k}`);
+  }
+});
+
+test("worker: failures are logged for the operator and stay opaque to the browser", () => {
+  // Every submit error returns the same message on purpose, which makes the
+  // Worker log the only place a cause can surface.
+  const body = worker.slice(worker.indexOf("async function submit("), worker.indexOf("export default"));
+  assert.ok(body.includes("console.error(`/api/submit not configured"), "missing secrets are not logged");
+  assert.ok(body.includes("Resend rejected"), "a Resend rejection is not logged");
+  assert.ok(body.includes("could not reach Resend"), "a network failure is not logged");
+  // The rejection detail must never travel back to the caller.
+  assert.ok(!/submitError\(50\d,\s*detail/.test(body), "an error detail is being returned to the browser");
+  assert.equal((body.match(/json\(\{ ok: false, error: "Could not accept that submission\." \}/g) ?? []).length, 0,
+    "failures should route through the shared submitError helper");
+});
+
+test("worker: the health route is GET-only and registered", () => {
+  assert.ok(worker.includes('request.method === "GET" && pathname === "/api/submit/health"'));
+  assert.ok(worker.includes('"GET /api/submit/health"'), "the route list should advertise it");
 });

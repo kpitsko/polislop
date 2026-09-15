@@ -310,6 +310,21 @@ wrangler secret put SUBMISSIONS_FROM    # a verified sender on your domain
 wrangler secret put RESEND_API_KEY      # transactional email key
 ```
 
+**`GET /api/submit/health`** reports which of the three the Worker can actually
+see — booleans only, never a value — plus the name of the first one missing.
+That endpoint exists because every failure here returns the same opaque message
+on purpose, so a misconfigured Worker and a rejected send look identical from
+the browser. Check it first when submissions fail.
+
+Failures are also written to the Worker log (`wrangler tail`), including
+Resend's own rejection text — an unverified sending domain and a bad API key are
+indistinguishable from outside, and that line is the difference.
+
+Secrets live on the Worker, not in the build, so they survive redeploys; if the
+health check reports a secret missing after you set it, the usual cause is that
+`wrangler secret put` targeted a different Worker or a preview environment
+rather than the `polislop` Worker in `wrangler.jsonc`.
+
 Until all three are set the endpoint answers `503` and the form tells the reader
 it did not go through. That is deliberate: telling someone their ad was received
 when it was not is worse than an error, because they will not send it again.

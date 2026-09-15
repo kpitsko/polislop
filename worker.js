@@ -3,6 +3,7 @@
 //   GET  /api/ads          published corpus, scores computed server-side
 //   GET  /api/rubric       the scoring rubric, for anyone auditing a score
 //   GET  /api/oembed       Meta embed markup for a public Instagram/Facebook URL
+//   GET  /api/submit/health which submission secrets the Worker can actually see
 //   POST /api/submit       reader-submitted ad, forwarded to the review inbox
 //   POST /api/triage       draft rubric sub-scores for a candidate ad
 //
@@ -170,6 +171,30 @@ async function oembedRoute(request, env, ctx) {
  *   wrangler secret put RESEND_API_KEY      transactional email key
  */
 const SUBMIT_LIMITS = { url: 2000, notes: 2000, perIpPerHour: 5 };
+const SUBMIT_SECRETS = ["SUBMISSIONS_TO", "SUBMISSIONS_FROM", "RESEND_API_KEY"];
+
+/**
+ * Which submission secrets this Worker can see. Booleans only — never a value,
+ * never the inbox.
+ *
+ * This exists because the failure it diagnoses is otherwise invisible: every
+ * error path here returns the same opaque message on purpose, so a
+ * misconfigured Worker and a rejected submission look identical from outside.
+ * Reporting presence costs nothing an attacker can use and turns "it doesn't
+ * work" into a named missing variable.
+ */
+function submitHealth(env) {
+  const configured = Object.fromEntries(SUBMIT_SECRETS.map((k) => [k, Boolean(env[k])]));
+  const missing = SUBMIT_SECRETS.filter((k) => !env[k]);
+  return json({
+    ok: missing.length === 0,
+    configured,
+    missing,
+    hint: missing.length
+      ? `Set with: wrangler secret put ${missing[0]} — and confirm you are targeting the Worker named in wrangler.jsonc ("polislop"), not a preview environment.`
+      : "All three secrets are visible to the Worker. If submissions still fail, the rejection is coming from Resend; run `wrangler tail` and submit again to see the reason.",
+  });
+}
 
 const submitError = (status) => json({ ok: false, error: "Could not accept that submission." }, status);
 
@@ -212,9 +237,12 @@ async function submit(request, env) {
   const ip = request.headers.get("cf-connecting-ip");
   if (await overSubmitLimit(ip)) return submitError(429);
 
-  if (!env.SUBMISSIONS_TO || !env.SUBMISSIONS_FROM || !env.RESEND_API_KEY) {
+  const missing = SUBMIT_SECRETS.filter((k) => !env[k]);
+  if (missing.length) {
     // Deliberately not "ok": telling a reader their ad was received when it was
-    // not is the one outcome worse than an error.
+    // not is the one outcome worse than an error. The reason goes to the Worker
+    // log, where an operator can see it, and never to the browser.
+    console.error(`/api/submit not configured — missing: ${missing.join(", ")}`);
     return submitError(503);
   }
 
@@ -241,8 +269,16 @@ async function submit(request, env) {
         text: lines.join("\n"),
       }),
     });
-    if (!res.ok) return submitError(502);
-  } catch {
+    if (!res.ok) {
+      // Resend's rejection is the single most useful line when this breaks —
+      // an unverified sending domain and a bad API key fail identically from
+      // the browser's side. Logged for `wrangler tail`, never returned.
+      const detail = await res.text().catch(() => "(no body)");
+      console.error(`/api/submit — Resend rejected: HTTP ${res.status} ${detail.slice(0, 500)}`);
+      return submitError(502);
+    }
+  } catch (err) {
+    console.error(`/api/submit — could not reach Resend: ${err?.message ?? err}`);
     return submitError(502);
   }
 
@@ -264,9 +300,10 @@ export default {
       return json({ dimensions: DIMENSIONS, bands: BANDS });
     }
     if (request.method === "GET" && pathname === "/api/oembed") return oembedRoute(request, env, ctx);
+    if (request.method === "GET" && pathname === "/api/submit/health") return submitHealth(env);
     if (request.method === "POST" && pathname === "/api/submit") return submit(request, env);
     if (request.method === "POST" && pathname === "/api/triage") return triage(request, env);
 
-    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "GET /api/oembed", "POST /api/submit", "POST /api/triage"] }, 404);
+    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "GET /api/oembed", "GET /api/submit/health", "POST /api/submit", "POST /api/triage"] }, 404);
   },
 };
