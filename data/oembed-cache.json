@@ -42,5 +42,5 @@
     }
   },
   "$comment": "Meta oEmbed responses for the corpus's Instagram/Facebook originals. Refresh with: node ingest/meta-oembed.mjs. Committed so the build is deterministic and the third-party markup is reviewable in a diff.",
-  "updated": "2026-09-14"
+  "updated": "2026-09-15"
 }

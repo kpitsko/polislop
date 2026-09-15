@@ -1390,6 +1390,1827 @@
         "embed_available": true
       },
       "reviewStatus": "corroborated"
+    },
+    {
+      "id": "rnc-beat-biden-2023",
+      "headline": "The RNC answers Biden's reelection launch with an ad in which every single frame is AI-generated",
+      "date": "2023-04-25",
+      "cycle": "2024",
+      "race": "Presidential — party response to Biden's reelection launch",
+      "state": "US",
+      "level": "federal",
+      "sponsor": {
+        "name": "Republican National Committee",
+        "type": "party committee",
+        "xHandle": "GOP",
+        "party": "R",
+        "sortName": "Republican National Committee"
+      },
+      "depicted": [
+        {
+          "name": "Joe Biden",
+          "role": "President of the United States (D)",
+          "xHandle": "JoeBiden",
+          "party": "D",
+          "sortName": "Biden"
+        },
+        {
+          "name": "Kamala Harris",
+          "role": "Vice President (D)",
+          "xHandle": "KamalaHarris",
+          "party": "D",
+          "sortName": "Harris"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "synthetic-video"
+      ],
+      "howAiUsed": "The first wholly AI-generated spot from a US party committee. Released minutes after Biden announced his 2024 campaign, the 30-second ad opens on a fabricated victory celebration for Biden and Harris, then runs a montage of invented news bulletins from an imagined second term: China invading Taiwan, 500 banks shuttered, 80,000 border crossings in a day, San Francisco closed over crime and fentanyl.",
+      "whatIsReal": "Nothing in the imagery. The policy fears the ad dramatises are the argument it is making.",
+      "whatIsFabricated": "Every frame, including Biden and Harris celebrating an election that had not happened and news events that never occurred.",
+      "disclosure": {
+        "present": true,
+        "wording": "Built entirely with AI imagery",
+        "placement": "small, faint text in the top-left corner",
+        "platformLabel": null
+      },
+      "channels": [
+        "youtube",
+        "digital",
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Biden and Harris are shown celebrating a win that never happened; no words are put in their mouths.",
+        "realism": 1,
+        "realismNote": "2023-era generated stills — convincing in motion at speed, but with the period's visible artifacts rather than footage-grade realism.",
+        "disclosure": 2,
+        "disclosureNote": "A real on-ad label, and the RNC said openly that the spot was AI — but the text is small and faint enough that reporters repeatedly noted how easy it was to miss."
+      },
+      "sources": [
+        {
+          "outlet": "Axios",
+          "title": "RNC slams Biden re-election bid with AI-generated ad",
+          "url": "https://www.axios.com/2023/04/25/rnc-slams-biden-re-election-bid-ai-generated-ad"
+        },
+        {
+          "outlet": "Associated Press",
+          "title": "Republicans counter Biden announcement with dystopian, AI-aided video",
+          "url": "https://www.pressherald.com/2023/04/25/republicans-counter-biden-announcement-with-dystopian-ai-aided-video/"
+        },
+        {
+          "outlet": "Gizmodo",
+          "title": "GOP Launches the Age of AI-Generated Attack Ads",
+          "url": "https://gizmodo.com/youtube-biden-ai-political-ad-gop-stable-diffusion-1850373150"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "youtube",
+        "video_id": "kLMMxgtxQ1Y",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=kLMMxgtxQ1Y",
+        "verificationNote": "Posted 25 April 2023 on the RNC's own YouTube channel as \"Beat Biden\", 32 seconds, described there as \"An AI-generated look into the country's possible future if Joe Biden is re-elected in 2024.\""
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "desantis-trump-fauci-2023",
+      "headline": "DeSantis' campaign slips AI images of Trump embracing Fauci in among real photographs",
+      "date": "2023-06-05",
+      "cycle": "2024",
+      "race": "Presidential — Republican primary",
+      "state": "US",
+      "level": "federal",
+      "sponsor": {
+        "name": "DeSantis War Room (Ron DeSantis presidential campaign)",
+        "type": "candidate committee",
+        "xHandle": "DeSantisWarRoom",
+        "party": "R",
+        "sortName": "DeSantis campaign"
+      },
+      "depicted": [
+        {
+          "name": "Donald Trump",
+          "role": "former President, 2024 candidate (R)",
+          "xHandle": "realDonaldTrump",
+          "party": "R",
+          "sortName": "Trump"
+        },
+        {
+          "name": "Anthony Fauci",
+          "role": "former NIAID director",
+          "xHandle": null,
+          "party": "—",
+          "sortName": "Fauci"
+        }
+      ],
+      "techniques": [
+        "generated-image"
+      ],
+      "howAiUsed": "A video attacking Trump for not firing Fauci. Among a run of genuine photographs of the two men, the ad places three AI-generated images of Trump hugging and kissing Fauci — images with no original, shown without any break in the sequence.",
+      "whatIsReal": "The surrounding photographs, and Trump's own recorded praise of Fauci.",
+      "whatIsFabricated": "The three embraces. Trump never hugged or kissed Fauci.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Two real men shown in physical acts that never occurred; no speech is attributed to either.",
+        "realism": 2,
+        "realismNote": "Fact-checkers found the usual generative tells on close inspection, but the images are cut in among genuine photographs precisely so a viewer reads the whole sequence as documentary.",
+        "disclosure": 3,
+        "disclosureNote": "No label of any kind. The campaign did not acknowledge the images were synthetic even when asked."
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "DeSantis campaign shares apparent AI-generated fake images of Trump and Fauci",
+          "url": "https://www.npr.org/2023/06/08/1181097435/desantis-campaign-shares-apparent-ai-generated-fake-images-of-trump-and-fauci"
+        },
+        {
+          "outlet": "Fox News",
+          "title": "Trump, DeSantis camps trade blows over AI-generated images of ex-president hugging Fauci",
+          "url": "https://www.foxnews.com/politics/trump-desantis-camps-trade-blows-over-ai-generated-images-of-ex-president-hugging-fauci"
+        },
+        {
+          "outlet": "ABC News",
+          "title": "AI use in political campaigns raising red flags into 2024 election",
+          "url": "https://abcnews.go.com/Politics/ai-political-campaigns-raising-red-flags-2024-election/story?id=102480464"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/DeSantisWarRoom/status/1665799058303188992",
+        "provenance": "official_source",
+        "verificationNote": "Posted 5 June 2023 by the DeSantis campaign's own rapid-response account — the posting NPR cites for this ad."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "neverbackdown-trump-voice-2023",
+      "headline": "A pro-DeSantis super PAC clones Trump's voice to read a post he only ever typed",
+      "date": "2023-07-17",
+      "cycle": "2024",
+      "race": "Presidential — Republican primary, Iowa",
+      "state": "IA",
+      "level": "federal",
+      "sponsor": {
+        "name": "Never Back Down (pro-DeSantis super PAC)",
+        "type": "super PAC",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Never Back Down"
+      },
+      "depicted": [
+        {
+          "name": "Donald Trump",
+          "role": "former President, 2024 candidate (R)",
+          "xHandle": "realDonaldTrump",
+          "party": "R",
+          "sortName": "Trump"
+        },
+        {
+          "name": "Kim Reynolds",
+          "role": "Governor of Iowa (R)",
+          "xHandle": "KimReynoldsIA",
+          "party": "R",
+          "sortName": "Reynolds"
+        }
+      ],
+      "techniques": [
+        "voice-clone",
+        "synthetic-audio"
+      ],
+      "howAiUsed": "An Iowa television ad in which a synthetic Trump voice reads aloud his own Truth Social post attacking Gov. Kim Reynolds. The text is genuinely his; the voice performance is not. Trump wrote the words, and never spoke them.",
+      "whatIsReal": "The wording of the Truth Social post, verbatim.",
+      "whatIsFabricated": "The voice. There is no recording of Trump saying any of it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 1,
+        "fabricationNote": "Verbatim words Trump really wrote, re-delivered in a synthetic version of his voice.",
+        "realism": 2,
+        "realismNote": "Cloned audio close enough that fact-checkers reported listeners taking it for a genuine recording; synthetic speech carries no visual tells.",
+        "disclosure": 3,
+        "disclosureNote": "No disclosure that the voice was generated — the omission that made this an early test case for the FEC."
+      },
+      "sources": [
+        {
+          "outlet": "Poynter",
+          "title": "A pro-Ron DeSantis ad used AI to recreate Donald Trump's voice. Experts say it won't be the last.",
+          "url": "https://www.poynter.org/fact-checking/2023/desantis-never-back-down-pac-ai-ad-trump-voice/"
+        },
+        {
+          "outlet": "PolitiFact",
+          "title": "A pro-Ron DeSantis ad used AI to create Donald Trump's voice",
+          "url": "https://api.politifact.com/article/2023/jul/18/a-pro-ron-desantis-ad-used-ai-to-create-donald-tru"
+        },
+        {
+          "outlet": "TheWrap",
+          "title": "Pro-DeSantis Super PAC Uses AI-Generated Trump Voice in Withering Iowa Ad",
+          "url": "https://www.thewrap.com/ai-donald-trump-voice-desantis-ad-video/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "cuomo-criminals-mamdani-2025",
+      "headline": "Cuomo's campaign posts, then deletes, an AI ad of invented criminals endorsing Mamdani",
+      "date": "2025-10-22",
+      "cycle": "2025",
+      "race": "Mayor — New York City",
+      "state": "NY",
+      "level": "local",
+      "sponsor": {
+        "name": "Andrew Cuomo for Mayor",
+        "type": "candidate committee",
+        "xHandle": "andrewcuomo",
+        "party": "I",
+        "sortName": "Cuomo campaign"
+      },
+      "depicted": [
+        {
+          "name": "Zohran Mamdani",
+          "role": "New York City mayoral candidate (D)",
+          "xHandle": "ZohranKMamdani",
+          "party": "D",
+          "sortName": "Mamdani"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "generated-image"
+      ],
+      "howAiUsed": "A two-minute spot posted during the October 22 mayoral debate, in which a succession of AI-generated \"criminals\" — among them a shoplifter in a keffiyeh and a pimp — declare their support for Mamdani on the premise that he would let them go free. The campaign deleted it within hours, calling it \"posted in error\" and unfinished.",
+      "whatIsReal": "Nothing depicted. Mamdani himself does not appear.",
+      "whatIsFabricated": "Every person on screen. The endorsers do not exist, and the policy they endorse is not Mamdani's platform.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 0,
+        "fabricationNote": "No real person is depicted — the invented figures are the whole cast. The rubric grades misattribution to real people, so an ad that fabricates an entire constituency scores at the floor even as it misleads about who supports whom.",
+        "realism": 2,
+        "realismNote": "Photoreal people presented as if filmed, which is what gives the invented endorsements their force.",
+        "disclosure": 3,
+        "disclosureNote": "No label. The campaign's account of it was that the video went out unfinished, not that it was flagged as synthetic."
+      },
+      "sources": [
+        {
+          "outlet": "amNewYork",
+          "title": "Cuomo faces backlash after campaign releases, then deletes, AI-generated 'Criminals for Zohran Mamdani' ad",
+          "url": "https://www.amny.com/politics/cuomo-backlash-ai-generated-ad/"
+        },
+        {
+          "outlet": "PoliticsNY",
+          "title": "Cuomo faces backlash after campaign releases, then deletes, AI-generated 'Criminals for Zohran Mamdani' ad on social media",
+          "url": "https://politicsny.com/2025/10/23/cuomo-faces-backlash-after-campaign-releases-then-deletes-ai-generated-criminals-for-zohran-mamdani-ad-on-social-media/"
+        },
+        {
+          "outlet": "Fox News",
+          "title": "Andrew Cuomo campaign walks back controversial attack ad targeting Mamdani voters",
+          "url": "https://www.foxnews.com/politics/andrew-cuomo-campaign-walks-back-controversial-attack-ad-targeting-mamdani-voters"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "paxton-talarico-king-james-2026",
+      "headline": "Paxton's \"King James\" ad has an AI Talarico crayon his own rewrite of scripture",
+      "date": "2026-09-08",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Ken Paxton for Senate",
+        "type": "candidate committee",
+        "xHandle": "KenPaxtonTX",
+        "party": "R",
+        "sortName": "Paxton campaign"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "A 30-second spot bought to run nationally on Newsmax. A photoreal synthetic Talarico — a seminarian studying for the Presbyterian ministry — reads from a \"King James Talarico Bible\" and scrawls his own rewrite of famous passages in crayon, built around his remarks on gender and Christianity.",
+      "whatIsReal": "Talarico has made public statements on God and gender that the campaign cites on screen as the ad's basis.",
+      "whatIsFabricated": "The performance. Talarico never read or wrote any of it; the scripture rewrites are the ad's invention.",
+      "disclosure": {
+        "present": true,
+        "wording": "a note that some of the video content was generated using AI",
+        "placement": "on-screen disclaimer",
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "cable",
+        "youtube",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "PROVISIONAL: Talarico is shown performing an act he never performed. Whether the recited lines are his real words is contested — the campaign says every claim is documented on screen, Talarico says the ad is \"putting words in my mouth\". Scored on the act, which is not in dispute, rather than on the contested speech.",
+        "realism": 2,
+        "realismNote": "Photoreal video of a real candidate, cut for broadcast.",
+        "disclosure": 2,
+        "disclosureNote": "An on-ad AI disclaimer is present — more than most of this ledger carries — but it is a passing note about \"some\" of the content rather than a clear statement that the candidate on screen is synthetic."
+      },
+      "sources": [
+        {
+          "outlet": "Reuters",
+          "title": "Ken Paxton launches AI attack ad targeting James Talarico's faith views",
+          "url": "https://www.galvnews.com/news_reuters/texas/ken-paxton-launches-ai-attack-ad-targeting-james-talaricos-faith-views/article_8ef2606a-96d3-5509-b45a-c74afe6e7473.html"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "James Talarico says Ken Paxton is \"lying to the people of Texas\" with AI ad that puts \"words in my mouth\"",
+          "url": "https://www.cbsnews.com/news/james-talarico-interview-ken-paxton-texas-senate-2026/"
+        },
+        {
+          "outlet": "The Texan",
+          "title": "Paxton, Talarico Attack Ads Home In on Social Issues, Impeachment Record",
+          "url": "https://thetexan.news/elections/2026/paxton-talarico-attack-ads-home-in-on-social-issues-impeachment-record/article_e5adcc6a-b84a-47de-ab52-d73759e74c10.html"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "youtube",
+        "video_id": "p3xRLG-_MOc",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=p3xRLG-_MOc",
+        "verificationNote": "Posted on Paxton's own campaign channel as \"King James\", 30 seconds, dated 9 September 2026 — the spot Reuters and CBS report the campaign launched on 8 September."
+      },
+      "reviewStatus": "needs-verification",
+      "reviewNote": "Whether the scripture lines the synthetic Talarico recites are his own documented words is contested. The campaign says every claim is sourced on screen; Talarico says the ad puts words in his mouth. The fabrication score rests on the depicted act, which nobody disputes, and would move if the wording question is settled either way."
+    },
+    {
+      "id": "blakeman-hochul-mamdani-2026",
+      "headline": "Blakeman's AI spot has Hochul and Mamdani prescribing New Yorkers \"delusion pills\"",
+      "date": "2026-09-01",
+      "cycle": "2026",
+      "race": "Governor — New York",
+      "state": "NY",
+      "level": "state",
+      "sponsor": {
+        "name": "Bruce Blakeman for Governor",
+        "type": "candidate committee",
+        "xHandle": "NassauExec",
+        "party": "R",
+        "sortName": "Blakeman campaign"
+      },
+      "depicted": [
+        {
+          "name": "Kathy Hochul",
+          "role": "Governor of New York (D)",
+          "xHandle": "KathyHochul",
+          "party": "D",
+          "sortName": "Hochul"
+        },
+        {
+          "name": "Zohran Mamdani",
+          "role": "Mayor of New York City (D)",
+          "xHandle": "ZohranKMamdani",
+          "party": "D",
+          "sortName": "Mamdani"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "One of a run of AI spots from the Republican nominee for governor. Synthetic versions of Hochul and Mamdani appear together as pitchmen for \"delusion pills\", a mock pharmaceutical ad in which the pair introduce themselves and talk up New York's affordability until Hochul cuts Mamdani off.",
+      "whatIsReal": "The utility-rate and tax figures the ad cites are its argument, not its imagery.",
+      "whatIsFabricated": "Both officials. Hochul and Mamdani never appeared together in any such scene and never spoke the lines.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "youtube",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Lines written for and delivered by synthetic versions of two sitting officials.",
+        "realism": 1,
+        "realismNote": "Rendered as an overt drug-commercial parody, which signals construction — though the likenesses themselves are close.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label. The New York State Democratic Party's complaint to the Board of Elections turns on exactly that: state law requires materially deceptive political media to be labelled. Blakeman's answer is that the ads are satire."
+      },
+      "sources": [
+        {
+          "outlet": "404 Media",
+          "title": "The Republican Nominee for New York Governor Made a Creepy, AI-Generated Video of Mamdani and Hochul",
+          "url": "https://www.404media.co/bruce-blakeman-ai-campaign-video-mamdani-hochul/"
+        },
+        {
+          "outlet": "ABC7 New York",
+          "title": "Nassau County Executive Bruce Blakeman defends use of AI-generated campaign ads; Gov. Hochul calls it lying",
+          "url": "https://abc7ny.com/post/nassau-county-executive-bruce-blakeman-defends-use-ai-generated-campaign-ads-gov-hochul-calls-lying/19558586/"
+        },
+        {
+          "outlet": "News10 NBC",
+          "title": "Blakeman defends use of AI in campaign ads against Hochul",
+          "url": "https://www.news10.com/news/ny-capitol-news/blakeman-defends-use-of-ai-in-campaign-ads-against-hochul/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "youtube",
+        "video_id": "H8aPDNSHVnE",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=H8aPDNSHVnE",
+        "archive_url": "https://x.com/NassauExec/status/2094800565452611646",
+        "verificationNote": "Posted 1 September 2026 on Blakeman's own channel as Kathy Hochul's \"Delusion Pills\"; the archive link is the same ad on his own X account, which is the posting 404 Media cites."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "hilton-machine-2026",
+      "headline": "Steve Hilton's gladiator ad pits him against an AI Newsom running the party \"machine\"",
+      "date": "2026-07-24",
+      "cycle": "2026",
+      "race": "Governor — California",
+      "state": "CA",
+      "level": "state",
+      "sponsor": {
+        "name": "Steve Hilton for Governor",
+        "type": "candidate committee",
+        "xHandle": "SteveHiltonx",
+        "party": "R",
+        "sortName": "Hilton campaign"
+      },
+      "depicted": [
+        {
+          "name": "Gavin Newsom",
+          "role": "Governor of California (D)",
+          "xHandle": "GavinNewsom",
+          "party": "D",
+          "sortName": "Newsom"
+        },
+        {
+          "name": "Xavier Becerra",
+          "role": "former US Health Secretary, gubernatorial candidate (D)",
+          "xHandle": "Xavier_Becerra",
+          "party": "D",
+          "sortName": "Becerra"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "A Gladiator-styled spot by Charles Curran, the film-maker behind the Spencer Pratt AI videos. A synthetic Newsom operates a robotic Democratic Party machine that selects Becerra as his successor, explaining that the machine exists \"to make sure that nothing ever changes\", intercut with real footage of encampments, fuel prices and struggling Californians.",
+      "whatIsReal": "The documentary footage of California conditions the ad cuts to.",
+      "whatIsFabricated": "Newsom, Becerra, the machine and the succession scene. None of it happened, and neither man said any of it.",
+      "disclosure": {
+        "present": true,
+        "wording": "generated or substantially altered using artificial intelligence",
+        "placement": "at the end of the video",
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "youtube",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Dialogue written for and spoken by a synthetic Newsom about a real rival.",
+        "realism": 0,
+        "realismNote": "A robot-and-colosseum fantasy; nobody reads the scene as documentary, which is the ad's own defence.",
+        "disclosure": 1,
+        "disclosureNote": "Carries the disclosure California law requires, in the law's own words, at the end of the spot — clear and legible, though a viewer who stops early never reaches it."
+      },
+      "sources": [
+        {
+          "outlet": "Associated Press",
+          "title": "AI-generated content is flooding political campaigns. California lawmakers are trying to regulate it",
+          "url": "https://www.spokesman.com/stories/2026/aug/15/ai-generated-content-is-flooding-political-campaig/"
+        },
+        {
+          "outlet": "Washington Examiner",
+          "title": "Spencer Pratt AI creator makes Steve Hilton ad: 'The People vs The Machine'",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/state/4661357/pratt-ai-hilton-ad-people-vs-machine/"
+        },
+        {
+          "outlet": "AOL",
+          "title": "Steve Hilton unleashes new 'Gladiator'-style campaign video conquering the political machine",
+          "url": "https://www.aol.com/articles/steve-hilton-unleashes-gladiator-style-235934000.html"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "youtube",
+        "video_id": "BsC3KUpDWVE",
+        "embed_available": true,
+        "provenance": "official_source",
+        "original_ad_url": "https://www.youtube.com/watch?v=BsC3KUpDWVE",
+        "verificationNote": "Posted 24 July 2026 on Hilton's own channel as \"CALIFORNIA COLOSSEUM\", 99 seconds — matching the Gladiator-styled anti-machine spot AP and the Washington Examiner describe from that week."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "citizens-sanity-talarico-language-2026",
+      "headline": "A Trump-aligned PAC invents a language called \"Talarico\" and has AI actors speak it",
+      "date": "2026-06-10",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Citizens for Sanity",
+        "type": "super PAC",
+        "xHandle": "citizens_sanity",
+        "party": "R",
+        "sortName": "Citizens for Sanity"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "One of a run of AI spots the group put out against Talarico over several days in June. Two synthetic women discuss a new language, \"Talarico\", mocking his use of the phrase \"neighbors with a uterus\".",
+      "whatIsReal": "Talarico did use the phrase the ad mocks.",
+      "whatIsFabricated": "Everyone on screen and the exchange between them.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 2,
+        "fabricationNote": "Talarico's real phrase, put in the mouths of invented characters rather than his own — a recontextualisation rather than a fabricated performance by him.",
+        "realism": 1,
+        "realismNote": "Synthetic people rendered as a sketch; plausible in a scroll, not documentary.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label, on this or on the group's other Talarico spots from the same week — the pattern PolitiFact flagged."
+      },
+      "sources": [
+        {
+          "outlet": "PolitiFact",
+          "title": "AI ads skewed Talarico's words and positions. It's part of a trend",
+          "url": "https://www.politifact.com/article/2026/jun/22/talarico-artificial-intelligence-ads-senate-texas/"
+        },
+        {
+          "outlet": "Washington Examiner",
+          "title": "AI deepfake ads invade midterm election campaigns",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/congressional/4617529/ai-deepfake-ad-midterm-election-campaign/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/citizens_sanity/status/2064687765552292227",
+        "provenance": "official_source",
+        "verificationNote": "Posted 10 June 2026 by the group's own X account over the caption \"James Talafreako says what?!\" — the posting PolitiFact links for this ad."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "citizens-sanity-talarico-dress-2026",
+      "headline": "Six-figure PAC buy puts an AI Talarico in a dress singing about trans children",
+      "date": "2026-06-09",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Citizens for Sanity",
+        "type": "super PAC",
+        "xHandle": "citizens_sanity",
+        "party": "R",
+        "sortName": "Citizens for Sanity"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A 15-second spot behind a six-figure buy, showing a synthetic Talarico in a dress modelled on Julie Andrews' costume, singing a rewritten \"My Favorite Things\" about \"boys in dresses\" and \"girls dosed with hormones\". The same run included an AI Talarico as a dishevelled preacher under a \"God is nonbinary\" sign and another rolling out a welcome mat at the border.",
+      "whatIsReal": "Talarico's positions on transgender rights are real and on the record; none of the depiction is.",
+      "whatIsFabricated": "The costume, the performance and the song. Talarico never wore it, sang it, or said any of it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Words written for a real candidate and sung in his likeness.",
+        "realism": 1,
+        "realismNote": "Costumed musical parody — constructed on its face, though the likeness is close enough that PolitiFact treated mistaking it as a live risk.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label on any of the group's Talarico spots."
+      },
+      "sources": [
+        {
+          "outlet": "PolitiFact",
+          "title": "AI ads skewed Talarico's words and positions. It's part of a trend",
+          "url": "https://www.politifact.com/article/2026/jun/22/talarico-artificial-intelligence-ads-senate-texas/"
+        },
+        {
+          "outlet": "HuffPost",
+          "title": "AI-Generated James Talarico Sings Trans Song In Disturbing Ad",
+          "url": "https://www.huffpost.com/entry/creepy-ai-ad-texas-senate-race_n_6a287216e4b0d7105b0e33cf"
+        },
+        {
+          "outlet": "Mediaite",
+          "title": "Pro-Trump PAC Drops AI-Generated Attack Ad On James Talarico",
+          "url": "https://www.mediaite.com/media/news/pro-trump-pac-drops-ai-generated-attack-ad-of-james-talarico-in-a-dress/"
+        },
+        {
+          "outlet": "LGBTQ Nation",
+          "title": "MAGA PAC drops millions on anti-trans AI ad showing James Talarico in a dress",
+          "url": "https://www.lgbtqnation.com/2026/06/pac-drops-millions-on-anti-trans-ai-ad-showing-james-talarico-in-a-dress/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "magaky-massie-throuple-2026",
+      "headline": "A super PAC fakes CCTV of Thomas Massie checking into a hotel with AOC and Ilhan Omar",
+      "date": "2026-05-04",
+      "cycle": "2026",
+      "race": "US House — Kentucky 4th (R primary)",
+      "state": "KY",
+      "level": "federal",
+      "sponsor": {
+        "name": "MAGA KY PAC",
+        "type": "super PAC",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "MAGA KY PAC"
+      },
+      "depicted": [
+        {
+          "name": "Thomas Massie",
+          "role": "US Representative (R-KY)",
+          "xHandle": "RepThomasMassie",
+          "party": "R",
+          "sortName": "Massie"
+        },
+        {
+          "name": "Alexandria Ocasio-Cortez",
+          "role": "US Representative (D-NY)",
+          "xHandle": "AOC",
+          "party": "D",
+          "sortName": "Ocasio-Cortez"
+        },
+        {
+          "name": "Ilhan Omar",
+          "role": "US Representative (D-MN)",
+          "xHandle": "IlhanMN",
+          "party": "D",
+          "sortName": "Omar"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "generated-image",
+        "fabricated-document"
+      ],
+      "howAiUsed": "An attack ad in a Republican primary that opens on the words \"Thomas Massie caught in a throuple!\" and runs faked CCTV footage of Massie holding hands with Ocasio-Cortez and Omar as the three check into a hotel, dressed with tabloid-style photographs.",
+      "whatIsReal": "Nothing depicted. Massie's votes alongside Democrats are the argument underneath it.",
+      "whatIsFabricated": "The footage, the photographs and the encounter. Massie called it \"beyond the pale\" and said it helped cost him the primary.",
+      "disclosure": {
+        "present": true,
+        "wording": "This satirical ad was created with artificial intelligence",
+        "placement": "white lettering at the bottom of the ad",
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Three sitting members of Congress shown in an encounter that never happened; no words are attributed to any of them.",
+        "realism": 2,
+        "realismNote": "Built to read as surveillance footage and tabloid photography — formats a viewer treats as evidence. Massie's own objection was that older voters would take it literally.",
+        "disclosure": 2,
+        "disclosureNote": "A real on-ad label naming both the satire and the technique, but set in small white lettering along the bottom while faked CCTV plays above it."
+      },
+      "sources": [
+        {
+          "outlet": "Louisville Public Media",
+          "title": "AI 'deepfake' ads attack Massie and Gallrein in northern Kentucky GOP primary",
+          "url": "https://www.lpm.org/news/2026-05-05/ai-deepfake-ads-attack-massie-and-gallrein-in-northern-kentucky-gop-primary"
+        },
+        {
+          "outlet": "WVXU",
+          "title": "AI deepfake ads attack Massie and Gallrein in Northern Kentucky GOP primary",
+          "url": "https://www.wvxu.org/2026-05-05/ai-deepfake-ads-attack-massie-and-gallrein-in-northern-kentucky-gop-primary"
+        },
+        {
+          "outlet": "Arizona Capitol Times",
+          "title": "State AI deepfake laws face first big test in 2026 midterm elections",
+          "url": "https://azcapitoltimes.com/news/2026/07/21/state-ai-deepfake-laws-face-first-big-test-in-2026-midterm-elections/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "ky4th-gallrein-battlefield-2026",
+      "headline": "A pro-Massie PAC uses AI to show a decorated Navy SEAL fleeing a battlefield",
+      "date": "2026-04-05",
+      "cycle": "2026",
+      "race": "US House — Kentucky 4th (R primary)",
+      "state": "KY",
+      "level": "federal",
+      "sponsor": {
+        "name": "Kentucky 4th PAC",
+        "type": "super PAC",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Kentucky 4th PAC"
+      },
+      "depicted": [
+        {
+          "name": "Ed Gallrein",
+          "role": "US House candidate (R-KY), retired Navy SEAL",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Gallrein"
+        },
+        {
+          "name": "Donald Trump",
+          "role": "President of the United States (R)",
+          "xHandle": "realDonaldTrump",
+          "party": "R",
+          "sortName": "Trump"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "An AI video in which Gallrein flees a Trump rally and then runs from a battlefield while Trump fires at unseen enemies, over the line \"Trump was in the foxhole — Woke Eddie Gallrein tucked his tail and ran.\"",
+      "whatIsReal": "Nothing depicted. Gallrein is a retired Navy SEAL with three decades of service; Massie did not serve.",
+      "whatIsFabricated": "Both men and both scenes. A veterans' group called the ad an insult to all veterans.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "A real candidate shown acting in a way he never did — here, cowardice under fire — with no speech attributed to him.",
+        "realism": 0,
+        "realismNote": "Described by the candidate's own side as a \"Disneyland AI cartoon\"; the battlefield staging reads as fiction.",
+        "disclosure": 3,
+        "disclosureNote": "No AI disclosure of any kind, in contrast to the labelled ad running against Massie in the same primary."
+      },
+      "sources": [
+        {
+          "outlet": "Louisville Public Media",
+          "title": "AI 'deepfake' ads attack Massie and Gallrein in northern Kentucky GOP primary",
+          "url": "https://www.lpm.org/news/2026-05-05/ai-deepfake-ads-attack-massie-and-gallrein-in-northern-kentucky-gop-primary"
+        },
+        {
+          "outlet": "WEKU",
+          "title": "AI 'deepfake' ads attack Massie and Gallrein in northern Kentucky GOP primary",
+          "url": "https://www.weku.org/the-commonwealth/2026-05-05/ai-deepfake-ads-attack-massie-and-gallrein-in-northern-kentucky-gop-primary"
+        },
+        {
+          "outlet": "Arizona Capitol Times",
+          "title": "State AI deepfake laws face first big test in 2026 midterm elections",
+          "url": "https://azcapitoltimes.com/news/2026/07/21/state-ai-deepfake-laws-face-first-big-test-in-2026-midterm-elections/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "needs-verification",
+      "reviewNote": "The exact publication date is approximate: Louisville Public Media places the ad \"a month\" before its 5 May 2026 report without giving a date, and no copy on the PAC's own channels has been located to pin it down."
+    },
+    {
+      "id": "asg-montana-pride-mailers-2026",
+      "headline": "A Montana PAC pastes Pride flags and pronoun buttons onto real photos of Republican legislators",
+      "date": "2026-05-07",
+      "cycle": "2026",
+      "race": "Montana legislature — Republican primaries",
+      "state": "MT",
+      "level": "state",
+      "sponsor": {
+        "name": "Accountability in State Government",
+        "type": "PAC",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Accountability in State Government"
+      },
+      "depicted": [
+        {
+          "name": "Eric Albus",
+          "role": "Montana state representative (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Albus"
+        },
+        {
+          "name": "Jennifer Carlson",
+          "role": "former Montana legislator, state House candidate (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Carlson"
+        },
+        {
+          "name": "Llew Jones",
+          "role": "Montana state representative, state Senate candidate (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Jones"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "image-to-video"
+      ],
+      "howAiUsed": "Hundreds of primary mailers built on genuine photographs of three Republican legislators, digitally altered to put a Pride flag in their hands and a pronoun button on their chest. The candidates filed complaints with Montana's Commissioner of Political Practices; the PAC answered with a federal First Amendment suit seeking to strike the state's deepfake law.",
+      "whatIsReal": "The photographs underneath — these are the candidates' own likenesses, in their own settings.",
+      "whatIsFabricated": "The flags and the buttons, and with them the political stance the mailer imputes.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "mail",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Real people shown holding and wearing things they never did; no words are attributed to them.",
+        "realism": 2,
+        "realismNote": "Alterations made onto real photographs, so there is nothing synthetic-looking to notice — the image is genuine apart from the part that matters.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label, which is what the complaints turned on. The Commissioner ultimately read the mailers as covered by the law's satire-and-parody exemption."
+      },
+      "sources": [
+        {
+          "outlet": "Daily Montanan",
+          "title": "Digitally altered political mailers spur lawsuit over Montana AI law",
+          "url": "https://dailymontanan.com/2026/05/07/digitally-altered-political-mailers-spur-lawsuit-over-montana-ai-law/"
+        },
+        {
+          "outlet": "Daily Inter Lake",
+          "title": "Digitally altered political mailers spur lawsuit over Montana AI law",
+          "url": "https://dailyinterlake.com/news/2026/may/12/digitally-altered-political-mailers-spur-lawsuit-over-montana-ai-law/"
+        },
+        {
+          "outlet": "Daily Montanan",
+          "title": "Political complaints pointing to new AI law dropped",
+          "url": "https://dailymontanan.com/2026/08/24/political-complaints-pointing-to-new-ai-law-dropped/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "ceg-chaplik-worker-power-2026",
+      "headline": "A super PAC's billboards dress an Arizona Republican in a raised-fist \"Worker Power\" shirt",
+      "date": "2026-07-09",
+      "cycle": "2026",
+      "race": "US House — Arizona 1st (R primary)",
+      "state": "AZ",
+      "level": "federal",
+      "sponsor": {
+        "name": "Conservatives for Effective Government",
+        "type": "super PAC",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Conservatives for Effective Government"
+      },
+      "depicted": [
+        {
+          "name": "Joseph Chaplik",
+          "role": "former Arizona state representative, US House candidate (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Chaplik"
+        }
+      ],
+      "techniques": [
+        "generated-image"
+      ],
+      "howAiUsed": "Billboards and street signs in the closing days of a Republican primary carrying an AI-generated image of Chaplik in a \"Worker Power\" t-shirt bearing a raised black fist, standing in front of an empty office building. Chaplik sued the PAC twelve days before the primary, citing Arizona's AI-in-political-advertising statutes.",
+      "whatIsReal": "Chaplik's likeness.",
+      "whatIsFabricated": "The shirt, the fist and the setting, and the political identity they assign him.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "outdoor",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "A real candidate shown wearing something he never wore, in a place he never stood; no speech attributed.",
+        "realism": 2,
+        "realismNote": "A still image built to read as a photograph of the candidate, seen at billboard scale from a moving car.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label — the basis of the suit under Arizona's updated statute."
+      },
+      "sources": [
+        {
+          "outlet": "Phoenix New Times",
+          "title": "Arizona GOP congressional hopeful sues shady PAC over attack ads",
+          "url": "https://www.phoenixnewtimes.com/news/arizona-gop-congressional-hopeful-chaplik-sues-pac-attack-ads-40682453/"
+        },
+        {
+          "outlet": "Arizona Capitol Times",
+          "title": "State AI deepfake laws face first big test in 2026 midterm elections",
+          "url": "https://azcapitoltimes.com/news/2026/07/21/state-ai-deepfake-laws-face-first-big-test-in-2026-midterm-elections/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "tpusa-lorena-austin-biggs-sign-2026",
+      "headline": "Turning Point USA posts deepfake photos of a Democratic legislator planting a rival's yard sign",
+      "date": "2026-09-02",
+      "cycle": "2026",
+      "race": "Governor — Arizona, and Mesa legislative district",
+      "state": "AZ",
+      "level": "state",
+      "sponsor": {
+        "name": "Turning Point USA",
+        "type": "advocacy organization",
+        "xHandle": "TPUSA",
+        "party": "R",
+        "sortName": "Turning Point USA"
+      },
+      "depicted": [
+        {
+          "name": "Lorena Austin",
+          "role": "Arizona state representative (D)",
+          "xHandle": null,
+          "party": "D",
+          "sortName": "Austin"
+        },
+        {
+          "name": "Andy Biggs",
+          "role": "Arizona gubernatorial candidate (R)",
+          "xHandle": "andybiggs4az",
+          "party": "R",
+          "sortName": "Biggs"
+        }
+      ],
+      "techniques": [
+        "generated-image"
+      ],
+      "howAiUsed": "Images circulated on social media showing Austin, a Democratic state representative, planting a \"Democrats for Biggs\" sign in downtown Mesa in support of the Republican candidate for governor. Austin was out of town when they began circulating and says the photos are deepfakes; she has weighed a lawsuit under Arizona's AI statutes.",
+      "whatIsReal": "Austin's likeness, and the Mesa streetscape.",
+      "whatIsFabricated": "The act. Austin did not plant the sign and does not back Biggs.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "A sitting legislator shown performing a political act she did not perform — here, endorsing an opponent.",
+        "realism": 2,
+        "realismNote": "Photographic in form and mundane in content, which is exactly what makes it credible; there is no spectacle to tip a viewer off.",
+        "disclosure": 3,
+        "disclosureNote": "No label. Presented as documentary photographs of a real event."
+      },
+      "sources": [
+        {
+          "outlet": "Phoenix New Times",
+          "title": "Arizona Democrat eyes lawsuit over Turning Point USA AI deepfakes",
+          "url": "https://www.phoenixnewtimes.com/news/turning-point-posted-deepfake-rep-lorena-austin-planting-democratas-por-biggs-sign-40696531/"
+        },
+        {
+          "outlet": "12News",
+          "title": "Arizona lawmaker threatens lawsuit over deepfake image on social media post",
+          "url": "https://www.12news.com/article/news/local/arizona/lawmaker-threatens-lawsuit-over-deepfake-image-on-social-media-post-mesa-arizona/75-3d2ddec8-1d76-42bf-9bfe-69efbc1ff3ba"
+        },
+        {
+          "outlet": "Arizona Daily Star",
+          "title": "Arizona Democratic lawmaker: Pro-Andy Biggs images are deepfakes",
+          "url": "https://tucson.com/news/state-regional/article_7ea84097-4354-4497-b561-42707516c718.html"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "burt-jones-jackson-everywhere-2026",
+      "headline": "Burt Jones' closing runoff ad is AI start to finish, with invented voters recoiling from his rival",
+      "date": "2026-06-16",
+      "cycle": "2026",
+      "race": "Governor — Georgia (R primary runoff)",
+      "state": "GA",
+      "level": "state",
+      "sponsor": {
+        "name": "Burt Jones for Governor",
+        "type": "candidate committee",
+        "xHandle": "burtjonesforga",
+        "party": "R",
+        "sortName": "Jones campaign"
+      },
+      "depicted": [
+        {
+          "name": "Rick Jackson",
+          "role": "Georgia gubernatorial candidate (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Jackson"
+        }
+      ],
+      "techniques": [
+        "generated-image",
+        "synthetic-video"
+      ],
+      "howAiUsed": "The lieutenant governor's closing argument in the Republican runoff, an entirely AI-generated spot in which fabricated Georgians recoil from Jackson's image appearing everywhere they turn, over the line that he is \"spending over $100 million trying to buy our vote\".",
+      "whatIsReal": "Jackson's self-funding, which is the ad's factual claim.",
+      "whatIsFabricated": "Every person and place on screen, and Jackson's omnipresence in them.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "digital",
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 2,
+        "fabricationNote": "Jackson appears as his real campaign imagery rather than as a synthetic performer; what is invented is the world reacting to him.",
+        "realism": 1,
+        "realismNote": "Stylised set pieces rather than documentary footage, though rendered photographically.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label reported on the spot, in a race where the same candidate had publicly attacked his opponent for using AI."
+      },
+      "sources": [
+        {
+          "outlet": "CNN",
+          "title": "Burt Jones makes Rick Jackson's big spending his closing argument in Georgia gubernatorial runoff",
+          "url": "https://www.cnn.com/2026/06/16/politics/georgia-governor-runoff-burt-jones-rick-jackson"
+        },
+        {
+          "outlet": "Atlanta Journal-Constitution",
+          "title": "Burt Jones claps back at Jackson video with Jason Aldean clips. 'No AI'",
+          "url": "https://www.yahoo.com/news/articles/burt-jones-claps-back-jackson-155909478.html"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "needs-verification",
+      "reviewNote": "No on-ad disclosure is described in the available reporting, and the ad is scored as unlabelled on that basis — the harshest available reading. A copy of the spot has not been located to check the end card."
+    },
+    {
+      "id": "rick-jackson-ai-country-song-2026",
+      "headline": "Rick Jackson's campaign commissions an AI country song, and his opponent answers \"No AI\"",
+      "date": "2026-03-01",
+      "cycle": "2026",
+      "race": "Governor — Georgia (R primary)",
+      "state": "GA",
+      "level": "state",
+      "sponsor": {
+        "name": "Rick Jackson for Governor",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Jackson campaign"
+      },
+      "depicted": [],
+      "techniques": [
+        "synthetic-audio"
+      ],
+      "howAiUsed": "The Jackson campaign used AI to generate a country-music track for its advertising. Burt Jones' campaign answered with a spot cut from licensed Jason Aldean clips, captioned \"No AI\" — making the technique itself the subject of the race.",
+      "whatIsReal": "The campaign's message and the candidate's biography.",
+      "whatIsFabricated": "The performance and the performers. No musician recorded it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "digital",
+        "social",
+        "broadcast"
+      ],
+      "rubric": {
+        "fabrication": 0,
+        "fabricationNote": "No real person is depicted or impersonated — the synthetic element is a piece of music. Logged as the low-end case of AI used as a production shortcut rather than to misattribute anything.",
+        "realism": 0,
+        "realismNote": "A campaign jingle; nobody is invited to read it as a record of anything.",
+        "disclosure": 3,
+        "disclosureNote": "No label on the artifact, though the opposing campaign's \"No AI\" retort put the fact into circulation."
+      },
+      "sources": [
+        {
+          "outlet": "Atlanta Journal-Constitution",
+          "title": "Rick Jackson looks to AI to give his campaign a country-music boost",
+          "url": "https://www.ajc.com/politics/2026/03/rick-jackson-looks-to-ai-to-give-his-campaign-a-country-music-boost/"
+        },
+        {
+          "outlet": "Atlanta Journal-Constitution",
+          "title": "Burt Jones claps back at Jackson video with Jason Aldean clips. 'No AI'",
+          "url": "https://www.yahoo.com/news/articles/burt-jones-claps-back-jackson-155909478.html"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "app-pac-daisy-talarico-2026",
+      "headline": "A $10m PAC campaign resurrects LBJ's \"Daisy\" girl and puts her on an operating table",
+      "date": "2026-08-07",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "American Principles Project PAC",
+        "type": "super PAC",
+        "xHandle": "approject",
+        "party": "R",
+        "sortName": "American Principles Project PAC"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "generated-image"
+      ],
+      "howAiUsed": "Part of a reported $10 million campaign for Paxton. The spot rebuilds the most famous attack ad in American politics — Lyndon Johnson's 1964 \"Daisy\", in which a small girl counting petals is erased by a nuclear blast. Here the girl is regenerated by AI and, instead of the bomb, finds herself on an operating table in front of a synthetic James Talarico cast as a surgeon.",
+      "whatIsReal": "The 1964 original, and Talarico's likeness.",
+      "whatIsFabricated": "The child, the operating theatre, and Talarico's presence and role in it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "digital",
+        "social"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "A real candidate placed in a scene he was never in, performing an act he has never performed; no words are attributed to him.",
+        "realism": 2,
+        "realismNote": "Built on the visual grammar of a famous documentary-feeling spot, and rendered photoreally enough that the borrowed authority carries.",
+        "disclosure": 3,
+        "disclosureNote": "No AI disclosure reported on the ad."
+      },
+      "sources": [
+        {
+          "outlet": "Mother Jones",
+          "title": "An infamous attack ad just got an AI resurrection",
+          "url": "https://www.motherjones.com/politics/2026/08/an-infamous-attack-ad-just-got-an-ai-resurrection/"
+        },
+        {
+          "outlet": "Political Wire",
+          "title": "An Infamous Attack Ad Just Got an AI Resurrection",
+          "url": "https://politicalwire.com/2026/08/09/an-infamous-attack-ad-just-got-an-ai-resurrection/"
+        },
+        {
+          "outlet": "The Christian Post",
+          "title": "Texas PAC supporting Paxton reimagines Cold War-era LBJ ad to show Talarico's ties to trans ideology",
+          "url": "https://www.christianpost.com/news/pac-supporting-paxton-shows-talarico-as-doctors-pushing-trans.html"
+        },
+        {
+          "outlet": "OECD AI Incidents",
+          "title": "AI-Generated Deepfake Attack Ad Targets Texas Senate Candidate",
+          "url": "https://oecd.ai/en/incidents/2026-08-09-c6d7"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "patrick-college-football-2026",
+      "headline": "Dan Patrick's AI spot sits three Democrats in college football stadiums saying things they never said",
+      "date": "2026-09-05",
+      "cycle": "2026",
+      "race": "Lieutenant Governor — Texas (and statewide ticket)",
+      "state": "TX",
+      "level": "state",
+      "sponsor": {
+        "name": "Dan Patrick campaign",
+        "type": "candidate committee",
+        "xHandle": "DanPatrick",
+        "party": "R",
+        "sortName": "Patrick campaign"
+      },
+      "depicted": [
+        {
+          "name": "Vikki Goodwin",
+          "role": "Texas state representative, candidate for lieutenant governor (D)",
+          "xHandle": "VikkiGoodwinTX",
+          "party": "D",
+          "sortName": "Goodwin"
+        },
+        {
+          "name": "Gina Hinojosa",
+          "role": "Texas state representative, gubernatorial nominee (D)",
+          "xHandle": "GinaHinojosaTX",
+          "party": "D",
+          "sortName": "Hinojosa"
+        },
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A 50-second spot staged across Texas college football. A synthetic Vikki Goodwin jots down new levies at a Longhorns game — a soda tax, a brisket tax, a happiness tax, a \"nostalgia surcharge\". A synthetic Gina Hinojosa demands gun permits from Texas Tech's Masked Rider and fans flashing Guns Up. A synthetic Talarico, in a \"Don't Mess with Trans Kids\" shirt, calls the Aggies' 12th Man tradition \"so gendered\".",
+      "whatIsReal": "The stadium traditions the ad borrows, and the tax-and-guns argument underneath.",
+      "whatIsFabricated": "All three Democrats and every line they speak. Goodwin said the ad exists because Patrick could not beat her on the facts.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Lines written for and delivered by synthetic versions of three real candidates.",
+        "realism": 1,
+        "realismNote": "Comic set pieces rather than documentary footage, but rendered photorealistically and set in instantly recognisable real venues.",
+        "disclosure": 3,
+        "disclosureNote": "The ad names Patrick's campaign as sponsor but carries no AI notice. Texas' deepfake statute bites only within 30 days of an election, and this ran months out."
+      },
+      "sources": [
+        {
+          "outlet": "Texas Tribune",
+          "title": "Texas college football brands used in Dan Patrick's AI campaign ad",
+          "url": "https://www.texastribune.org/2026/09/14/texas-college-football-trademark-dan-patrick-campaigning/"
+        },
+        {
+          "outlet": "The Texan",
+          "title": "Texas Republican Candidates Embrace AI-Generated Campaign Ads Ahead of November",
+          "url": "https://thetexan.news/elections/2026/texas-republican-candidates-embrace-ai-generated-campaign-ads-ahead-of-november/article_ac4d247b-a518-4275-81db-6ef7d94449b9.html"
+        },
+        {
+          "outlet": "San Antonio Current",
+          "title": "Texas Republicans rely on AI slop to attack Democratic rivals as midterms draw closer",
+          "url": "https://www.sacurrent.com/news/texas-news/texas-republicans-rely-on-ai-slop-to-attack-democratic-rivals-as-midterms-draw-closer/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/DanPatrick/status/2096252283919224868",
+        "provenance": "official_source",
+        "verificationNote": "Posted 5 September 2026 by Patrick's own account over the caption \"College football is back. Before the first whistle, take a look at the failed playbook Goodwin and her socialist squad have for Texas.\" — the posting the Texas Tribune and The Texan cite."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "patrick-flag-on-the-play-2026",
+      "headline": "Patrick's follow-up flags an AI Goodwin for \"roughing the taxpayer\"",
+      "date": "2026-09-12",
+      "cycle": "2026",
+      "race": "Lieutenant Governor — Texas",
+      "state": "TX",
+      "level": "state",
+      "sponsor": {
+        "name": "Dan Patrick campaign",
+        "type": "candidate committee",
+        "xHandle": "DanPatrick",
+        "party": "R",
+        "sortName": "Patrick campaign"
+      },
+      "depicted": [
+        {
+          "name": "Vikki Goodwin",
+          "role": "Texas state representative, candidate for lieutenant governor (D)",
+          "xHandle": "VikkiGoodwinTX",
+          "party": "D",
+          "sortName": "Goodwin"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A second football-framed spot in the same run: a synthetic Goodwin talks taxes at a University of Texas game while a referee throws a flag and calls a personal foul for \"roughing the taxpayer\".",
+      "whatIsReal": "Goodwin's tax positions are the ad's argument; the depiction is not.",
+      "whatIsFabricated": "Goodwin, the stadium scene and everything she says in it.",
+      "disclosure": {
+        "present": true,
+        "wording": "digitally generated imagery",
+        "placement": "noted in the accompanying post rather than on the video",
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Words written for and spoken by a synthetic version of a real candidate.",
+        "realism": 1,
+        "realismNote": "A sports-broadcast parody; constructed on its face, though the likeness and setting are photoreal.",
+        "disclosure": 2,
+        "disclosureNote": "A notice of digitally generated imagery appears with the post, not burned into the video — so it does not travel with the clip once someone re-shares the file."
+      },
+      "sources": [
+        {
+          "outlet": "The Texan",
+          "title": "Texas Republican Candidates Embrace AI-Generated Campaign Ads Ahead of November",
+          "url": "https://thetexan.news/elections/2026/texas-republican-candidates-embrace-ai-generated-campaign-ads-ahead-of-november/article_ac4d247b-a518-4275-81db-6ef7d94449b9.html"
+        },
+        {
+          "outlet": "Texas Tribune",
+          "title": "Texas college football brands used in Dan Patrick's AI campaign ad",
+          "url": "https://www.texastribune.org/2026/09/14/texas-college-football-trademark-dan-patrick-campaigning/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/DanPatrick/status/2098788728890150981",
+        "provenance": "official_source",
+        "verificationNote": "Posted 12 September 2026 by Patrick's own account as \"Roughing the taxpayer. Personal foul on Vikki Goodwin.\""
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "abbott-hinojosa-trans-flag-2026",
+      "headline": "Abbott's campaign swaps the American flag in a Hinojosa clip for a transgender pride flag",
+      "date": "2026-09-08",
+      "cycle": "2026",
+      "race": "Governor — Texas",
+      "state": "TX",
+      "level": "state",
+      "sponsor": {
+        "name": "Greg Abbott campaign",
+        "type": "candidate committee",
+        "xHandle": "GovHotWheels_TX",
+        "party": "R",
+        "sortName": "Abbott campaign"
+      },
+      "depicted": [
+        {
+          "name": "Gina Hinojosa",
+          "role": "Texas state representative, gubernatorial nominee (D)",
+          "xHandle": "GinaHinojosaTX",
+          "party": "D",
+          "sortName": "Hinojosa"
+        }
+      ],
+      "techniques": [
+        "generated-image"
+      ],
+      "howAiUsed": "An image taken from real video of Hinojosa and digitally altered so that the American flag behind her becomes a transgender pride flag, posted over the claim that she \"wants to turn your local public school into a gender transition camp\".",
+      "whatIsReal": "The photograph of Hinojosa, and the setting it was taken in.",
+      "whatIsFabricated": "The flag — and with it the impression that she chose to stand in front of it.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 2,
+        "fabricationNote": "A real image of a real candidate materially recontextualised by altering what is behind her; no act or statement is invented for her.",
+        "realism": 2,
+        "realismNote": "An edit to a genuine photograph, so nothing about it looks generated — the only way to catch it is to find the original video.",
+        "disclosure": 3,
+        "disclosureNote": "No AI or alteration notice on the image or the post."
+      },
+      "sources": [
+        {
+          "outlet": "The Texan",
+          "title": "Texas Republican Candidates Embrace AI-Generated Campaign Ads Ahead of November",
+          "url": "https://thetexan.news/elections/2026/texas-republican-candidates-embrace-ai-generated-campaign-ads-ahead-of-november/article_ac4d247b-a518-4275-81db-6ef7d94449b9.html"
+        },
+        {
+          "outlet": "San Antonio Current",
+          "title": "Texas Republicans rely on AI slop to attack Democratic rivals as midterms draw closer",
+          "url": "https://www.sacurrent.com/news/texas-news/texas-republicans-rely-on-ai-slop-to-attack-democratic-rivals-as-midterms-draw-closer/"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "x",
+        "original_ad_url": "https://x.com/GovHotWheels_TX/status/2097421725864464881",
+        "provenance": "official_source",
+        "verificationNote": "Posted 8 September 2026 by the Abbott campaign account The Texan identifies as the source of this image; the post carries the altered still and the \"gender transition camp\" line."
+      },
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "citizens-sanity-nonbinary-god-2026",
+      "headline": "The same PAC casts an AI Talarico as a street preacher under a \"God is nonbinary\" sign",
+      "date": "2026-06-11",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Citizens for Sanity",
+        "type": "super PAC",
+        "xHandle": "citizens_sanity",
+        "party": "R",
+        "sortName": "Citizens for Sanity"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A synthetic Talarico appears as a dishevelled preacher beside a sign reading \"God is nonbinary\", delivering lines about a \"radical feminist\" Jesus while a woman warns children not to make eye contact with him.",
+      "whatIsReal": "Talarico, a seminarian, has spoken publicly about God and gender — the remarks the ad is stretching.",
+      "whatIsFabricated": "The preacher, the scene and the delivery. None of it happened.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Speech written for and delivered in the likeness of a real candidate.",
+        "realism": 1,
+        "realismNote": "Staged as caricature — the unhinged-preacher framing signals construction even as the likeness holds.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label, consistent with the group's other Talarico spots that week."
+      },
+      "sources": [
+        {
+          "outlet": "PolitiFact",
+          "title": "AI ads skewed Talarico's words and positions. It's part of a trend",
+          "url": "https://www.politifact.com/article/2026/jun/22/talarico-artificial-intelligence-ads-senate-texas/"
+        },
+        {
+          "outlet": "Washington Examiner",
+          "title": "AI deepfake ads invade midterm election campaigns",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/congressional/4617529/ai-deepfake-ad-midterm-election-campaign/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "citizens-sanity-welcome-mat-2026",
+      "headline": "An AI Talarico rolls out a welcome mat at the border",
+      "date": "2026-06-12",
+      "cycle": "2026",
+      "race": "US Senate — Texas",
+      "state": "TX",
+      "level": "federal",
+      "sponsor": {
+        "name": "Citizens for Sanity",
+        "type": "super PAC",
+        "xHandle": "citizens_sanity",
+        "party": "R",
+        "sortName": "Citizens for Sanity"
+      },
+      "depicted": [
+        {
+          "name": "James Talarico",
+          "role": "Texas state representative, US Senate candidate (D)",
+          "xHandle": "jamestalarico",
+          "party": "D",
+          "sortName": "Talarico"
+        }
+      ],
+      "techniques": [
+        "synthetic-video"
+      ],
+      "howAiUsed": "A synthetic Talarico sweeps and unrolls a mat reading \"Everybody is welcome\" at a border fence. It ran on Facebook as well as X and drew roughly 1.4 million impressions on Facebook alone.",
+      "whatIsReal": "Talarico's immigration positions are the argument; the depiction is not.",
+      "whatIsFabricated": "Talarico's presence at the border and the act itself.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "A real candidate shown performing an act he never performed; no words attributed to him.",
+        "realism": 1,
+        "realismNote": "A visual metaphor rather than documentary footage, though photoreal in execution.",
+        "disclosure": 3,
+        "disclosureNote": "No AI label on either the X or the Facebook placement."
+      },
+      "sources": [
+        {
+          "outlet": "PolitiFact",
+          "title": "AI ads skewed Talarico's words and positions. It's part of a trend",
+          "url": "https://www.politifact.com/article/2026/jun/22/talarico-artificial-intelligence-ads-senate-texas/"
+        },
+        {
+          "outlet": "Washington Examiner",
+          "title": "AI deepfake ads invade midterm election campaigns",
+          "url": "https://www.washingtonexaminer.com/news/campaigns/congressional/4617529/ai-deepfake-ad-midterm-election-campaign/"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "law-stcharles-deepfake-2026",
+      "headline": "A county-executive candidate deepfakes both rivals — and himself — into a single spoof ad",
+      "date": "2026-07-20",
+      "cycle": "2026",
+      "race": "County Executive — St. Charles County, Missouri (R primary)",
+      "state": "MO",
+      "level": "local",
+      "sponsor": {
+        "name": "Jason Law for County Executive",
+        "type": "candidate committee",
+        "xHandle": null,
+        "party": "R",
+        "sortName": "Law campaign"
+      },
+      "depicted": [
+        {
+          "name": "Steve Ehlmann",
+          "role": "St. Charles County Executive (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Ehlmann"
+        },
+        {
+          "name": "Bill Eigel",
+          "role": "former Missouri state senator, county executive candidate (R)",
+          "xHandle": "BillEigel",
+          "party": "R",
+          "sortName": "Eigel"
+        },
+        {
+          "name": "Jason Law",
+          "role": "county executive candidate (R)",
+          "xHandle": null,
+          "party": "R",
+          "sortName": "Law"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "voice-clone"
+      ],
+      "howAiUsed": "A wholly AI-generated spot from the third candidate in the race. Ehlmann is shown asleep at his desk while Eigel laughs that people actually believe he will abolish the personal property tax; the two make extreme claims about taxes, development and donations. Law says his own on-screen appearance is synthetic too, and that he took the idea from the Spencer Pratt videos in Los Angeles.",
+      "whatIsReal": "The tax and development disputes the race turned on.",
+      "whatIsFabricated": "Every person and every line. Ehlmann objected that \"the lies are what bother me the most\"; Eigel called it a dishonest portrayal.",
+      "disclosure": {
+        "present": false,
+        "wording": null,
+        "placement": null,
+        "platformLabel": null
+      },
+      "channels": [
+        "broadcast",
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 4,
+        "fabricationNote": "Words written for and spoken by synthetic versions of two real opponents. That the sponsor also synthesised himself does not soften what is attributed to them.",
+        "realism": 1,
+        "realismNote": "Played as spoof, but rendered convincingly enough that the incumbent's objection was to being believed, not to being mocked.",
+        "disclosure": 3,
+        "disclosureNote": "No AI disclosure. Missouri has no law requiring one; the ad became the local argument for passing one."
+      },
+      "sources": [
+        {
+          "outlet": "First Alert 4",
+          "title": "AI-generated political ad in St. Charles County raises deepfake questions ahead of primary election",
+          "url": "https://www.firstalert4.com/2026/07/20/ai-generated-political-ad-st-charles-county-raises-deepfake-questions-ahead-primary-election/"
+        },
+        {
+          "outlet": "First Alert 4",
+          "title": "After AI deepfake campaign ad, St Charles Co Exec wants guardrails passed",
+          "url": "https://www.firstalert4.com/2026/08/11/after-ai-deepfake-campaign-ad-st-charles-co-exec-wants-guardrails-passed/"
+        },
+        {
+          "outlet": "Futurism",
+          "title": "Voters Are Being Inundated by a Barrage of AI-Generated Election Ads",
+          "url": "https://futurism.com/artificial-intelligence/voters-elections-conservative-generative-ai-slop-ads-deepfakes"
+        }
+      ],
+      "embed": null,
+      "video": null,
+      "reviewStatus": "corroborated"
+    },
+    {
+      "id": "perry-johnson-golf-course-2026",
+      "headline": "Perry Johnson's six-minute AI ad tackles John James and unmasks him as Jocelyn Benson",
+      "date": "2026-07-01",
+      "cycle": "2026",
+      "race": "Governor — Michigan (R primary)",
+      "state": "MI",
+      "level": "state",
+      "sponsor": {
+        "name": "Perry Johnson for Governor",
+        "type": "candidate committee",
+        "xHandle": "PerryJohnsonGOP",
+        "party": "R",
+        "sortName": "Johnson campaign"
+      },
+      "depicted": [
+        {
+          "name": "John James",
+          "role": "US Representative, gubernatorial candidate (R-MI)",
+          "xHandle": "JohnJamesMI",
+          "party": "R",
+          "sortName": "James"
+        },
+        {
+          "name": "Jocelyn Benson",
+          "role": "Michigan Secretary of State (D)",
+          "xHandle": "JocelynBenson",
+          "party": "D",
+          "sortName": "Benson"
+        },
+        {
+          "name": "Perry Johnson",
+          "role": "Michigan gubernatorial candidate (R)",
+          "xHandle": "PerryJohnsonGOP",
+          "party": "R",
+          "sortName": "Johnson"
+        }
+      ],
+      "techniques": [
+        "synthetic-video",
+        "face-swap"
+      ],
+      "howAiUsed": "An unusually long AI spot — roughly six minutes — in which a synthetic Johnson chases his primary rival John James across a golf course, tackles him, and pulls off a mask to reveal Secretary of State Jocelyn Benson underneath.",
+      "whatIsReal": "The primary rivalry the ad dramatises.",
+      "whatIsFabricated": "All three figures and the entire sequence.",
+      "disclosure": {
+        "present": true,
+        "wording": "an AI disclosure carried with the ad",
+        "placement": "with the ad as run",
+        "platformLabel": "Listed in the Meta Ad Library, which records the ad's sponsor and run dates."
+      },
+      "channels": [
+        "social",
+        "digital"
+      ],
+      "rubric": {
+        "fabrication": 3,
+        "fabricationNote": "Two real officials shown in a physical confrontation and a disguise that never happened; no words are put in their mouths.",
+        "realism": 0,
+        "realismNote": "A mask-pulling golf-course chase; the premise is cartoon and reads as one.",
+        "disclosure": 1,
+        "disclosureNote": "Disclosed, and registered in the Meta Ad Library where the sponsor and run are on the public record — the strongest disclosure posture in this ledger alongside the Nesbitt spot."
+      },
+      "sources": [
+        {
+          "outlet": "Bridge Michigan",
+          "title": "AI campaign ads are here. Is Michigan's new deepfake law ready?",
+          "url": "https://bridgemi.com/michigan-government/ai-campaign-ads-are-here-is-michigans-new-deepfake-law-ready/"
+        },
+        {
+          "outlet": "Associated Press",
+          "title": "Real ads, fake images: AI enters Michigan governor's race",
+          "url": "https://www.yahoo.com/news/politics/articles/real-ads-fake-images-ai-100320385.html"
+        }
+      ],
+      "embed": null,
+      "video": {
+        "platform": "meta-ad-library",
+        "original_ad_url": "https://www.facebook.com/ads/library/?id=3058070851060058",
+        "provenance": "archive_verified",
+        "verificationNote": "Catalogued in Meta's public Ad Library under the Johnson campaign — the record Bridge Michigan links for this ad. An Ad Library entry is a viewer for the ad rather than a public post, so it cannot be embedded."
+      },
+      "reviewStatus": "needs-verification",
+      "reviewNote": "The exact release date is approximate: Bridge Michigan places the ad shortly before two debates in mid-July 2026 without giving one, and the Ad Library entry has not been read directly to pin the run dates."
     }
   ]
 }

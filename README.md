@@ -83,9 +83,9 @@ Append to `data/ads.json`, then `npm test && npm run build`. Tests enforce:
 
 Set `reviewStatus: "needs-verification"` whenever a rubric input is unsettled. The
 page renders those with a provisional banner and the stated reason. Two records
-carry it now: the Cornyn "Love Shack" spot (disclosure reported at campaign level,
-not confirmed on the spot) and the Platner ad (no on-ad label confirmed in
-reporting). The Wall video previously carried it too; the Texas Tribune has since
+Six carry it now, each for a stated reason recorded in `reviewNote` — an
+unconfirmed on-ad label, a contested claim about whose words are being recited,
+or a publication date that reporting places only approximately. The Wall video previously carried it too; the Texas Tribune has since
 confirmed the spoken parody disclosure, so it is now corroborated and its disclosure
 input moved from 3 to 2 — which moved the computed score from 4 to 3.
 
@@ -96,11 +96,15 @@ input moved from 3 to 2 — which moved the computed score from 4 to 3.
    contact. Everything else falls back to an X *search* link on purpose — a wrong
    handle points complaints at an uninvolved person. Verify each one against the
    official account before launch.
-2. **Original video.** 15 of 17 records now carry a located original, and all 15
-   are embedded: 5 YouTube, 7 X, 2 Facebook and 1 Instagram. Two are
+2. **Original video.** 25 of 41 records carry a located original. 24 are embedded
+   — 9 YouTube, 12 X, 2 Facebook, 1 Instagram — and one more (a Meta Ad Library
+   entry) is linked, since an Ad Library page is a viewer for an ad rather than a
+   public post. The remaining 16 are
    still unlocated — the Cornyn "show dog" video and the Wall video — and render the
-   explicit "not yet located" state rather than borrowing a reporter's repost. See
-   **Original ad video** below for the data shape and the rule that gates embedding.
+   records where reporting documents the ad but no copy on the sponsor's own
+   channels has been found; they render the explicit "not yet located" state
+   rather than borrowing a reporter's repost. See **Original ad video** below for
+   the data shape and the rule that gates embedding.
 3. **Scores are editorial.** They are assessments against a published rubric, not
    legal findings, and no record here asserts that any ad broke a law.
 
