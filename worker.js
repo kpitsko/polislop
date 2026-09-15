@@ -2,6 +2,7 @@
 //
 //   GET  /api/ads          published corpus, scores computed server-side
 //   GET  /api/rubric       the scoring rubric, for anyone auditing a score
+//   GET  /api/oembed       Meta embed markup for a public Instagram/Facebook URL
 //   POST /api/triage       draft rubric sub-scores for a candidate ad
 //
 // /api/triage is a REVIEWER AID, not a publisher. It returns a proposal that a
@@ -11,6 +12,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import corpus from "./data/ads.json";
 import { scoreRecord, fccApplies, DIMENSIONS, BANDS } from "./src/scoring.js";
+import { fetchMetaOEmbed, metaEndpointFor } from "./src/oembed.js";
 
 const MODEL = "claude-opus-5";
 
@@ -110,8 +112,50 @@ async function triage(request, env) {
   }
 }
 
+/**
+ * Meta oEmbed, proxied.
+ *
+ * The site itself does not need this at request time - build.mjs bakes the
+ * markup in from data/oembed-cache.json - but the mechanism belongs in the
+ * Worker so the cache can be refreshed, a URL can be checked before it is added
+ * to the corpus, and the site is never one Meta outage away from a broken page.
+ *
+ * Responses are held in Cloudflare's edge cache so repeated lookups for the same
+ * ad do not become repeated calls to Meta.
+ */
+const OEMBED_TTL = 60 * 60 * 24; // a day; the underlying posts change rarely
+
+async function oembedRoute(request, env, ctx) {
+  const url = new URL(request.url).searchParams.get("url");
+  if (!url) return json({ error: "Pass ?url= a public Instagram or Facebook post URL" }, 400);
+  if (!metaEndpointFor(url)) {
+    // Being specific here matters: an Ad Library link is a viewer for an ad, not
+    // a post, and no amount of retrying will make it embeddable.
+    return json({
+      ok: false,
+      reason: "not-a-public-meta-post",
+      detail: "Only public instagram.com and facebook.com post, reel or video URLs have an oEmbed. Ad Library permalinks do not.",
+    }, 422);
+  }
+
+  const key = new Request(`https://polislop.org/api/oembed?url=${encodeURIComponent(url)}`, { method: "GET" });
+  const cache = caches.default;
+  const hit = await cache.match(key);
+  if (hit) return hit;
+
+  const result = await fetchMetaOEmbed(url, { token: env.META_OEMBED_TOKEN || null });
+  const res = json(result, result.ok ? 200 : 502);
+  // Only successes are cached: a rejection may be a transient Meta error, and
+  // caching that for a day would strand an ad that is actually embeddable.
+  if (result.ok) {
+    res.headers.set("cache-control", `public, max-age=${OEMBED_TTL}`);
+    ctx?.waitUntil?.(cache.put(key, res.clone()));
+  }
+  return res;
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
     const { pathname } = new URL(request.url);
 
@@ -124,8 +168,9 @@ export default {
     if (request.method === "GET" && pathname === "/api/rubric") {
       return json({ dimensions: DIMENSIONS, bands: BANDS });
     }
+    if (request.method === "GET" && pathname === "/api/oembed") return oembedRoute(request, env, ctx);
     if (request.method === "POST" && pathname === "/api/triage") return triage(request, env);
 
-    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "POST /api/triage"] }, 404);
+    return json({ error: "Not found", routes: ["GET /api/ads", "GET /api/rubric", "GET /api/oembed", "POST /api/triage"] }, 404);
   },
 };

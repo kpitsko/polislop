@@ -212,20 +212,20 @@ h2.rec-title { font-size: clamp(21px, 2.6vw, 27px); font-weight: 700; letter-spa
   border: 1px solid var(--rule-strong); border-radius: 4px; overflow: hidden; }
 .embed-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 @supports not (aspect-ratio: 16 / 9) { .embed-frame { height: 0; padding-bottom: 56.25%; } }
-/* X sizes its own widget, so this only bounds and centres it. The pre-hydration
-   blockquote is styled as a readable quote so the degraded state looks
-   deliberate rather than broken. */
-.embed-x { max-width: 550px; position: relative; }
-/* Off-screen rather than hidden: the widget needs real layout to measure itself,
-   and display:none would keep it at zero height forever. */
-.embed-x-stage { position: absolute; left: -10000px; top: 0; width: 550px; }
-.embed-x-live { width: 100%; }
-.embed-x .twitter-tweet { margin: 0 !important; }
-.embed-x blockquote:not(.twitter-tweet-rendered) {
-  border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--sunk);
-  padding: 16px; font-size: 14px; color: var(--ink-soft);
-}
-.embed-x blockquote:not(.twitter-tweet-rendered) a { color: var(--accent); }
+/* Staged embeds. The stage is positioned off-screen rather than display:none,
+   because a display:none element can never measure itself and so could never be
+   promoted. Providers size their own embeds; this only bounds them. */
+.embed-staged { max-width: 100%; position: relative; }
+.embed-stage { position: absolute; left: -10000px; top: 0; width: 550px; }
+.embed-stage-live { position: static; left: auto; width: 100%; max-width: 658px; }
+.embed-stage-live iframe { max-width: 100%; }
+.embed-stage-live .twitter-tweet { margin: 0 !important; }
+.embed-stage-live .instagram-media { margin: 0 !important; min-width: 0 !important; }
+.embed-stage-live .fb-post, .embed-stage-live .fb-video { max-width: 100%; }
+/* Meta's SDK writes fixed pixel widths onto its own wrappers; without this the
+   embed overflows the card on a phone. */
+.embed-stage-live .fb-post span, .embed-stage-live .fb-video span,
+.embed-stage-live .fb-post iframe, .embed-stage-live .fb-video iframe { max-width: 100% !important; }
 .prov-line { margin: 7px 0 0; font-size: 12.5px; color: var(--muted); max-width: 62ch; }
 .prov-line em { display: block; margin-top: 3px; font-style: normal; color: var(--muted); opacity: .92; }
 .prov-tag {
@@ -382,9 +382,9 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     <p>Each record's video area has three states, and never a fourth. Where the original ad has been located and its provenance established, it is framed in the page. Where the original exists but cannot be framed &mdash; a platform that does not play reliably inside another site, or a link nothing has yet tied to the ad &mdash; the card names the platform and links straight to it. Where the original has not been found, the card says so plainly rather than filling the space.</p>
     <p>The ledger will not frame a video on the strength of a plausible-looking link. Every located original carries a <b>provenance</b> grade saying how it was established: <b>Official account</b>, published on the sponsor's own campaign or committee account; <b>Archive</b>, captured in a political-ad archive or public ad library; <b>Reporting</b>, where credible coverage identifies that exact posting as the ad; <b>Human-reviewed</b>, where a person watched the footage against the cited reporting. A link that meets none of these is marked <b>Unverified</b> and is never framed.</p>
     <p>What the grades have in common is that each answers the question a player has to answer &mdash; is the thing on the other end of this link the advertisement? &mdash; from an independent direction. A news segment <em>about</em> an ad is never shown in place of the ad, and links to reporting are always labelled as reporting.</p>
-    <p>YouTube and X ads play here. A YouTube ad is framed directly. An X post is asked for in the background and shown only once it has actually rendered &mdash; X answers the same request with a working post one minute and an empty shell the next, so until it returns something real the card keeps the <b>Watch original ad</b> button, and if a rendered post later collapses the button comes back. The page would rather hand you a button that works than a rectangle that might.</p>
-    <p>Instagram and Facebook are linked, not framed, and not by preference: Instagram refuses to be embedded at all (it answers with <span class="mono">x-frame-options: DENY</span>), and Facebook's video plugin returns a page that paints nothing for the reel URLs these ads live at. Every framed player also carries a direct link beneath it, so no reader depends on an embed working.</p>
-
+    <p>Ads play here from four platforms, each by that platform's own supported route: YouTube in a frame, X through its widget script, and Instagram and Facebook through <b>Meta's oEmbed API</b> &mdash; polislop asks Meta for the public post's embed markup and lets Meta's own script render it. Framing a Meta URL directly does not work, but that is a fact about iframes, not about Meta content: public Instagram and Facebook posts and reels are embeddable, and the ones here are embedded.</p>
+    <p>No provider is taken on trust, because none of them is reliable in the same way. X answers identical markup with a working post one minute and an empty shell the next. Meta's <span class="mono">oembed_post</span> and <span class="mono">oembed_video</span> endpoints return success for any URL without checking whether the post exists. So every one of these starts as the <b>Watch original ad</b> button, builds the player out of sight, and swaps the two only once the provider has actually rendered something. If a rendered post later collapses, the button comes back. The page would rather hand you a button that works than a rectangle that might.</p>
+    <p>One Meta link genuinely cannot be embedded: an <b>Ad Library</b> permalink is a viewer for an ad rather than a public post, and no oEmbed endpoint serves one. Those are linked, and so is anything Meta declines. A record only says the original was <em>not located</em> when no copy of the ad has been found at all &mdash; never merely because a platform refused to embed it.</p>
     <h3 style="margin-top:22px">Jurisdiction</h3>
     <p>FCC jurisdiction covers broadcast, cable, satellite and radio. Ads that ran only on social platforms or web video fall outside it, and the ledger says so per record rather than sending you to the wrong agency.</p>
   </footer>
@@ -475,6 +475,10 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     // truthfully, so a reader who never sees the upgrade is not told a player
     // is coming that may never arrive.
     "pending-x": "X does not always return an embeddable copy of a post. If it does, the ad appears here; either way this button opens the original.",
+    "pending-meta": "If Meta returns an embeddable copy of this post, the ad appears here; either way this button opens the original.",
+    // A located original Meta declines to serve. The ad is not missing - Meta
+    // simply will not hand over an embed for it.
+    "meta-refused": "Meta does not serve an embeddable copy of this post, so the ad opens on the platform instead.",
     "not-embeddable": "This platform does not play reliably inside another site, so the ad opens on the platform instead.",
     "embed-blocked": "Embedding is disabled on the original posting.",
   };
@@ -495,6 +499,18 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
          </div>
          <a class="btn btn-watch" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Watch original ad<span class="sr-only"> on ${platform}</span><span aria-hidden="true"> &rarr;</span></a>
        </div>${extra}${provLine(v)}`;
+  }
+
+  // Every script-driven embed - X, Instagram, Facebook - is rendered the same
+  // way: the working watch card is what the reader gets, the provider's
+  // placeholder is built off-screen, and the two are swapped only once the
+  // provider has actually rendered something. `provider` names which script has
+  // to run for this host, so the page loads only what is on the page.
+  function staged(provider, inner, v, platform, reason) {
+    return `<div class="embed-staged" data-provider="${esc(provider)}">
+         <div class="embed-stage" aria-hidden="true">${inner}</div>
+         <div class="embed-fallback">${watchCard(v, platform, reason)}</div>
+       </div>`;
   }
 
   // How the original was established. Shown on every located record so a reader
@@ -537,14 +553,16 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     // place. Nothing here can leave an empty rectangle: if X is throttled,
     // blocked, or simply slow, the working button is what stays on the page.
     if (v.mode === "embed" && v.embedKind === "x-post" && v.videoId) {
-      return `<div class="embed-x" data-x-id="${esc(v.videoId)}">
-           <div class="embed-x-stage" aria-hidden="true">
-             <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none" data-lang="en">
+      return staged("x", `<blockquote class="twitter-tweet" data-dnt="true" data-conversation="none" data-lang="en">
                <a href="${esc(v.watchUrl)}">Original ad posted on X${rec.sponsor ? ` by ${esc(rec.sponsor.name)}` : ""}</a>
-             </blockquote>
-           </div>
-           <div class="embed-x-card">${watchCard(v, platform, NO_EMBED_REASON["pending-x"])}</div>
-         </div>`;
+             </blockquote>`, v, platform, NO_EMBED_REASON["pending-x"]);
+    }
+
+    // Meta hands back the placeholder element for a public post; its own script
+    // swaps that for the real thing. The markup is Meta's, checked at build
+    // time (src/oembed.js) and injected verbatim rather than reconstructed.
+    if (v.mode === "embed" && v.embedKind === "meta-embed" && v.embedHtml) {
+      return staged(v.metaProvider, v.embedHtml, v, platform, NO_EMBED_REASON["pending-meta"]);
     }
 
     if (v.mode === "link") return watchCard(v, platform, NO_EMBED_REASON[v.reason] || NO_EMBED_REASON["not-embeddable"]);
@@ -686,31 +704,57 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
   // the deadline is replaced with the ordinary "watch original ad" card. The
   // reader gets the ad in the page when X cooperates and a working button when
   // it does not, and never the empty rectangle that sits between those.
-  const X_MIN_HEIGHT = 120;   // a real rendered post is 500px+; 0-4px means collapsed
-  const X_WATCH_MS = 12000;   // how long to keep offering X the chance to render
-  let xScript = null;
+  // ---- script-driven embeds (X, Instagram, Facebook) -----------------------
+  //
+  // All three share one problem: whether the provider actually renders a post is
+  // not knowable in advance. X throttles and returns a collapsed shell from
+  // identical markup. Meta's oembed_post/oembed_video endpoints return 200 for
+  // any URL without checking it exists, so a cached success is not proof either.
+  // (instagram_oembed does validate, which is why an Instagram miss is caught at
+  // build time instead.)
+  //
+  // So none of them are trusted. The reader is given the working watch card, the
+  // provider's placeholder is built off-screen, and the card is swapped out only
+  // once the provider has rendered something of a sensible size. Every failure -
+  // throttled, rejected, deleted, blocked, slow, or no JS at all - leaves the
+  // button in place, which is why a blank player is not a state this page has.
+  const EMBED_MIN_HEIGHT = 120;
+  const EMBED_WATCH_MS = 15000;
 
-  // Promote any staged post that has actually rendered. This is the only thing
-  // that ever swaps the card out, so a widget that never renders, renders late,
-  // or renders collapsed simply leaves the working button alone. Returns the
-  // number still waiting, so the caller knows when to stop watching.
+  const PROVIDER_SCRIPTS = {
+    x: { src: "https://platform.twitter.com/widgets.js",
+         run: (el) => window.twttr?.widgets?.load(el) },
+    instagram: { src: "https://platform.instagram.com/en_US/embeds.js",
+         run: () => window.instgrm?.Embeds?.process() },
+    facebook: { src: "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v21.0",
+         run: (el) => window.FB?.XFBML?.parse(el) },
+  };
+  const loaded = {};
+
+  // Has the provider put something real in this stage? Providers differ in what
+  // they leave behind - X swaps in its own iframe, Meta injects one into the
+  // placeholder - so this asks the one question common to all of them.
+  function stageRendered(stage) {
+    const frame = stage.querySelector("iframe");
+    if (!frame) return false;
+    return frame.getBoundingClientRect().height >= EMBED_MIN_HEIGHT;
+  }
+
   // The card is hidden, never destroyed, and the decision is re-evaluated every
-  // time this runs. So a post that renders and then collapses - X does reload
-  // widgets - brings its button back rather than leaving a hole in the page.
-  function promoteXPosts() {
+  // time this runs. So a post that renders and then collapses - providers do
+  // reload embeds - brings its button back rather than leaving a hole.
+  function promoteEmbeds() {
     let pending = 0;
-    out.querySelectorAll(".embed-x").forEach((host) => {
-      const stage = host.querySelector(".embed-x-stage, .embed-x-live");
-      const card = host.querySelector(".embed-x-card");
+    out.querySelectorAll(".embed-staged").forEach((host) => {
+      const stage = host.querySelector(".embed-stage");
+      const card = host.querySelector(".embed-fallback");
       if (!stage || !card) return;
-      const frame = stage.querySelector('iframe[id^="twitter-widget"]');
-      const rendered = !!frame && frame.getBoundingClientRect().height >= X_MIN_HEIGHT;
+      const rendered = stageRendered(stage);
       if (!rendered) pending++;
-      if (rendered === (host.dataset.promoted === "1")) return; // already in the right state
+      if (rendered === (host.dataset.promoted === "1")) return; // already correct
       host.dataset.promoted = rendered ? "1" : "0";
       card.hidden = rendered;
-      stage.classList.toggle("embed-x-stage", !rendered);
-      stage.classList.toggle("embed-x-live", rendered);
+      stage.classList.toggle("embed-stage-live", rendered);
       if (rendered) stage.removeAttribute("aria-hidden");
       else stage.setAttribute("aria-hidden", "true");
     });
@@ -718,47 +762,52 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
   }
 
   // Promotion is driven by layout, not by a clock: a ResizeObserver fires the
-  // moment X's widget takes up space, however long that takes, and keeps
+  // moment a provider's embed takes up space, however long that takes, and keeps
   // working in a background tab where interval timers are frozen outright.
-  function watchXStage(host) {
+  function observeStage(host) {
     if (host.dataset.observed === "1" || typeof ResizeObserver === "undefined") return;
-    const stage = host.querySelector(".embed-x-stage");
+    const stage = host.querySelector(".embed-stage");
     if (!stage) return;
     host.dataset.observed = "1";
-    const ro = new ResizeObserver(() => { if (promoteXPosts() === 0) ro.disconnect(); });
+    const ro = new ResizeObserver(() => { if (promoteEmbeds() === 0) ro.disconnect(); });
     ro.observe(stage);
   }
 
-  function hydrateXPosts() {
-    if (!out.querySelector(".embed-x")) return;
-    out.querySelectorAll(".embed-x").forEach(watchXStage);
+  function hydrateEmbeds() {
+    const hosts = [...out.querySelectorAll(".embed-staged")];
+    if (!hosts.length) return;
+    hosts.forEach(observeStage);
 
-    const load = () => window.twttr?.widgets?.load(out);
-    // Poll instead of trusting a single deadline: a slow render should still be
-    // promoted, and a hidden tab throttles this loop to roughly once a minute -
-    // harmless, because the state it is upgrading from is already usable.
+    // Only the providers actually on screen are ever requested, so a page with
+    // no Instagram ad never calls Instagram.
+    const needed = [...new Set(hosts.map((h) => h.dataset.provider))].filter((p) => PROVIDER_SCRIPTS[p]);
+    const runAll = () => needed.forEach((p) => { try { PROVIDER_SCRIPTS[p].run(out); } catch { /* provider not ready yet */ } });
+
+    for (const p of needed) {
+      if (loaded[p]) continue;
+      loaded[p] = true;
+      const el = document.createElement("script");
+      el.src = PROVIDER_SCRIPTS[p].src;
+      el.async = true;
+      el.crossOrigin = "anonymous";
+      el.onload = () => { try { PROVIDER_SCRIPTS[p].run(out); } catch { /* ignore */ } };
+      document.body.appendChild(el);
+    }
+    runAll();
+
     let waited = 0;
     const tick = setInterval(() => {
       waited += 1000;
-      load();
-      if (promoteXPosts() === 0 || waited >= X_WATCH_MS) clearInterval(tick);
+      runAll();
+      if (promoteEmbeds() === 0 || waited >= EMBED_WATCH_MS) clearInterval(tick);
     }, 1000);
-    // A reader coming back to a throttled tab gets one more attempt right away.
+    // A reader returning to a throttled tab gets one more attempt immediately.
     document.addEventListener("visibilitychange", function once() {
       if (document.visibilityState !== "visible") return;
       document.removeEventListener("visibilitychange", once);
-      load();
-      setTimeout(promoteXPosts, 2500);
+      runAll();
+      setTimeout(promoteEmbeds, 2500);
     });
-
-    if (window.twttr && window.twttr.widgets) return void load();
-    if (xScript) return; // already in flight
-    xScript = document.createElement("script");
-    xScript.src = "https://platform.twitter.com/widgets.js";
-    xScript.async = true;
-    xScript.charset = "utf-8";
-    xScript.onload = load;
-    document.body.appendChild(xScript);
   }
 
   function apply() {
@@ -795,7 +844,7 @@ footer p { max-width: var(--measure); margin: 0 0 12px; }
     } else {
       list.forEach((r) => out.append(render(r)));
     }
-    hydrateXPosts();
+    hydrateEmbeds();
     const label = ctl.sort.selectedOptions[0].textContent.replace(/&ndash;|â€“/g, "-");
     countEl.textContent = `${list.length} of ${records.length} · by ${label.toLowerCase()} · updated ${updated}`;
   }

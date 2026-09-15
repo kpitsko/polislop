@@ -14,6 +14,8 @@
 // ledger runs on. Requiring a human to sit through every clip would leave ads
 // unwatchable on the page for no gain in accuracy.
 
+import { metaEndpointFor, metaProviderFor } from "./oembed.js";
+
 // Which platforms we can frame in-page, and how their URLs are built. Anything
 // not embeddable still gets a "watch original" link - the ad stays reachable,
 // it just is not played inside polislop.
@@ -23,14 +25,18 @@
 // <blockquote> that its own widget script upgrades into a player. Both are
 // tested against the real postings in the corpus, not assumed:
 //
-//   youtube  iframe   youtube-nocookie.com/embed/<id>      renders
-//   x        widget   platform.twitter.com/widgets.js      renders, with video
-//   instagram    -    /embed/ replies `x-frame-options: DENY`   refuses framing
-//   facebook     -    plugins/video.php 200s but paints an empty box for /reel/
+//   youtube    iframe       youtube-nocookie.com/embed/<id>
+//   x          widget       platform.twitter.com/widgets.js
+//   instagram  meta-embed   graph.facebook.com instagram_oembed + embeds.js
+//   facebook   meta-embed   graph.facebook.com oembed_post/oembed_video + SDK
 //
-// Instagram and Facebook therefore get a prominent "watch original ad" button.
-// Framing them would reintroduce the empty-player failure this module exists to
-// prevent, which is worse for a reader than an honest link out.
+// Meta content IS embeddable; what does not work is framing a Meta URL in an
+// <iframe> yourself. Meta's supported route is oEmbed - see src/oembed.js - and
+// a `meta-embed` row carries the markup that call returned, which Meta's own
+// script then upgrades into the post.
+//
+// Only the Ad Library stays unembeddable, because an Ad Library permalink is a
+// viewer for an ad rather than a public post, and no oEmbed endpoint serves one.
 export const PLATFORMS = {
   youtube: {
     label: "YouTube",
@@ -53,9 +59,23 @@ export const PLATFORMS = {
     idLabel: "numeric X status ID",
     watchUrl: (id) => `https://x.com/i/status/${id}`,
   },
+  // Both Meta platforms embed through oEmbed rather than through a URL we
+  // build, so their reference is the canonical permalink itself.
+  instagram: {
+    label: "Instagram",
+    embeddable: true,
+    embedKind: "meta-embed",
+    idFromUrl: (url) => (metaEndpointFor(url) === "instagram_oembed" ? url : null),
+    idLabel: "public Instagram post or reel URL",
+  },
+  facebook: {
+    label: "Facebook",
+    embeddable: true,
+    embedKind: "meta-embed",
+    idFromUrl: (url) => (metaProviderFor(url) === "facebook" ? url : null),
+    idLabel: "public Facebook post, video or reel URL",
+  },
   "meta-ad-library": { label: "Meta Ad Library", embeddable: false },
-  facebook: { label: "Facebook", embeddable: false },
-  instagram: { label: "Instagram", embeddable: false },
   tiktok: { label: "TikTok", embeddable: false },
   "campaign-site": { label: "Campaign website", embeddable: false },
   "party-committee": { label: "Party committee site", embeddable: false },
@@ -215,7 +235,11 @@ export function validateVideo(record) {
  *   mode "link"  - original located but not embeddable (or provenance too weak)
  *   mode "none"  - original not located; say so plainly
  */
-export function resolveVideo(record) {
+export function resolveVideo(record, opts = {}) {
+  // `oembed` is the cached Meta lookup, keyed by URL. Absent it, a Meta row has
+  // no markup to stage and degrades to a link - which is also what happens when
+  // Meta rejected the URL.
+  const oembedFor = opts.oembed ?? {};
   const v = readVideo(record);
   if (!v) return { mode: "none", platform: null, platformLabel: null, reason: "not-located" };
 
@@ -243,9 +267,14 @@ export function resolveVideo(record) {
     note: v.verificationNote ?? null,
   };
 
+  // A Meta row is only embeddable if Meta actually handed us markup for it.
+  const meta = spec?.embedKind === "meta-embed" ? oembedFor[v.original_ad_url] ?? null : null;
+  const metaReady = spec?.embedKind !== "meta-embed" || (meta?.ok === true && !!meta.html);
+
   const embeddable =
     spec?.embeddable === true &&
     !!ref &&
+    metaReady &&
     provenanceEmbeds(v.provenance) &&
     v.embed_available !== false;
 
@@ -258,6 +287,8 @@ export function resolveVideo(record) {
       mode: "embed",
       embedKind: spec.embedKind,
       embedUrl: spec.embedUrl ? spec.embedUrl(ref) : null,
+      embedHtml: meta?.html ?? null,
+      metaProvider: meta ? metaProviderFor(v.original_ad_url) : null,
     };
   }
 
@@ -271,7 +302,11 @@ export function resolveVideo(record) {
         ? "unverified"
         : spec && !spec.embeddable
           ? "not-embeddable"
-          : "embed-blocked",
+          // A located original that Meta will not serve is its own case: the ad
+          // exists and is reachable, Meta simply will not hand over an embed.
+          : spec?.embedKind === "meta-embed" && !metaReady
+            ? "meta-refused"
+            : "embed-blocked",
     };
   }
 

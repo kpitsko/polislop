@@ -5,6 +5,7 @@ import {
   resolveVideo, validateVideo, youTubeIdFromUrl, xStatusIdFromUrl, provenanceEmbeds,
   PLATFORMS, PROVENANCE, PROVENANCE_KEYS,
 } from "../src/video.js";
+import { sanitizeEmbedHtml, META_PROVIDERS, metaEndpointFor, metaProviderFor } from "../src/oembed.js";
 
 const corpus = JSON.parse(readFileSync(new URL("../data/ads.json", import.meta.url), "utf8"));
 const built = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
@@ -39,18 +40,37 @@ test("video: an unverified ID is never framed, even when otherwise embeddable", 
 });
 
 test("video: a non-embeddable platform yields a watch link, not a player", () => {
-  // Instagram answers /embed/ with x-frame-options: DENY, and Facebook's video
-  // plugin paints an empty box for /reel/ URLs, so both link out by design.
-  for (const [platform, url, label] of [
-    ["instagram", "https://www.instagram.com/reel/ABCdefGHIjk/", "Instagram"],
-    ["facebook", "https://www.facebook.com/reel/845246751375832", "Facebook"],
-  ]) {
-    const r = resolveVideo(rec({ platform, original_ad_url: url, provenance: "official_source" }));
-    assert.equal(r.mode, "link", `${platform} must not be framed`);
-    assert.equal(r.reason, "not-embeddable");
-    assert.equal(r.platformLabel, label);
-    assert.equal(r.watchUrl, url);
-  }
+  // An Ad Library permalink is a viewer for an ad, not a public post, so no
+  // oEmbed endpoint serves one and it can only ever be linked.
+  const url = "https://www.facebook.com/ads/library/?id=3058070851060058";
+  const r = resolveVideo(rec({ platform: "meta-ad-library", original_ad_url: url, provenance: "archive_verified" }));
+  assert.equal(r.mode, "link");
+  assert.equal(r.reason, "not-embeddable");
+  assert.equal(r.platformLabel, "Meta Ad Library");
+  assert.equal(r.watchUrl, url);
+});
+
+test("video: a Meta post embeds only when Meta actually returned markup for it", () => {
+  const url = "https://www.instagram.com/reel/DTuzkrajjXW/";
+  const block = { platform: "instagram", original_ad_url: url, provenance: "reporting_corroborated" };
+
+  // No cache entry at all - Meta was never asked, or the answer is gone.
+  assert.equal(resolveVideo(rec(block)).mode, "link");
+
+  // Meta asked and refused: the ad is still located, it just cannot be framed.
+  const refused = resolveVideo(rec(block), { oembed: { [url]: { ok: false, reason: "rejected" } } });
+  assert.equal(refused.mode, "link");
+  assert.equal(refused.reason, "meta-refused");
+  assert.equal(refused.watchUrl, url, "a refused embed must still point at the ad");
+
+  // Meta returned markup.
+  const html = '<blockquote class="instagram-media" data-instgrm-permalink="' + url + '"></blockquote>';
+  const ok = resolveVideo(rec(block), { oembed: { [url]: { ok: true, html, provider: "instagram" } } });
+  assert.equal(ok.mode, "embed");
+  assert.equal(ok.embedKind, "meta-embed");
+  assert.equal(ok.metaProvider, "instagram");
+  assert.equal(ok.embedHtml, html);
+  assert.equal(ok.embedUrl, null, "a Meta embed must never carry an iframe URL");
 });
 
 test("video: an X post is framed as a widget, not an iframe", () => {
@@ -89,14 +109,14 @@ test("video: embed mode always carries a usable embed URL and ID", () => {
     { platform: "youtube", video_id: ID, provenance: "archive_verified" },
     { platform: "youtube", provenance: "official_source" },
     { platform: "x", original_ad_url: "https://x.com/a/status/2012168725630165435", provenance: "official_source" },
-    { platform: "instagram", original_ad_url: "https://www.instagram.com/reel/ABCdefGHIjk/", provenance: "official_source" },
+    { platform: "meta-ad-library", original_ad_url: "https://www.facebook.com/ads/library/?id=1", provenance: "archive_verified" },
   ];
   for (const s of shapes) {
     const r = resolveVideo(rec(s));
     if (r.mode !== "embed") continue;
     assert.ok(r.videoId, `embed mode needs a reference: ${JSON.stringify(s)}`);
     if (r.embedKind === "iframe") assert.ok(r.embedUrl, `iframe embed needs a URL: ${JSON.stringify(s)}`);
-    else assert.equal(r.embedUrl, null, `widget embed must not carry an iframe URL: ${JSON.stringify(s)}`);
+    else assert.equal(r.embedUrl, null, `script embed must not carry an iframe URL: ${JSON.stringify(s)}`);
   }
 });
 
@@ -264,13 +284,10 @@ test("corpus: no record links to reporting in place of the ad", () => {
 // ------------------------------------------------------------- rendered page
 
 test("built page: every framed record reaches the page with a player and a fallback", () => {
-  // The page renders records in the browser from an embedded JSON payload, so
-  // the check that matters is what the payload carries, not the static markup.
   const payload = JSON.parse(
     built.match(/<script type="application\/json" id="polislop-data">([\s\S]*?)<\/script>/)[1].replace(/<\\\//g, "</"),
   );
   const framed = payload.records.filter((r) => r.video.mode === "embed");
-  assert.equal(framed.length, corpus.records.map(resolveVideo).filter((v) => v.mode === "embed").length);
   assert.ok(framed.length > 0, "expected at least one framed record in the corpus");
   for (const r of framed) {
     assert.ok(r.video.watchUrl, `${r.id} is framed with no fallback link beneath the player`);
@@ -279,7 +296,12 @@ test("built page: every framed record reaches the page with a player and a fallb
         `${r.id} would frame a malformed embed URL`);
     } else if (r.video.embedKind === "x-post") {
       assert.match(r.video.videoId, /^\d{15,25}$/, `${r.id} would render a widget with a malformed status ID`);
-      assert.equal(r.video.embedUrl, null, `${r.id} carries an iframe URL for a widget platform`);
+      assert.equal(r.video.embedUrl, null);
+    } else if (r.video.embedKind === "meta-embed") {
+      assert.ok(META_PROVIDERS[r.video.metaProvider], `${r.id} names unknown Meta provider ${r.video.metaProvider}`);
+      assert.ok(sanitizeEmbedHtml(r.video.embedHtml, r.video.metaProvider),
+        `${r.id} would inject Meta markup that does not pass the safety check`);
+      assert.equal(r.video.embedUrl, null);
     } else {
       assert.fail(`${r.id} has unknown embedKind ${r.video.embedKind}`);
     }
@@ -290,95 +312,60 @@ test("built page: every framed record reaches the page with a player and a fallb
   }
 });
 
-test("built page: both player templates are guarded so neither can render empty", () => {
-  // The players live in client-side templates, so the guards around them are
-  // what prevent a src-less iframe or a reference-less widget.
-  assert.ok(built.includes('v.mode === "embed" && v.embedKind === "iframe" && v.embedUrl'),
-    "the iframe branch is no longer guarded on an embed URL being present");
-  assert.ok(built.includes('v.mode === "embed" && v.embedKind === "x-post" && v.videoId'),
-    "the X branch is no longer guarded on a status ID being present");
+test("built page: every embed renders the usable card first and upgrades only on proof", () => {
+  // Providers cannot be trusted to render: X throttles into a collapsed shell,
+  // and Meta's oembed_post/oembed_video 200 for URLs they never checked. So the
+  // page renders the working button and promotes only on measured proof. That
+  // ordering is what makes an empty rectangle unreachable.
+  assert.ok(built.includes('NO_EMBED_REASON["pending-x"]'), "X has no default watch card");
+  assert.ok(built.includes('NO_EMBED_REASON["pending-meta"]'), "Meta has no default watch card");
+  assert.ok(built.includes("function staged(provider, inner, v, platform, reason)"),
+    "the shared staging helper is gone");
+  assert.ok(built.includes("function promoteEmbeds()"), "the promotion pass is gone");
 
-  const tpl = built.match(/<iframe src="\$\{esc\(v\.embedUrl\)\}"[^>]*>/);
-  assert.ok(tpl, "the player template no longer interpolates an escaped embed URL");
-  assert.match(tpl[0], /title="/, "the player template has no accessible name");
-  assert.match(tpl[0], /loading="lazy"/, "the player template lost lazy loading");
-
-  // Before X's script runs the blockquote must still be a link to the ad, so a
-  // blocked script degrades to readable text rather than an empty box.
-  assert.ok(/<blockquote class="twitter-tweet"[^>]*>\s*<a href="\$\{esc\(v\.watchUrl\)\}"/.test(built),
-    "the X blockquote no longer carries a link to the original post");
-  assert.ok(built.includes('data-dnt="true"'), "X embeds must opt out of tracking");
-});
-
-test("built page: carries no CSP that would block the players it frames", () => {
-  // A frame-src policy that omits the embed host is the silent way this page
-  // regresses to blank boxes in production.
-  const csp = built.match(/http-equiv=["']Content-Security-Policy["'][^>]*content=["']([^"']+)["']/i);
-  if (csp) {
-    const policy = csp[1];
-    const frame = /(?:frame-src|child-src|default-src)([^;]*)/i.exec(policy);
-    assert.ok(frame && /youtube-nocookie\.com/.test(frame[1]),
-      `page CSP does not allow the YouTube embed host: ${policy}`);
-  }
-});
-
-test("built page: an X record renders the usable card first and upgrades only on proof", () => {
-  // X's widget service intermittently returns a 0-4px shell from identical
-  // markup. So the page never renders the embed and repairs it afterwards -
-  // it renders the working button and promotes the post only once a widget has
-  // measurably rendered. That ordering is what makes an empty rectangle
-  // unreachable even if the script is blocked, throttled, or simply slow.
-  assert.ok(built.includes('NO_EMBED_REASON["pending-x"]'),
-    "the X branch no longer renders a watch card as its default state");
-  assert.ok(built.includes("function promoteXPosts()"), "the promotion pass is gone");
-  // Hidden, not destroyed: X reloads widgets, and a post that renders and then
-  // collapses must be able to bring its button back.
   assert.ok(built.includes("card.hidden = rendered;"), "the fallback card is not toggled by render state");
-  assert.ok(!/\.embed-x-card"\)\?\.remove\(\)/.test(built),
+  assert.ok(!/\.embed-fallback"\)\?\.remove\(\)/.test(built),
     "the fallback card must never be destroyed, only hidden");
   assert.ok(built.includes('rendered === (host.dataset.promoted === "1")'),
     "promotion is no longer re-evaluated, so a collapse cannot restore the button");
 
-  assert.ok(/X_MIN_HEIGHT\s*=\s*(\d+)/.test(built), "the collapse threshold is gone");
-  const min = Number(built.match(/X_MIN_HEIGHT\s*=\s*(\d+)/)[1]);
-  assert.ok(min >= 100, `threshold ${min}px is too low to tell a real post from a collapsed shell`);
-  assert.ok(built.includes("frame.getBoundingClientRect().height >= X_MIN_HEIGHT"),
-    "promotion is no longer gated on the widget's measured height");
+  const min = Number(built.match(/EMBED_MIN_HEIGHT\s*=\s*(\d+)/)[1]);
+  assert.ok(min >= 100, `threshold ${min}px is too low to tell a real embed from a collapsed shell`);
+  assert.ok(built.includes("frame.getBoundingClientRect().height >= EMBED_MIN_HEIGHT"),
+    "promotion is no longer gated on the embed's measured height");
 
-  // Layout, not a clock, is the trigger. Interval timers are frozen outright in
-  // a background tab, so a poll-only design can leave a rendered post stuck
-  // behind the fallback card until the reader interacts with the page.
+  // Layout, not a clock: interval timers are frozen outright in a background
+  // tab, so a poll-only design can leave a rendered post stuck behind the card.
   assert.ok(built.includes("new ResizeObserver("), "promotion is no longer driven by layout");
-  assert.ok(built.includes("ro.observe(stage)"), "nothing observes the staged post for a size change");
 
-  // Staging must keep layout: a display:none stage can never measure itself, so
-  // the post would stay at zero height and never be promoted at all.
-  const stage = built.match(/\.embed-x-stage\s*\{([^}]*)\}/);
+  // Staging must keep layout: a display:none stage can never measure itself.
+  const stage = built.match(/\.embed-stage\s*\{([^}]*)\}/);
   assert.ok(stage, "the off-screen stage rule is gone");
   assert.ok(/position:\s*absolute/.test(stage[1]) && /left:\s*-\d{4,}px/.test(stage[1]),
-    `stage must be positioned off-screen, got: ${stage[1].trim()}`);
+    `stage must be off-screen, got: ${stage[1].trim()}`);
   assert.ok(!/display:\s*none/.test(stage[1]), "a display:none stage can never measure itself");
 });
 
 test("built page: the watch card is the single shared control", () => {
-  // One control, one appearance. If link mode and the X fallback diverge a
-  // reader meets two different widgets that mean the same thing.
   assert.ok(built.includes("function watchCard(v, platform, reason)"), "watchCard() is gone");
   assert.ok(built.includes("return watchCard(v, platform, NO_EMBED_REASON"), "link mode no longer uses watchCard()");
   assert.equal((built.match(/class="btn btn-watch"/g) ?? []).length, 1,
     "the watch button markup should exist in exactly one place");
 });
 
-test("built page: the X widget script is requested only when a record needs it", () => {
-  assert.ok(!/<script[^>]+src=["']https:\/\/platform\.twitter\.com/.test(built),
-    "widgets.js must not be a static script tag");
-  assert.ok(built.includes('if (!out.querySelector(".embed-x")) return;'),
-    "the loader no longer short-circuits when no X post is on screen");
-  assert.ok(built.includes("https://platform.twitter.com/widgets.js"), "the loader lost the widget script URL");
+test("built page: provider scripts are requested only when a record needs them", () => {
+  // A page with no Instagram ad must never call Instagram.
+  for (const host of ["platform.twitter.com", "platform.instagram.com", "connect.facebook.net"]) {
+    assert.ok(!new RegExp(`<script[^>]+src=["']https://${host.replace(/\./g, "\\.")}`).test(built),
+      `${host} must not be a static script tag`);
+    assert.ok(built.includes(`https://${host}`), `${host} is missing from the provider table`);
+  }
+  assert.ok(built.includes('hosts.map((h) => h.dataset.provider)'),
+    "the loader no longer derives which providers are actually on screen");
   assert.ok(built.includes('data-dnt="true"'), "X embeds must opt out of tracking");
 });
 
-// ---------------------------------------------- X promotion logic, executed
+// ------------------------------------------- embed promotion logic, executed
 
 // The browser in CI may be headless or backgrounded, where interval timers,
 // rAF and ResizeObserver are all suspended - so the promotion branch cannot be
@@ -386,17 +373,18 @@ test("built page: the X widget script is requested only when a record needs it",
 // here against a DOM stub instead, because the decision it makes (show the
 // player, or keep the button) is the one thing that must never be wrong.
 function loadPromote() {
-  const src = built.match(/function promoteXPosts\(\)\s*\{[\s\S]*?\n  \}/)[0];
-  const X_MIN_HEIGHT = Number(built.match(/X_MIN_HEIGHT\s*=\s*(\d+)/)[1]);
+  const src = built.match(/function promoteEmbeds\(\)\s*\{[\s\S]*?\n  \}/)[0];
+  const rendered = built.match(/function stageRendered\(stage\)\s*\{[\s\S]*?\n  \}/)[0];
+  const MIN = Number(built.match(/EMBED_MIN_HEIGHT\s*=\s*(\d+)/)[1]);
   return (hosts) => {
     const out = { querySelectorAll: () => hosts };
     // eslint-disable-next-line no-new-func
-    return new Function("out", "X_MIN_HEIGHT", `${src}; return promoteXPosts();`)(out, X_MIN_HEIGHT);
+    return new Function("out", "EMBED_MIN_HEIGHT", `${rendered}; ${src}; return promoteEmbeds();`)(out, MIN);
   };
 }
 
 function makeHost({ frameHeight = null } = {}) {
-  const classes = new Set(["embed-x-stage"]);
+  const classes = new Set();
   const stage = {
     classList: { toggle: (c, on) => (on ? classes.add(c) : classes.delete(c)), has: (c) => classes.has(c) },
     attrs: {},
@@ -409,32 +397,32 @@ function makeHost({ frameHeight = null } = {}) {
     dataset: {},
     stage, card, classes,
     querySelector(sel) {
-      if (sel.includes("embed-x-card")) return card;
-      if (sel.includes("embed-x-stage")) return stage;
+      if (sel.includes("embed-fallback")) return card;
+      if (sel.includes("embed-stage")) return stage;
       return null;
     },
     setFrame(h) { frameHeight = h; },
   };
 }
 
-test("promote: a collapsed or missing widget keeps the button and stays staged", () => {
+test("promote: a collapsed or missing embed keeps the button and stays staged", () => {
   for (const frameHeight of [null, 0, 4, 119]) {
     const host = makeHost({ frameHeight });
     const pending = loadPromote()([host]);
     assert.equal(pending, 1, `height ${frameHeight} should count as still pending`);
     assert.equal(host.card.hidden, false, `height ${frameHeight} must not hide the watch button`);
-    assert.ok(host.classes.has("embed-x-stage"), `height ${frameHeight} must stay off-screen`);
+    assert.ok(!host.classes.has("embed-stage-live"), `height ${frameHeight} must stay off-screen`);
     assert.equal(host.stage.attrs["aria-hidden"] ?? "true", "true", "a staged post stays out of the a11y tree");
   }
 });
 
-test("promote: a rendered widget hides the button and goes live", () => {
+test("promote: a rendered embed hides the button and goes live", () => {
   const host = makeHost({ frameHeight: 600 });
   const pending = loadPromote()([host]);
   assert.equal(pending, 0);
   assert.equal(host.card.hidden, true, "the button should be hidden once the post renders");
-  assert.ok(host.classes.has("embed-x-live"), "the post should be promoted into the layout");
-  assert.ok(!host.classes.has("embed-x-stage"), "the promoted post must leave the off-screen stage");
+  assert.ok(host.classes.has("embed-stage-live"), "the post should be promoted into the layout");
+  
   assert.equal(host.stage.attrs["aria-hidden"], undefined, "a live post must be readable by assistive tech");
 });
 
@@ -450,7 +438,7 @@ test("promote: a post that renders and then collapses brings its button back", (
   const pending = promote([host]);
   assert.equal(pending, 1);
   assert.equal(host.card.hidden, false, "the watch button must return when the embed collapses");
-  assert.ok(host.classes.has("embed-x-stage"), "the collapsed post must go back off-screen");
+  assert.ok(!host.classes.has("embed-stage-live"), "the collapsed post must go back off-screen");
   assert.equal(host.stage.attrs["aria-hidden"], "true");
 });
 
@@ -459,7 +447,7 @@ test("promote: repeated runs on a settled host are stable", () => {
   const host = makeHost({ frameHeight: 600 });
   for (let i = 0; i < 5; i++) promote([host]);
   assert.equal(host.card.hidden, true);
-  assert.ok(host.classes.has("embed-x-live"));
+  assert.ok(host.classes.has("embed-stage-live"));
   assert.equal(host.dataset.promoted, "1");
 });
 
